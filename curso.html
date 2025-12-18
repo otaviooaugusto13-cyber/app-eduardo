@@ -1,391 +1,203 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>PRATICAMENTE</title>
-  
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#141414">
 
   <script>
-    // PROTEÇÃO RÍGIDA: Se não vier da Hotmart, a tela fica preta e redireciona
+    // PROTEÇÃO DO ARQUIVO ORIGINAL [cite: 187, 190]
     (function() {
-      var ref = document.referrer.toLowerCase();
-      var isHotmart = (ref.indexOf("hotmart.com") !== -1 || ref.indexOf("hotmart.host") !== -1);
-      var isLocal = (window.location.hostname === "localhost" || window.location.protocol === "file:");
+      var origem = document.referrer.toLowerCase();
+      var permitido = (origem.indexOf("hotmart.com") !== -1 || origem.indexOf("hotmart.host") !== -1);
+      var eLocal = window.location.hostname === "localhost" || window.location.hostname === "" || window.location.protocol === "file:";
 
-      if (!isHotmart && !isLocal) {
-        // Bloqueio imediato antes de carregar o CSS
-        document.documentElement.style.display = 'none'; 
-        window.location.href = "https://app-vlc.hotmart.com/";
+      if (!permitido && !eLocal) {
+        alert("Acesso Negado! Por favor, entre pela sua Área de Membros da Hotmart.");
+        window.location.href = "https://www.hotmart.com"; 
       }
     })();
   </script>
 
   <style>
-    :root {
-      --blue-logo: #007bff;
-      --bg-dark: #000000;
-      --header-fume: rgba(20, 20, 20, 0.8);
-    }
-
+    :root { --blue-logo: #007bff; --bg-dark: #141414; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     body { background: var(--bg-dark); color: #fff; overflow-x: hidden; }
 
-    /* Cabeçalho: Inicia PRETO, depois FUMÊ */
+    /* Cabeçalho: Preto -> Fumê (conforme solicitado e baseado no original) [cite: 196, 197] */
     header {
-      position: fixed; top: 0; left: 0; right: 0; height: 65px;
-      background: #000000; /* Início Preto */
+      position: fixed; top: 0; left: 0; right: 0; height: 64px;
+      background-color: #000000; /* Inicia Preto Sólido */
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; z-index: 1000; transition: all 0.4s ease;
+      padding: 0 4%; z-index: 1000; transition: all 0.4s ease;
     }
     header.scrolled {
-      background: var(--header-fume);
-      backdrop-filter: blur(10px); /* Efeito fumê/embaçado */
-      height: 60px;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px); /* Efeito Fumê */
+      height: 55px;
     }
 
-    .logo { font-size: 22px; font-weight: bold; letter-spacing: 1px; cursor: pointer; }
-    .logo span { color: var(--blue-logo); }
+    .logo-group h1 { font-size: 24px; font-weight: bold; cursor: pointer; letter-spacing: 1px; }
+    .text-blue { color: var(--blue-logo); }
 
-    /* Lupa Minimalista (Apenas Contorno) */
-    .search-trigger {
-      width: 20px; height: 20px;
-      border: 2px solid #fff; /* Contorno da lupa */
-      border-radius: 50%;
-      position: relative;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: 0.3s;
+    /* Lupa Minimalista (Apenas Contorno via CSS do original) [cite: 205, 208] */
+    .icon-btn-search { background: none; border: none; cursor: pointer; padding: 0; }
+    .search-icon {
+        width: 18px; height: 18px; border: 1.5px solid #fff;
+        border-radius: 50%; position: relative; display: inline-block;
+        transform: rotate(-45deg);
     }
-    .search-trigger::after {
-      content: '';
-      position: absolute;
-      width: 2px; height: 8px;
-      background: #fff;
-      bottom: -5px; right: -3px;
-      transform: rotate(-45deg);
-    }
-    .search-trigger:hover { opacity: 1; }
-
-    /* Barra de busca que aparece */
-    .search-bar {
-      position: absolute; top: 65px; left: 0; width: 100%;
-      background: #000; padding: 15px 5%;
-      display: none; border-bottom: 1px solid #222;
-    }
-    .search-bar.active { display: block; }
-    .search-bar input {
-      width: 100%; padding: 10px; background: transparent;
-      border: none; border-bottom: 1px solid var(--blue-logo);
-      color: #fff; outline: none; font-size: 16px;
+    .search-icon::after {
+        content: ''; position: absolute; bottom: -6px; right: 5px;
+        width: 1.5px; height: 8px; background: #fff;
     }
   </style>
 </head>
 <style>
-    /* Menu Lateral de Perfil */
-    .sidebar {
-      position: fixed; right: -350px; top: 0; width: 320px; height: 100%;
-      background: #111; z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 60px 25px; border-left: 1px solid #222;
-    }
-    .sidebar.active { right: 0; }
-    .overlay-sidebar {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
-      display: none; z-index: 1999;
-    }
-    .overlay-sidebar.active { display: block; }
+    .category-section { padding: 20px 4%; position: relative; }
+    .category-title { font-size: 1.4rem; margin-bottom: 15px; font-weight: 600; }
+    /* Estilo para o Nome Premium em Azul (Sem estrela) */
+    .title-premium { color: var(--blue-logo) !important; text-transform: uppercase; }
 
-    .profile-header { text-align: center; margin-bottom: 30px; }
-    .profile-pic-container {
-      position: relative; display: inline-block;
-      width: 100px; height: 100px; border-radius: 50%;
-      border: 2px solid var(--blue-logo); overflow: hidden; margin-bottom: 15px;
-    }
-    .profile-pic-container img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .edit-btn {
-      background: var(--blue-logo); color: #fff; border: none;
-      padding: 10px; border-radius: 4px; cursor: pointer; width: 100%;
-      font-weight: bold; margin-top: 10px;
-    }
-
-    /* Hero Section */
-    .hero {
-      height: 80vh; padding: 0 5%; display: flex; align-items: center;
-      background: linear-gradient(to top, #000 5%, transparent 95%), 
-                  url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop');
-      background-size: cover; background-position: center;
-    }
-    .hero-content h1 { font-size: 3.5rem; line-height: 1; margin-bottom: 20px; }
-    .hero-btn {
-      padding: 15px 40px; background: #fff; color: #000;
-      border: none; border-radius: 4px; font-weight: bold;
-      font-size: 1rem; cursor: pointer; transition: 0.3s;
-    }
-    .hero-btn:hover { background: var(--blue-logo); color: #fff; }
-
-    /* Estilo Premium Azul (Sem estrelas) */
-    .title-premium { color: var(--blue-logo) !important; text-transform: uppercase; letter-spacing: 1px; }
-    .item-premium .thumb { border: 1px solid var(--blue-logo); }
-    
-    /* Carrosséis */
-    .category-section { padding: 30px 0 10px 5%; }
-    .carousel-container { position: relative; overflow: hidden; }
+    .carousel-container { position: relative; }
     .carousel {
-      display: flex; gap: 15px; overflow-x: auto; padding: 20px 0;
+      display: flex; gap: 15px; overflow-x: auto; padding: 10px 0;
       scroll-behavior: smooth; scrollbar-width: none;
     }
     .carousel::-webkit-scrollbar { display: none; }
-    .item { min-width: 280px; transition: transform 0.4s ease; cursor: pointer; flex-shrink: 0; }
+
+    .item { min-width: 250px; cursor: pointer; transition: transform 0.3s; flex-shrink: 0; }
     .item:hover { transform: scale(1.05); }
-    .thumb { height: 158px; border-radius: 4px; background-size: cover; background-position: center; background-color: #222; }
-    .item-title { margin-top: 10px; font-size: 14px; font-weight: 500; color: #ccc; }
+    .thumb { height: 140px; border-radius: 6px; background-size: cover; background-position: center; background-color: #222; }
+    .title { font-size: 14px; font-weight: bold; margin-top: 8px; }
+
+    /* Marcador invisível para o loop infinito [cite: 231] */
+    .start-marker { width: 1px; min-width: 1px; flex-shrink: 0; background: transparent; }
   </style>
-</head>
-<body>
-
-  <header id="main-header">
-    <div class="logo" onclick="window.location.reload()">PRATICA<span>MENTE</span></div>
-    <div style="display: flex; align-items: center; gap: 25px;">
-      <div class="search-trigger" onclick="toggleSearch()"></div>
-      <div onclick="toggleSidebar()" style="cursor:pointer; width:35px; height:35px; border-radius:4px; overflow:hidden; border:1px solid #333;">
-        <img id="nav-avatar" src="https://picsum.photos/100/100?random=1" style="width:100%; height:100%; object-fit:cover;">
-      </div>
-    </div>
-  </header>
-
-  <div class="search-bar" id="search-bar">
-    <input type="text" id="search-input" placeholder="O que você quer estudar?" onkeyup="filtrarCursos()">
-  </div>
-
-  <div class="overlay-sidebar" id="overlay" onclick="toggleSidebar()"></div>
-  <div class="sidebar" id="sidebar">
-    <div class="profile-header">
-      <div class="profile-pic-container">
-        <img id="side-avatar" src="https://picsum.photos/100/100?random=1">
-      </div>
-      <input type="file" id="upload-photo" style="display:none" accept="image/*" onchange="previewPhoto(event)">
-      <button onclick="document.getElementById('upload-photo').click()" class="edit-btn">TROCAR FOTO</button>
-    </div>
-    <div style="margin-top:20px;">
-      <label style="font-size:10px; color:#555;">NOME DO USUÁRIO</label>
-      <input type="text" id="user-name-input" style="width:100%; background:#222; border:1px solid #333; color:#fff; padding:12px; border-radius:4px; margin-top:5px;">
-      <button onclick="saveProfile()" class="edit-btn" style="background:#333; margin-top:15px;">SALVAR DADOS</button>
-    </div>
-  </div>
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1 id="hero-title-main">Estratégias de <br>Comunicação Pro</h1>
-      <p style="color:#aaa; margin-bottom:30px; max-width:500px;">Domine a arte da persuasão e oratória com o curso mais assistido da semana.</p>
-      <button class="hero-btn" onclick="openVideo('Estratégias de Comunicação Pro', 'O curso completo de oratória.', 'https://www.youtube.com/embed/qz0aGYrrlhU')">ASSISTIR AGORA</button>
-    </div>
-  </section>
-<section class="category-section">
-    <h3 class="item-title" style="font-size: 1.2rem; color: #fff; margin-bottom: 5px;">Mais Vistos</h3>
-    <div class="carousel-container">
-      <div class="carousel" id="car-vistos">
-        <div class="item" onclick="openVideo('Oratória Moderna', 'Domine a arte de falar em público.', 'https://www.youtube.com/embed/qz0aGYrrlhU')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=11')"></div>
-          <p class="item-title">Oratória Moderna</p>
-        </div>
-        <div class="item" onclick="openVideo('Excel para Negócios', 'Planilhas profissionais.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=12')"></div>
-          <p class="item-title">Excel para Negócios</p>
-        </div>
-        <div class="item" onclick="openVideo('Inglês Corporativo', 'Conversação essencial.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=13')"></div>
-          <p class="item-title">Inglês Corporativo</p>
-        </div>
-        <div class="item" onclick="openVideo('Gestão de Projetos', 'Metodologias ágeis.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=14')"></div>
-          <p class="item-title">Gestão de Projetos</p>
-        </div>
-        <div class="item" onclick="openVideo('Liderança de Equipes', '...', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=15')"></div>
-          <p class="item-title">Liderança de Equipes</p>
-        </div>
-        <div class="item" onclick="openVideo('Marketing Digital', '...', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=16')"></div>
-          <p class="item-title">Marketing Digital</p>
-        </div>
-        <div class="item" onclick="openVideo('Finanças Pessoais', '...', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=17')"></div>
-          <p class="item-title">Finanças Pessoais</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section class="category-section">
-    <h3 class="title-premium">Cursos Premium</h3>
-    <div class="carousel-container">
+    <h3 class="title-premium">Cursos Premium</h3> <div class="carousel-container">
       <div class="carousel" id="car-premium">
-        <div class="item item-premium" onclick="openVideo('Master em Vendas', 'Técnicas avançadas de fechamento.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=21')"></div>
-          <p class="item-title">Master em Vendas</p>
+        <div class="item" onclick="openModal('Vendas 2.0', 'Conteúdo VIP.', 'https://www.youtube.com/embed/qz0aGYrrlhU')">
+          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=10')"></div>
+          <p class="title">VENDAS ELITE</p>
         </div>
-        <div class="item item-premium" onclick="openVideo('Negociação de Alto Nível', 'Como ganhar em qualquer mesa.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=22')"></div>
-          <p class="item-title">Negociação de Alto Nível</p>
-        </div>
-        <div class="item item-premium" onclick="openVideo('PNL Aplicada', 'Programação neurolinguística.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=23')"></div>
-          <p class="item-title">PNL Aplicada</p>
-        </div>
-        <div class="item item-premium" onclick="openVideo('Escrita Persuasiva', 'Copywriting.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=24')"></div>
-          <p class="item-title">Escrita Persuasiva</p>
-        </div>
-        <div class="item item-premium" onclick="openVideo('Estratégia Empresarial', '...', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=25')"></div>
-          <p class="item-title">Estratégia Empresarial</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        
+        <div class="start-marker" data-name="premium-start"></div>
 
-  <section class="category-section">
-    <h3 class="item-title" style="font-size: 1.2rem; color: #fff;">Biblioteca Digital</h3>
-    <div class="carousel-container">
-      <div class="carousel" id="car-livros">
-        <div class="item" style="min-width: 160px;" onclick="openVideo('Resumo: Mindset', 'O poder do pensamento.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div style="height: 230px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=31') center/cover;"></div>
-          <p class="item-title" style="text-align:center;">Mindset</p>
-        </div>
-        <div class="item" style="min-width: 160px;" onclick="openVideo('Resumo: Essencialismo', 'Foque no que importa.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div style="height: 230px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=32') center/cover;"></div>
-          <p class="item-title" style="text-align:center;">Essencialismo</p>
-        </div>
-        <div class="item" style="min-width: 160px;" onclick="openVideo('Resumo: Hábitos Atômicos', 'Pequenas mudanças.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div style="height: 230px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=33') center/cover;"></div>
-          <p class="item-title" style="text-align:center;">Hábitos Atômicos</p>
+        <div class="item" onclick="openModal('Vendas 2.0', 'Conteúdo VIP.', 'https://www.youtube.com/embed/qz0aGYrrlhU')">
+          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=10')"></div>
+          <p class="title">VENDAS ELITE</p>
         </div>
       </div>
     </div>
   </section>
-  <div id="video-modal" class="modal" onclick="closeModalExterno(event)">
+  <div class="modal" id="modal">
     <div class="modal-content">
-      <span class="close-x" onclick="closeModal()" style="position:absolute; top:15px; right:25px; font-size:35px; cursor:pointer; z-index:100; color:#fff;">&times;</span>
+      <span class="close" onclick="closeModal()">✖</span>
       <div class="iframe-container">
-        <iframe id="main-video-frame" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe id="video" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-      <div style="padding:25px;">
-        <h2 id="modal-title" style="color:var(--blue-logo);"></h2>
-        <p id="modal-desc" style="color:#888; margin-top:10px; line-height:1.6;"></p>
+      <div class="modal-body">
+        <h2 id="modalTitle" style="color: var(--blue-logo);"></h2>
+        <p id="modalDesc"></p>
       </div>
     </div>
   </div>
 
+  <style>
+    /* Estilo do Modal para garantir acesso ao conteúdo */
+    .modal { 
+      position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      display: none; align-items: center; justify-content: center; z-index: 2000; 
+      opacity: 0; transition: opacity 0.3s ease; 
+    }
+    .modal.show { opacity: 1; }
+    .modal-content { background: #181818; width: 95%; max-width: 800px; border-radius: 8px; overflow: hidden; position: relative; }
+    .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; }
+    .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .modal-body { padding: 20px; }
+    .close { 
+      position: absolute; top: 10px; right: 15px; font-size: 24px; color: #fff; cursor: pointer; z-index: 2001;
+      background: rgba(0,0,0,0.5); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;
+    }
+  </style>
   <script>
-    // 1. BANCO DE DADOS E PERFIL
-    let db = JSON.parse(localStorage.getItem('praticamente_vip_db')) || {
-      nome: "Aluno Praticamente",
-      foto: "https://picsum.photos/100/100?random=1"
-    };
-
-    function saveProfile() {
-      db.nome = document.getElementById('user-name-input').value;
-      localStorage.setItem('praticamente_vip_db', JSON.stringify(db));
-      updateUI();
-      toggleSidebar();
-      alert("Dados salvos com sucesso!");
-    }
-
-    function previewPhoto(event) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        db.foto = reader.result;
-        updateUI();
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-
-    function updateUI() {
-      document.getElementById('nav-avatar').src = db.foto;
-      document.getElementById('side-avatar').src = db.foto;
-      document.getElementById('user-name-input').value = db.nome;
-    }
-
-    // 2. HEADER DINÂMICO (PRETO -> FUMÊ)
-    window.onscroll = function() {
+    // 1. Lógica do Header (Preto para Fumê)
+    window.addEventListener('scroll', function() {
       const header = document.getElementById('main-header');
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
+      if (window.scrollY > 80) {
+        header.classList.add('scrolled'); // Fica Fumê [cite: 10, 11]
       } else {
-        header.classList.remove('scrolled');
+        header.classList.remove('scrolled'); // Volta ao Preto [cite: 9, 91]
       }
-    };
+    });
 
-    // 3. LUPA E BUSCA MINIMALISTA
-    function toggleSearch() {
-      const bar = document.getElementById('search-bar');
-      bar.classList.toggle('active');
-      if(bar.classList.contains('active')) document.getElementById('search-input').focus();
+    // 2. Carrossel Infinito (Cálculo do seu arquivo para evitar o pulo)
+    let resetPositions = {};
+    function calculateResetPositions() {
+      const ITEM_WIDTH = 265; // Largura do card + gap
+      resetPositions['car-vistos'] = 7 * ITEM_WIDTH; 
+      resetPositions['car-premium'] = 7 * ITEM_WIDTH;
+      // Adicione aqui o ID de cada carrossel que você criar
     }
 
-    function filtrarCursos() {
-      const termo = document.getElementById('search-input').value.toLowerCase();
-      const itens = document.querySelectorAll('.item');
-      itens.forEach(item => {
-        const txt = item.innerText.toLowerCase();
-        item.style.display = txt.includes(termo) ? "block" : "none";
-      });
+    function checkInfiniteScroll(id) {
+      const container = document.getElementById(id);
+      const resetPos = resetPositions[id];
+      if (!resetPos) return;
+
+      if (container.scrollLeft >= resetPos * 2) { 
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = container.scrollLeft - resetPos;
+      } else if (container.scrollLeft <= resetPos * 0.5) {
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = container.scrollLeft + resetPos;
+      }
+      
+      setTimeout(() => { container.style.scrollBehavior = 'smooth'; }, 50);
     }
 
-    // 4. PLAYER DE VÍDEO
-    function openVideo(titulo, desc, url) {
-      const modal = document.getElementById('video-modal');
-      document.getElementById('modal-title').innerText = titulo;
-      document.getElementById('modal-desc').innerText = desc;
-      document.getElementById('main-video-frame').src = url + "?autoplay=1&modestbranding=1&rel=0";
-      modal.style.display = "flex";
-      document.body.style.overflow = "hidden";
+    // Ativa a verificação em todos os carrosséis
+    document.querySelectorAll('.carousel').forEach(car => {
+      car.addEventListener('scroll', () => checkInfiniteScroll(car.id));
+      // Posiciona no meio ao carregar para o loop funcionar [cite: 104]
+      setTimeout(() => { car.scrollLeft = resetPositions[car.id] || 0; }, 100);
+    });
+
+    // 3. Funções do Modal (Abre o curso e trava o scroll da página)
+    function openModal(title, desc, videoUrl) {
+      const modal = document.getElementById('modal');
+      const video = document.getElementById('video');
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalDesc').innerText = desc;
+      
+      // Adiciona autoplay e corrige a URL [cite: 107]
+      video.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+      
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('show'), 10);
+      document.body.style.overflow = 'hidden'; // Trava o fundo
     }
 
     function closeModal() {
-      document.getElementById('video-modal').style.display = "none";
-      document.getElementById('main-video-frame').src = "";
-      document.body.style.overflow = "auto";
-    }
-
-    function closeModalExterno(e) {
-      if (e.target.id === "video-modal") closeModal();
-    }
-
-    // 5. LÓGICA DE CARROSSEL INFINITO (SCROLL INFINITO)
-    const carousels = document.querySelectorAll('.carousel');
-    
-    carousels.forEach(carousel => {
-      // Duplicamos os itens internamente para criar o efeito visual de loop
-      const items = carousel.innerHTML;
-      carousel.innerHTML += items + items; // Triplicamos para garantir cobertura
-
-      carousel.addEventListener('scroll', () => {
-        const scrollPos = carousel.scrollLeft;
-        const maxScroll = carousel.scrollWidth / 3;
-
-        if (scrollPos <= 0) {
-          carousel.scrollLeft = maxScroll;
-        } else if (scrollPos >= maxScroll * 2) {
-          carousel.scrollLeft = maxScroll;
-        }
-      });
-      
-      // Posiciona no centro inicialmente
+      const modal = document.getElementById('modal');
+      modal.classList.remove('show');
       setTimeout(() => {
-        carousel.scrollLeft = carousel.scrollWidth / 3;
-      }, 100);
-    });
-
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('active');
-      document.getElementById('overlay').classList.toggle('active');
+        modal.style.display = 'none';
+        document.getElementById('video').src = '';
+        document.body.style.overflow = 'auto'; // Libera o fundo
+      }, 300);
     }
 
-    window.onload = updateUI;
+    // Fecha ao clicar fora ou ESC [cite: 110, 111]
+    window.onclick = (e) => { if(e.target.id == 'modal') closeModal(); }
+    window.onkeydown = (e) => { if(e.key == 'Escape') closeModal(); }
+
+    window.onload = () => { calculateResetPositions(); };
   </script>
 </body>
 </html>
