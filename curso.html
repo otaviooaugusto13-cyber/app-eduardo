@@ -15,6 +15,21 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     body { background: #141414; color: #fff; padding-bottom: 40px; overflow-x: hidden; }
+
+    <script>
+  // Verifica de onde o usuário veio
+  var deOndeVem = document.referrer;
+
+  // Lista de domínios permitidos (Hotmart)
+  var permitido1 = "hotmart.com";
+  var permitido2 = "hotmart.host";
+
+  // Se o link NÃO contiver hotmart, ele redireciona para uma página de erro ou para a sua venda
+  if (deOndeVem.indexOf(permitido1) === -1 && deOndeVem.indexOf(permitido2) === -1) {
+      alert("Acesso Negado! Este conteúdo é exclusivo para alunos logados na Hotmart.");
+      window.location.href = "https://www.hotmart.com"; // Você pode colocar o link da sua página de vendas aqui
+  }
+</script>
     
     /* Header Estilizado */
     header {
@@ -490,3 +505,4 @@
 </body>
 
 </html>
+
