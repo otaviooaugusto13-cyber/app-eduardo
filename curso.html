@@ -1,16 +1,4 @@
-    (function() {
-      var origem = document.referrer.toLowerCase();
-      // Domínios da Hotmart
-      var permitido = (origem.indexOf("hotmart.com") !== -1 || origem.indexOf("hotmart.host") !== -1);
-      
-      // LIBERA se vier da Hotmart OU se você estiver abrindo o arquivo localmente para editar
-      var eLocal = window.location.hostname === "localhost" || window.location.hostname === "" || window.location.protocol === "file:";
 
-      if (!permitido && !eLocal) {
-          alert("Acesso Negado! Por favor, entre pela sua Área de Membros da Hotmart.");
-          window.location.href = "https://www.hotmart.com"; // Redireciona para segurança
-      }
-    })();
   </script>
 
   <style>
@@ -492,4 +480,5 @@
 </body>
 </html>
   
+
 
