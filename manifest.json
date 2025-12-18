@@ -7,7 +7,7 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png",
+      "src": "logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
