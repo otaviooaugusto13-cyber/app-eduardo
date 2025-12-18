@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#007bff">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/eduardo.png">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PRATICAMENTE — Alta Performance & Evolução da Mente</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- Variáveis de Estilo (Tema Escuro e Azul) --- */
+    :root {
+      --bg-dark: #050505;      
+      --bg-card: #121212;      
+      --bg-card-hover: #161616;
+      --primary-blue: #007bff;   /* Azul Elétrico */
+      --text: #ffffff;         
+      --text-secondary: #a3a3a3;
+      --border-subtle: #262626; 
+      --max-width: 1200px;    
+      --section-spacing: 80px;
+    }
+
+    /* --- Reset e Bases --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .btn { font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
+    
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    section { padding: var(--section-spacing) 0; }
+
+    /* --- Tipografia --- */
+    h1 { font-size: 3.5rem; line-height: 1.1; font-weight: 800; margin-bottom: 20px; }
+    h1 span { color: var(--primary-blue); display: block; }
+    
+    h2 { 
+      font-size: 2rem; 
+      border-left: 4px solid var(--primary-blue); 
+      padding-left: 20px; 
+      margin-bottom: 40px; 
+      padding-top: 10px;
+    }
+    
+    p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 30px; max-width: 500px; }
+    a { text-decoration: none; transition: 0.3s; }
+
+    /* --- HEADER VIDRO FUMÊ --- */
+    header {
+      position: sticky; 
+      top: 0; 
+      z-index: 1000;
+      /* Efeito Glassmorphism Fumê */
+      background: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 123, 255, 0.2); 
+      padding: 15px 0;
+    }
+    
+    .nav { display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Texto da Logo Customizado */
+    .logo-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    .azul-destaque { color: var(--primary-blue); }
+    .cinza-destaque { color: #888888; }
+
+    /* --- Botões --- */
+    .btn { display: inline-block; padding: 15px 30px; font-weight: 800; border-radius: 4px; transition: all 0.3s; text-align: center; border: none; cursor: pointer; }
+    .btn-blue { background: var(--primary-blue); color: #fff; margin-right: 15px; }
+    .btn-blue:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 10px 20px -10px rgba(0, 123, 255, 0.5); }
+    .btn-outline { border: 2px solid var(--text); color: var(--text); background: transparent; }
+    .btn-outline:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
+
+    /* --- HERO --- */
+    .hero { display: flex; align-items: center; min-height: 85vh; padding: 60px 0; gap: 40px; }
+    .hero-content { flex: 1; }
+
+    .hero-image-wrapper { flex: 1; position: relative; display: flex; justify-content: flex-end; height: 600px; }
+    .montagem-container { position: relative; width: 450px; height: 100%; }
+    .img-corpo { 
+      width: 100%; height: auto; object-fit: cover; filter: contrast(1.1) brightness(0.9);
+      mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    }
+    .img-rosto {
+      position: absolute; width: 130px; height: 140px; border-radius: 50%; object-fit: cover;
+      top: 55px; left: 175px; 
+      z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.5); border: 2px solid rgba(0,0,0,0.2);
+    }
+    
+    /* --- Módulos (Grid) --- */
+    .grid-modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 32px; border-radius: 8px; transition: 0.3s; }
+    .card:hover { border-color: var(--primary-blue); background: var(--bg-card-hover); transform: translateY(-5px); }
+    .module-number { color: var(--primary-blue); font-weight: 700; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 12px; font-size: 0.9rem; }
+
+    /* --- Formulário --- */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    input {
+      width: 100%; padding: 18px; background: #1a1a1a; border: 1px solid #333; color: var(--text); border-radius: 4px; margin-bottom: 16px; font-size: 1rem;
+    }
+    input:focus { border-color: var(--primary-blue); }
+    #status-msg { margin-top: 15px; font-size: 1rem; color: var(--primary-blue); font-weight: 700; }
+    
+    footer { background: var(--bg-card); padding: 40px 0; text-align: center; border-top: 1px solid var(--border-subtle); margin-top: var(--section-spacing); }
+
+    /* --- Responsivo --- */
+    @media (max-width: 900px) {
+      .hero { flex-direction: column-reverse; text-align: center; padding-top: 20px; }
+      .hero-image-wrapper { justify-content: center; height: auto; margin-bottom: 40px; }
+      .montagem-container { width: 300px; }
+      .img-rosto { width: 85px; height: 95px; top: 38px; left: 118px; }
+      h1 { font-size: 2.5rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .logo-text { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="logo-text">
+        <span class="azul-destaque">PRATICA</span><span class="cinza-destaque">MENTE</span>
+      </div>
+      <a href="#inscricao" class="btn btn-blue" style="padding: 10px 20px; font-size: 12px;">INSCREVA-SE</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-content">
+        <h1>NÃO REAJA.<br><span>ESCOLHA.</span></h1>
+        <p>Autoliderança e inteligência emocional para alta performance. Combine Estoicismo e Neurociência para dominar seu jogo mental.</p>
+        
+        <div>
+          <a href="#inscricao" class="btn btn-blue">QUERO ENTRAR NO JOGO</a>
+          <a href="#modulos" class="btn btn-outline">VER MÓDULOS</a>
+        </div>
+      </div>
+
+      <div class="hero-image-wrapper">
+        <div class="montagem-container">
+          <img src="https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/eduardo.png" class="img-rosto" alt="Rosto do Mentor">
+          <img src="joel.png" class="img-corpo" alt="Mentor">
+        </div>
+      </div>
+    </section>
+
+    <section id="modulos" class="container">
+      <h2>O Arsenal da Autoliderança</h2>
+      <div class="grid-modules">
+        <div class="card">
+          <span class="module-number">MÓDULO 01</span>
+          <h3>Base da Autoliderança</h3>
+          <p>Reconhecer emoções não é fraqueza, é inteligência estratégica. Controle x Consciência nas decisões.</p>
+        </div>
+        <div class="card">
+          <span class="module-number">MÓDULO 02</span>
+          <h3>Mente Inabalável</h3>
+          <p>Domine a distinção entre o que está sob seu controle e o que é ruído. Exercícios de Serenidade Ativa.</p>
+        </div>
+        <div class="card">
+          <span class="module-number">MÓDULO 03</span>
+          <h3>PNL e Regulação</h3>
+          <p>Ferramentas para hackear seu estado emocional. Ancoragem e ressignificação prática.</p>
+        </div>
+        <div class="card">
+          <span class="module-number">MÓDULO 04</span>
+          <h3>Eneagrama Estratégico</h3>
+          <p>Identifique seus padrões automáticos de sabotagem. O mapa das suas reações.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="inscricao" class="container">
+      <h2>Garanta sua vaga na próxima turma</h2>
+      <div class="form-grid">
+        <div>
+           <p style="font-size: 1.2rem; color: var(--text);">Você está a um passo de assumir o controle.</p>
+           <ul style="margin-top: 24px; padding-left: 0; list-style: none;">
+             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Acesso vitalício ao conteúdo</li>
+             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Ferramentas práticas em PDF</li>
+             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Grupo exclusivo de networking</li>
+           </ul>
+           <div style="margin-top: 40px;">
+             <span style="display:block; font-size:0.9rem; color:var(--text-secondary);">Investimento:</span>
+             <span style="font-size: 2.5rem; font-weight:800; color:var(--primary-blue);">R$ 497</span>
+             <span style="display:block; font-size:0.9rem; color:var(--text-secondary);">à vista ou 12x no cartão</span>
+           </div>
+        </div>
+
+        <div class="card" style="background: #1a1a1a;">
+          <form id="form" action="https://formspree.io/f/mvgeyowq" method="POST"> 
+            <input type="text" name="Nome Completo" placeholder="SEU NOME COMPLETO" required>
+            <input type="email" name="Email" placeholder="SEU MELHOR E-MAIL" required>
+            <input type="tel" name="WhatsApp" placeholder="SEU WHATSAPP (DDD + NÚMERO)" required>
+            <button type="submit" class="btn btn-blue" style="width:100%; margin-top:16px;">
+              FINALIZAR MINHA INSCRIÇÃO
+            </button>
+            <div id="status-msg"></div> 
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="logo-text" style="margin-bottom: 20px; opacity: 0.7;">
+        <span class="azul-destaque">PRATICAMENTE</span>
+      </div>
+      <p style="font-size: 0.8rem; color: #555;">© 2025 Eduardo Severo. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('form');
+    const statusDiv = document.getElementById('status-msg');
+    const checkoutLink = "https://pay.hotmart.com/Y103400130Y";
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      btn.innerText = "PROCESSANDO...";
+      btn.disabled = true;
+      
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      setTimeout(() => {
+          window.location.href = checkoutLink;
+      }, 600);
+    });
+  </script>
+
+<script>
+{
+  "name": "PRATICAMENTE - Eduardo Severo",
+  "short_name": "Praticamente",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#007bff",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/eduardo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('App Pronto'))
+      .catch(err => console.log('Erro no App', err));
+  }
+</script>
+</body>
+</html>

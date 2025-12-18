@@ -1,0 +1,15 @@
+{
+  "name": "Curso de Gestão e Liderança",
+  "short_name": "GestãoApp",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ffc107",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/eduardo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
