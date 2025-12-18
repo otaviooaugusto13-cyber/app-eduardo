@@ -1,16 +1,15 @@
 {
-  "name": "PRATICAMENTE",
+  "name": "Praticamente Cursos",
   "short_name": "Praticamente",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#050505",
+  "background_color": "#141414",
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
