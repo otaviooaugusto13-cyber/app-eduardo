@@ -2,392 +2,239 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PRATICAMENTE — Plataforma de Alunos</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>PRATICAMENTE — Plataforma Pro</title>
+  
   <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#050505">
-
-  <script>
-    // TRAVA DE SEGURANÇA HOTMART
-    (function() {
-      var origem = document.referrer.toLowerCase();
-      var permitido = (origem.indexOf("hotmart.com") !== -1 || origem.indexOf("hotmart.host") !== -1);
-      var eLocal = window.location.hostname === "localhost" || window.location.hostname === "" || window.location.protocol === "file:";
-      if (!permitido && !eLocal) {
-          window.location.href = "https://www.hotmart.com";
-      }
-    })();
-  </script>
 
   <style>
     :root {
-      --premium-color: #ffcc00;
-      --infinity-color: #a333ff;
+      --premium-color: #ffd700;
+      --infinity-color: #b026ff;
+      --blue-btn: #007bff;
       --bg-dark: #141414;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     body { background: var(--bg-dark); color: #fff; overflow-x: hidden; padding-bottom: 50px; }
 
-    /* Header Netflix Style */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; height: 64px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, transparent);
-      transition: background 0.4s; display: flex; align-items: center;
-      padding: 0 4%; z-index: 1000; justify-content: space-between;
+    /* Header com Lupa e Perfil */
+    header { 
+      position: fixed; top: 0; left: 0; right: 0; height: 64px; 
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4%; z-index: 1000; transition: 0.3s;
     }
-    header.scrolled { background: #000; height: 55px; }
-    .logo-group h1 { font-size: 24px; font-weight: bold; cursor: pointer; letter-spacing: 1px; }
-    .text-blue { color: #007bff; }
+    header.scrolled { background: #000; }
+    .logo-group h1 { font-size: 24px; font-weight: bold; cursor: pointer; }
+    
+    .nav-icons { display: flex; align-items: center; gap: 20px; }
+    .search-icon, .profile-trigger { cursor: pointer; font-size: 20px; }
+    .profile-trigger img { width: 34px; height: 34px; border-radius: 4px; border: 1px solid #444; object-fit: cover; }
 
     /* Barra de Busca */
-    .search-container {
-      position: fixed; top: 64px; left: 0; width: 100%; padding: 10px 4%;
-      background: rgba(0,0,0,0.9); display: none; z-index: 999;
+    .search-bar { 
+      position: fixed; top: 64px; left: 0; width: 100%; 
+      background: rgba(20,20,20,0.95); padding: 15px 4%; 
+      display: none; z-index: 999; border-bottom: 1px solid #333;
     }
-    .search-container.active { display: block; }
-    .search-container input {
-      width: 100%; padding: 12px; background: #222; border: 1px solid #444;
-      color: #fff; border-radius: 4px; outline: none;
-    }
+    .search-bar.active { display: block; }
+    .search-bar input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; outline: none; }
 
-    /* Hero Section */
-    .hero {
-      height: 75vh;
-      background: linear-gradient(to top, var(--bg-dark) 10%, transparent 90%), 
-                  url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80") center/cover;
-      display: flex; align-items: center; padding: 0 4%;
-    }
-    .hero-content { max-width: 600px; }
-    .hero h2 { font-size: 3rem; margin-bottom: 15px; }
-    .hero-btn { padding: 12px 30px; background: #fff; color: #000; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; }
-
-    /* Carousel Engine */
-    .category-section { padding: 25px 4% 0; position: relative; }
-    .category-title { font-size: 1.4rem; margin-bottom: 10px; color: #e5e5e5; font-weight: bold; }
-    .carousel-container { position: relative; group; }
-    .carousel {
-      display: flex; gap: 10px; overflow-x: auto; padding: 15px 0;
-      scroll-behavior: smooth; scrollbar-width: none;
-    }
-    .carousel::-webkit-scrollbar { display: none; }
-    
-    .item {
-      min-width: 260px; position: relative; cursor: pointer;
-      transition: transform 0.3s; flex-shrink: 0;
-    }
-    .item:hover { transform: scale(1.08); z-index: 10; }
-    .thumb { height: 145px; border-radius: 4px; background-size: cover; background-position: center; }
-    
-    /* Selos de Plano */
-    .badge {
-      position: absolute; top: 10px; right: 10px; padding: 4px 8px;
-      font-size: 10px; font-weight: bold; border-radius: 3px; z-index: 5;
-    }
-    .badge.premium { background: var(--premium-color); color: #000; }
-    .badge.infinity { background: var(--infinity-color); color: #fff; }
-
-    /* Modais */
-    .modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-      display: none; align-items: center; justify-content: center; z-index: 2000;
-    }
-    .modal.show { display: flex; }
-    .modal-content { width: 90%; max-width: 900px; background: #181818; border-radius: 8px; overflow: hidden; position: relative; }
-    .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
-    .iframe-container iframe { position: absolute; top:0; left:0; width:100%; height:100%; }
-
-    /* Sidebar Perfil */
-    .sidebar {
-      position: fixed; right: -300px; top: 0; width: 300px; height: 100%;
-      background: #111; z-index: 3000; transition: 0.3s; padding: 60px 20px;
-      border-left: 1px solid #333;
+    /* Menu Lateral (Perfil) */
+    .sidebar { 
+      position: fixed; right: -100%; top: 0; width: 320px; height: 100%; 
+      background: #181818; z-index: 2000; transition: 0.4s; padding: 40px 25px; 
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     }
     .sidebar.active { right: 0; }
-    .close-btn { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; }
-    .main-btn { width: 100%; padding: 15px; background: #007bff; border: none; color: #fff; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 20px; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; z-index: 1999; }
+    .overlay.active { display: block; }
+
+    /* Hero Section */
+    .hero { 
+      height: 80vh; display: flex; align-items: center; padding: 0 4%; 
+      background: linear-gradient(to top, var(--bg-dark), transparent), url('https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1200&auto=format&fit=crop') center/cover;
+    }
+    .hero-content { max-width: 600px; }
+    .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
+    .main-btn { padding: 12px 30px; background: #fff; color: #000; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+
+    /* Carrosséis */
+    .category-section { padding: 30px 0 0 4%; }
+    .carousel { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; scroll-behavior: smooth; }
+    .carousel::-webkit-scrollbar { display: none; }
+    .item { min-width: 280px; transition: 0.4s; cursor: pointer; position: relative; }
+    .item:hover { transform: scale(1.05); z-index: 10; }
+    .thumb { height: 155px; border-radius: 4px; background-size: cover; background-position: center; border: 1px solid #333; }
+    
+    .badge { position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 10px; font-weight: bold; border-radius: 3px; z-index: 5; }
+    .badge.gold { background: var(--premium-color); color: #000; }
+    .badge.purple { background: var(--infinity-color); color: #fff; }
+
+    /* Modais */
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 3000; }
+    .modal-content { width: 95%; max-width: 850px; background: #181818; border-radius: 8px; overflow: hidden; position: relative; }
+    .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
+    .iframe-container iframe { position: absolute; top:0; left:0; width:100%; height:100%; border:0; }
   </style>
 </head>
-<div class="search-container" id="search-bar">
-    <input type="text" id="search-input" placeholder="O que você quer aprender hoje?" onkeyup="filtrarCursos()">
+  <body>
+  <header id="main-header">
+    <div class="logo-group" onclick="window.location.reload()">
+      <span style="color:var(--blue-btn)">PRATICA</span><span>MENTE</span>
+    </div>
+    <div class="nav-icons">
+      <div class="search-icon" onclick="toggleSearch()">🔍</div>
+      <div class="profile-trigger" onclick="toggleSidebar()">
+        <img id="nav-avatar" src="https://picsum.photos/100/100">
+      </div>
+    </div>
+  </header>
+
+  <div class="search-bar" id="search-bar">
+    <input type="text" id="search-input" placeholder="Buscar curso, livro ou mentor..." onkeyup="filtrarCursos()">
   </div>
 
-  <section class="hero">
+  <section class="hero" id="hero-bg">
     <div class="hero-content">
-      <h2 id="hero-phrase">Sua evolução não tem limites.</h2>
-      <p>Acesse a maior biblioteca de cursos práticos para sua carreira.</p>
-      <button class="hero-btn" onclick="scrollParaCursos()">Explorar Agora</button>
-    </div>
-  </section>
-
-  <section class="category-section" id="secao-cursos">
-    <h3 class="category-title">Mais Vistos</h3>
-    <div class="carousel-container">
-      <button class="btn left" onclick="scrollCarousel('car-vistos', -1)">❮</button>
-      <div class="carousel" id="car-vistos">
-        <div class="item" onclick="checkAcesso('iniciante', 'Oratória Master', 'Domine a arte de falar.', 'https://www.youtube.com/embed/qz0aGYrrlhU')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=1')"></div>
-          <div class="info"><p class="title">ORATÓRIA</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Excel Business', 'Planilhas profissionais.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=2')"></div>
-          <div class="info"><p class="title">EXCEL PRO</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Inglês Rápido', 'Conversação essencial.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=3')"></div>
-          <div class="info"><p class="title">INGLÊS</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Power BI', 'Dashboards incríveis.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=4')"></div>
-          <div class="info"><p class="title">POWER BI</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Python', 'Automação de tarefas.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=5')"></div>
-          <div class="info"><p class="title">PYTHON</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Oratória Master', '...', '...')"><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=1')"></div><div class="info"><p class="title">ORATÓRIA</p></div></div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Excel Business', '...', '...')"><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=2')"></div><div class="info"><p class="title">EXCEL PRO</p></div></div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Inglês Rápido', '...', '...')"><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=3')"></div><div class="info"><p class="title">INGLÊS</p></div></div>
-        <div class="item" onclick="checkAcesso('iniciante', 'Power BI', '...', '...')"><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=4')"></div><div class="info"><p class="title">POWER BI</p></div></div>
-        </div>
-      <button class="btn right" onclick="scrollCarousel('car-vistos', 1)">❯</button>
+      <h1 id="hero-title">Inteligência Emocional 2.0</h1>
+      <p id="hero-desc" style="margin-bottom:20px; color:#ccc;">Domine suas emoções e transforme sua carreira com este guia prático.</p>
+      <button class="main-btn" onclick="checkAcesso('iniciante', 'Inteligência Emocional 2.0', 'https://www.youtube.com/embed/qz0aGYrrlhU')">Assistir Agora</button>
     </div>
   </section>
 
   <section class="category-section">
-    <h3 class="category-title" style="color: var(--premium-color)">Auto Liderança ⭐</h3>
-    <div class="carousel-container">
-      <button class="btn left" onclick="scrollCarousel('car-lider', -1)">❮</button>
-      <div class="carousel" id="car-lider">
-        <div class="item" onclick="checkAcesso('premium', 'Inteligência Emocional', 'Controle emocional.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge premium">PREMIUM</div>
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=10')"></div>
-          <div class="info"><p class="title">INTELIGÊNCIA EMOCIONAL</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('premium', 'Gestão do Tempo', 'Produtividade.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge premium">PREMIUM</div>
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=11')"></div>
-          <div class="info"><p class="title">PRODUTIVIDADE</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('premium', 'Foco Absoluto', 'Elimine distrações.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge premium">PREMIUM</div>
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=12')"></div>
-          <div class="info"><p class="title">FOCO</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('premium', 'Liderança', '...', '...')"><div class="badge premium">PREMIUM</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=10')"></div><div class="info"><p class="title">LIDERANÇA</p></div></div>
-        <div class="item" onclick="checkAcesso('premium', 'Produtividade', '...', '...')"><div class="badge premium">PREMIUM</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=11')"></div><div class="info"><p class="title">PRODUTIVIDADE</p></div></div>
-        <div class="item" onclick="checkAcesso('premium', 'Foco', '...', '...')"><div class="badge premium">PREMIUM</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=12')"></div><div class="info"><p class="title">FOCO</p></div></div>
+    <h3>Cursos Essenciais (Gratuitos)</h3>
+    <div class="carousel" id="car-essenciais">
+      <div class="item" onclick="checkAcesso('iniciante', 'Oratória Moderna', 'https://www.youtube.com/embed/qz0aGYrrlhU')">
+        <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=1')"></div>
+        <p style="margin-top:8px; font-size:14px;">Oratória Moderna</p>
       </div>
-      <button class="btn right" onclick="scrollCarousel('car-lider', 1)">❯</button>
-    </div>
-  </section>
-  <section class="category-section">
-    <h3 class="category-title" style="color: var(--infinity-color)">RH & Estratégia 💎</h3>
-    <div class="carousel-container">
-      <button class="btn left" onclick="scrollCarousel('car-rh', -1)">❮</button>
-      <div class="carousel" id="car-rh">
-        <div class="item" onclick="checkAcesso('infinity', 'Cultura nas Empresas', 'Crie ambientes produtivos.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge infinity">INFINITY</div>
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=20')"></div>
-          <div class="info"><p class="title">CULTURA</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('infinity', 'Recrutamento Elite', 'Contrate os melhores.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge infinity">INFINITY</div>
-          <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=21')"></div>
-          <div class="info"><p class="title">RECRUTAMENTO</p></div>
-        </div>
-        <div class="item" onclick="checkAcesso('infinity', 'Gestão RH', '...', '...')"><div class="badge infinity">INFINITY</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=20')"></div><div class="info"><p class="title">GESTÃO RH</p></div></div>
-        <div class="item" onclick="checkAcesso('infinity', 'Treinamento', '...', '...')"><div class="badge infinity">INFINITY</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=21')"></div><div class="info"><p class="title">TREINAMENTO</p></div></div>
-        <div class="item" onclick="checkAcesso('infinity', 'Cultura...', '...', '...')"><div class="badge infinity">INFINITY</div><div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=20')"></div><div class="info"><p class="title">CULTURA</p></div></div>
+      <div class="item" onclick="checkAcesso('iniciante', 'Excel para Negócios', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
+        <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=2')"></div>
+        <p style="margin-top:8px; font-size:14px;">Excel para Negócios</p>
       </div>
-      <button class="btn right" onclick="scrollCarousel('car-rh', 1)">❯</button>
-    </div>
+      </div>
   </section>
 
   <section class="category-section">
-    <h3 class="category-title">Biblioteca Digital</h3>
-    <div class="carousel-container">
-      <button class="btn left" onclick="scrollCarousel('car-livros', -1)">❮</button>
-      <div class="carousel" id="car-livros">
-        <div class="item" style="min-width: 160px;" onclick="checkAcesso('iniciante', 'Mindset', 'O poder do pensamento.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div style="height: 240px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=40') center/cover;"></div>
-          <p style="font-size: 12px; margin-top: 8px; text-align: center;">MINDSET</p>
-        </div>
-        <div class="item" style="min-width: 160px;" onclick="checkAcesso('premium', 'Essencialismo', 'Foque no que importa.', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
-          <div class="badge premium" style="top: 5px; right: 5px;">⭐</div>
-          <div style="height: 240px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=41') center/cover; filter: grayscale(0.5);"></div>
-          <p style="font-size: 12px; margin-top: 8px; text-align: center;">ESSENCIALISMO</p>
-        </div>
-        <div class="item" style="min-width: 160px;"><div style="height: 240px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=42') center/cover;"></div><p style="font-size:12px; margin-top:8px; text-align:center;">HÁBITOS ATÔMICOS</p></div>
-        <div class="item" style="min-width: 160px;"><div style="height: 240px; border-radius: 4px; background: url('https://picsum.photos/300/450?random=43') center/cover;"></div><p style="font-size:12px; margin-top:8px; text-align:center;">PAI RICO PAI POBRE</p></div>
+    <h3 style="color:var(--premium-color)">Cursos Premium ⭐</h3>
+    <div class="carousel">
+      <div class="item" onclick="checkAcesso('premium', 'Liderança Alpha', 'https://www.youtube.com/embed/Ke90Tje7VS0')">
+        <div class="badge gold">PREMIUM</div>
+        <div class="thumb" style="background-image:url('https://picsum.photos/400/225?random=10'); filter:grayscale(0.5)"></div>
+        <p style="margin-top:8px; font-size:14px;">Liderança Alpha</p>
       </div>
-      <button class="btn right" onclick="scrollCarousel('car-livros', 1)">❯</button>
-    </div>
+      </div>
   </section>
 
-  <div id="sidebar" class="sidebar">
-    <span class="close-btn" onclick="toggleSidebar()">×</span>
-    <h2 style="margin-bottom: 25px;">Meu Perfil</h2>
-    
-    <div style="text-align: center; margin-bottom: 25px;">
-        <div style="position: relative; display: inline-block;">
-            <img id="profile-pic" src="https://picsum.photos/100/100" style="width: 110px; height: 110px; border-radius: 50%; border: 2px solid #007bff; object-fit: cover;">
-            <input type="file" id="file-input" style="display:none" onchange="changePhoto(event)">
-            <button onclick="document.getElementById('file-input').click()" style="position: absolute; bottom: 0; right: 0; background: #007bff; border: none; border-radius: 50%; width: 30px; height: 30px; color: white; cursor: pointer;">+</button>
-        </div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <h2 style="margin-bottom:25px;">Meu Perfil</h2>
+    <div style="text-align:center; margin-bottom:20px;">
+      <img id="sidebar-avatar" src="https://picsum.photos/100/100" style="width:100px; height:100px; border-radius:50%; border:2px solid var(--blue-btn);">
+      <input type="file" id="file-input" style="display:none" onchange="changePhoto(event)">
+      <button onclick="document.getElementById('file-input').click()" style="display:block; margin:10px auto; background:none; border:none; color:var(--blue-btn); cursor:pointer;">Trocar Foto</button>
     </div>
-
-    <div style="margin-bottom: 20px;">
-        <label style="font-size: 12px; color: #666;">NOME COMPLETO</label>
-        <input type="text" id="user-name" placeholder="Seu nome aqui" style="width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 4px; margin-top: 5px;">
+    <input type="text" id="user-name" placeholder="Seu Nome" style="width:100%; padding:12px; background:#222; border:1px solid #333; color:#fff; border-radius:4px;">
+    <div style="margin-top:20px; background:#222; padding:15px; border-radius:4px;">
+      <p style="font-size:12px; color:#888;">PLANO ATUAL</p>
+      <p id="plan-tag" style="font-weight:bold; color:var(--premium-color); font-size:1.1rem;">Premium</p>
     </div>
-
-    <div style="background: #222; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-        <p style="font-size: 12px; color: #666;">PLANO ATUAL</p>
-        <p id="user-plan-tag" style="font-weight: bold; color: var(--premium-color);">Premium</p>
-    </div>
-
-    <h3 style="font-size: 14px; margin-bottom: 10px;">Cursos Concluídos</h3>
-    <div id="completed-courses" style="font-size: 13px; color: #888;">Nenhum curso concluído ainda.</div>
-
-    <button class="main-btn" onclick="saveProfile()">SALVAR ALTERAÇÕES</button>
+    <button class="main-btn" onclick="saveProfile()" style="margin-top:20px; background:var(--blue-btn); color:#fff; width:100%;">Salvar Alterações</button>
   </div>
-  <div id="modal" class="modal">
+    <div id="video-modal" class="modal">
     <div class="modal-content">
-      <span class="close-x" onclick="closeModal()">×</span>
+      <span onclick="closeModal()" style="position:absolute; top:10px; right:20px; font-size:30px; cursor:pointer; z-index:10;">×</span>
       
-      <div id="video-container" style="display:none;">
+      <div id="video-view" style="display:none;">
         <div class="iframe-container">
-          <iframe id="video" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        </div>
-        <div style="padding: 20px;">
-          <h2 id="modalTitle"></h2>
-          <p id="modalDesc" style="color: #888; margin-top: 10px;"></p>
+          <iframe id="iframe-video" src="" allowfullscreen></iframe>
         </div>
       </div>
 
-      <div id="sell-container" style="display:none; padding: 50px 20px; text-align: center;">
-        <h2 id="sell-title" style="color: var(--premium-color); margin-bottom: 20px;">CONTEÚDO EXCLUSIVO</h2>
-        <p style="color: #ccc; margin-bottom: 30px;">
-          Este curso pertence ao plano <b id="needed-plan"></b>. <br>
-          Adquira o acesso avulso ou faça upgrade para liberar agora.
-        </p>
-        <div style="background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-bottom: 30px;">
-          <p style="font-size: 14px; color: #666;">Preço Promocional</p>
-          <p style="font-size: 24px; font-weight: bold; color: #28a745;">R$ 49,90</p>
-        </div>
-        <button class="main-btn" style="background:#28a745;" onclick="irParaHotmart()">COMPRAR E LIBERAR AGORA</button>
+      <div id="sell-view" style="display:none; padding:50px; text-align:center;">
+        <h2 id="sell-title" style="color:var(--premium-color); margin-bottom:20px;">CONTEÚDO BLOQUEADO</h2>
+        <p style="margin-bottom:30px;">Upgrade necessário para o plano <b id="needed-plan"></b>.</p>
+        <button class="main-btn" style="background:#28a745; color:#fff; width:100%; height:55px;" onclick="window.open('https://pay.hotmart.com')">DESBLOQUEAR AGORA</button>
       </div>
     </div>
   </div>
 
   <script>
-    // --- BANCO DE DADOS LOCAL (PERFIL E PLANOS) ---
-    let userData = JSON.parse(localStorage.getItem('praticamente_user')) || {
-        name: "Aluno Praticamente",
-        photo: "https://picsum.photos/100/100",
-        plan: "iniciante", // Pode ser: iniciante, premium, infinity
-        coursesDone: []
+    let user = JSON.parse(localStorage.getItem('praticamente_db')) || {
+      nome: "Aluno Pro",
+      foto: "https://picsum.photos/100/100",
+      plano: "iniciante" // Pode mudar para 'premium' ou 'infinity'
     };
 
-    // --- INICIALIZAÇÃO ---
-    window.onload = function() {
-        applyUserData();
-        initCarousels();
-    };
+    function checkAcesso(nivelReq, titulo, url) {
+      const modal = document.getElementById('video-modal');
+      const vView = document.getElementById('video-view');
+      const sView = document.getElementById('sell-view');
+      const niveis = { "iniciante": 1, "premium": 2, "infinity": 3 };
 
-    function applyUserData() {
-        document.getElementById('user-name').value = userData.name;
-        document.getElementById('profile-pic').src = userData.photo;
-        document.getElementById('user-plan-tag').innerText = userData.plan.toUpperCase();
-        document.getElementById('hero-phrase').innerText = "Bem-vindo, " + userData.name.split(' ')[0] + "!";
-    }
-
-    // --- LÓGICA DE ACESSO E VENDA ---
-    function checkAcesso(nivelReq, title, desc, url) {
-        const modal = document.getElementById('modal');
-        const vCont = document.getElementById('video-container');
-        const sCont = document.getElementById('sell-container');
-        const levels = { "iniciante": 1, "premium": 2, "infinity": 3 };
-
-        modal.classList.add('show');
-        
-        if (levels[userData.plan] >= levels[nivelReq]) {
-            // LIBERADO
-            vCont.style.display = 'block';
-            sCont.style.display = 'none';
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalDesc').innerText = desc;
-            document.getElementById('video').src = url + "?autoplay=1";
-        } else {
-            // BLOQUEADO
-            vCont.style.display = 'none';
-            sCont.style.display = 'block';
-            document.getElementById('needed-plan').innerText = nivelReq.toUpperCase();
-        }
+      modal.style.display = 'flex';
+      if (niveis[user.plano] >= niveis[nivelReq]) {
+        vView.style.display = 'block'; sView.style.display = 'none';
+        document.getElementById('iframe-video').src = url + "?autoplay=1";
+      } else {
+        vView.style.display = 'none'; sView.style.display = 'block';
+        document.getElementById('needed-plan').innerText = nivelReq.toUpperCase();
+      }
     }
 
     function closeModal() {
-        const modal = document.getElementById('modal');
-        modal.classList.remove('show');
-        document.getElementById('video').src = "";
+      document.getElementById('video-modal').style.display = 'none';
+      document.getElementById('iframe-video').src = "";
     }
 
-    function irParaHotmart() {
-        // Link de Venda da Hotmart
-        window.open("https://pay.hotmart.com/SEU_ID_AQUI", "_blank");
+    // Funções de UI
+    function toggleSidebar() { 
+      document.getElementById('sidebar').classList.toggle('active'); 
+      document.getElementById('overlay').classList.toggle('active');
     }
-
-    // --- LÓGICA DE PERFIL ---
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
-    }
-
-    function changePhoto(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            userData.photo = reader.result;
-            document.getElementById('profile-pic').src = reader.result;
-        }
-        reader.readAsDataURL(event.target.files[0]);
+    function toggleSearch() { document.getElementById('search-bar').classList.toggle('active'); }
+    
+    function filtrarCursos() {
+      let val = document.getElementById('search-input').value.toLowerCase();
+      document.querySelectorAll('.item').forEach(it => {
+        it.style.display = it.innerText.toLowerCase().includes(val) ? "block" : "none";
+      });
     }
 
     function saveProfile() {
-        userData.name = document.getElementById('user-name').value;
-        localStorage.setItem('praticamente_user', JSON.stringify(userData));
-        applyUserData();
-        toggleSidebar();
-        alert("Perfil atualizado!");
+      user.nome = document.getElementById('user-name').value;
+      localStorage.setItem('praticamente_db', JSON.stringify(user));
+      location.reload();
     }
 
-    // --- NAVEGAÇÃO E LUPA ---
-    function toggleSearch() {
-        document.getElementById('search-bar').classList.toggle('active');
+    function changePhoto(e) {
+      const reader = new FileReader();
+      reader.onload = () => { 
+        user.foto = reader.result; 
+        document.getElementById('sidebar-avatar').src = reader.result;
+      }
+      reader.readAsDataURL(e.target.files[0]);
     }
 
-    function filtrarCursos() {
-        let input = document.getElementById('search-input').value.toLowerCase();
-        let items = document.querySelectorAll('.item');
-        items.forEach(item => {
-            let text = item.innerText.toLowerCase();
-            item.style.display = text.includes(input) ? "block" : "none";
-        });
+    // Inicialização
+    window.onload = () => {
+      document.getElementById('nav-avatar').src = user.foto;
+      document.getElementById('sidebar-avatar').src = user.foto;
+      document.getElementById('user-name').value = user.nome;
+      document.getElementById('plan-tag').innerText = user.plano.toUpperCase();
+    };
+
+    window.onscroll = () => {
+      const h = document.getElementById('main-header');
+      if(window.scrollY > 50) h.classList.add('scrolled');
+      else h.classList.remove('scrolled');
     }
-
-    function scrollCarousel(id, dir) {
-        const c = document.getElementById(id);
-        c.scrollLeft += dir * 400;
-    }
-
-    // Efeito de Scroll no Header
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-    });
-
-    // --- REPETIÇÃO DE CURSOS (PARA ATINGIR 500+ LINHAS) ---
-    // (Adicione aqui mais centenas de linhas de itens de curso no HTML acima conforme necessário)
-    // Cada categoria deve conter pelo menos 15 a 20 itens para o scroll infinito funcionar bem.
   </script>
 </body>
 </html>
+
