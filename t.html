@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Praticamente | Alta Performance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0e0e0e;
+  color: #fff;
+}
+
+/* ===== APP ===== */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 240px;
+  background: #111;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.sidebar nav a:hover {
+  color: #fff;
+  background: #1a1a1a;
+  border-radius: 6px;
+}
+
+.progress {
+  margin-top: 40px;
+  font-size: 12px;
+}
+
+.bar {
+  margin-top: 8px;
+  width: 100%;
+  height: 6px;
+  background: #333;
+  border-radius: 6px;
+}
+
+.bar-fill {
+  width: 40%;
+  height: 100%;
+  background: #4caf50;
+  border-radius: 6px;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.topbar {
+  margin-bottom: 30px;
+}
+
+.topbar input {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.content h1 {
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  height: 300px;
+  background: linear-gradient(180deg, #222, #111);
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform .2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card span {
+  font-size: 12px;
+  opacity: .7;
+}
+
+.card h3 {
+  font-size: 18px;
+}
+
+/* ===================== */
+/* 📱 MOBILE OPTIMIZAÇÃO */
+/* ===================== */
+@media (max-width: 768px) {
+
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar nav {
+    display: none; /* esconde menu lateral no mobile */
+  }
+
+  .progress {
+    display: none;
+  }
+
+  main {
+    padding: 16px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    height: 220px;
+  }
+
+  .content h1 {
+    font-size: 22px;
+  }
+}
+
+/* ===================== */
+/* 💻 DESKTOP AJUSTES */
+/* ===================== */
+@media (min-width: 769px) {
+  body.desktop .card {
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  body.desktop .card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <h2>PRATICAMENTE</h2>
+
+    <nav>
+      <a>Início</a>
+      <a>Minha Conta</a>
+      <a>Certificados</a>
+      <a>Suporte</a>
+    </nav>
+
+    <div class="progress">
+      <span>Seu progresso</span>
+      <div class="bar">
+        <div class="bar-fill"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <input type="text" placeholder="Pesquisar cursos ou aulas...">
+    </header>
+
+    <section class="content">
+      <h1>Alta Performance</h1>
+
+      <div class="cards">
+        <div class="card"><span>MÓDULO 1</span><h3>Por onde começar</h3></div>
+        <div class="card"><span>MÓDULO 2</span><h3>Como sair na frente</h3></div>
+        <div class="card"><span>MÓDULO 3</span><h3>Como funciona o suporte</h3></div>
+        <div class="card"><span>MÓDULO 4</span><h3>Marketing Digital</h3></div>
+        <div class="card"><span>MÓDULO 5</span><h3>Escala e constância</h3></div>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script>
+/* Detecta automaticamente se é desktop */
+if (window.innerWidth > 768) {
+  document.body.classList.add("desktop");
+}
+</script>
+
+</body>
+</html>
