@@ -108,6 +108,7 @@ main {
   flex-direction: column;
   justify-content: flex-end;
   transition: transform .2s;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -116,11 +117,18 @@ main {
 
 .card span {
   font-size: 12px;
-  opacity: .7;
+  opacity: .8;
 }
 
 .card h3 {
   font-size: 18px;
+}
+
+/* ===== CAPA MÓDULO 3 - ESTOICISMO ===== */
+.card-estoicismo {
+  background:
+    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
+    url("estoicismo.png") center/cover no-repeat;
 }
 
 /* ===================== */
@@ -140,7 +148,7 @@ main {
   }
 
   .sidebar nav {
-    display: none; /* esconde menu lateral no mobile */
+    display: none;
   }
 
   .progress {
@@ -168,10 +176,6 @@ main {
 /* 💻 DESKTOP AJUSTES */
 /* ===================== */
 @media (min-width: 769px) {
-  body.desktop .card {
-    transition: transform .2s, box-shadow .2s;
-  }
-
   body.desktop .card:hover {
     box-shadow: 0 10px 30px rgba(0,0,0,.4);
   }
@@ -210,11 +214,30 @@ main {
       <h1>Alta Performance</h1>
 
       <div class="cards">
-        <div class="card"><span>MÓDULO 1</span><h3>Eneagrama </h3></div>
-        <div class="card"><span>MÓDULO 2</span><h3>PNL </h3></div>
-        <div class="card"><span>MÓDULO 3</span><h3>Estoicismo </h3></div>
-        <div class="card"><span>MÓDULO 4</span><h3>Curso completo </h3></div>
-        <div class="card"><span>MÓDULO 5</span><h3>E-book </h3></div>
+        <div class="card">
+          <span>MÓDULO 1</span>
+          <h3>Eneagrama</h3>
+        </div>
+
+        <div class="card">
+          <span>MÓDULO 2</span>
+          <h3>PNL</h3>
+        </div>
+
+        <div class="card card-estoicismo">
+          <span>MÓDULO 3</span>
+          <h3>Estoicismo</h3>
+        </div>
+
+        <div class="card">
+          <span>MÓDULO 4</span>
+          <h3>Curso completo</h3>
+        </div>
+
+        <div class="card">
+          <span>MÓDULO 5</span>
+          <h3>E-book</h3>
+        </div>
       </div>
     </section>
   </main>
@@ -230,5 +253,3 @@ if (window.innerWidth > 768) {
 
 </body>
 </html>
-
-
