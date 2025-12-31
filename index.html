@@ -1,29 +1,25 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<title>PRATICAMENTE</title>
-<link rel="manifest" href="manifest.json?v=2">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Praticamente">
-<meta name="theme-color" content="#050505">
-
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PRATICAMENTE — Alta Performance & Evolução da Mente</title>
-  
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#050505">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-  
+
   <style>
-    /* --- Variáveis de Estilo (Tema Escuro e Azul) --- */
+    /* --- Variáveis de Estilo (Design do Index 2) --- */
     :root {
       --bg-dark: #050505;      
       --bg-card: #121212;      
       --bg-card-hover: #161616;
-      --primary-blue: #007bff;   /* Azul Elétrico */
+      --primary-blue: #007bff;   /* Azul Elétrico solicitado */
       --text: #ffffff;         
       --text-secondary: #a3a3a3;
       --border-subtle: #262626; 
@@ -63,12 +59,11 @@
     p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 30px; max-width: 500px; }
     a { text-decoration: none; transition: 0.3s; }
 
-    /* --- HEADER VIDRO FUMÊ --- */
+    /* --- HEADER VIDRO FUMÊ (Design Index 2) --- */
     header {
       position: sticky; 
       top: 0; 
       z-index: 1000;
-      /* Efeito Glassmorphism Fumê */
       background: rgba(0, 0, 0, 0.7); 
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -78,7 +73,6 @@
     
     .nav { display: flex; justify-content: space-between; align-items: center; }
     
-    /* Texto da Logo Customizado */
     .logo-text {
         font-family: 'Montserrat', sans-serif;
         font-weight: 800;
@@ -90,33 +84,27 @@
 
     /* --- Botões --- */
     .btn { display: inline-block; padding: 15px 30px; font-weight: 800; border-radius: 4px; transition: all 0.3s; text-align: center; border: none; cursor: pointer; }
-    .btn-blue { background: var(--primary-blue); color: #fff; margin-right: 15px; }
+    .btn-blue { background: var(--primary-blue); color: #fff; }
     .btn-blue:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 10px 20px -10px rgba(0, 123, 255, 0.5); }
-    .btn-outline { border: 2px solid var(--text); color: var(--text); background: transparent; }
+    .btn-outline { border: 2px solid var(--text); color: var(--text); background: transparent; margin-left: 10px; }
     .btn-outline:hover { border-color: var(--primary-blue); color: var(--primary-blue); }
 
     /* --- HERO --- */
     .hero { display: flex; align-items: center; min-height: 85vh; padding: 60px 0; gap: 40px; }
     .hero-content { flex: 1; }
-
-    .hero-image-wrapper { flex: 1; position: relative; display: flex; justify-content: flex-end; height: 600px; }
-    .montagem-container { position: relative; width: 450px; height: 100%; }
+    .hero-image-wrapper { flex: 1; display: flex; justify-content: flex-end; }
+    .montagem-container { width: 450px; }
     .img-corpo { 
-      width: 100%; height: auto; object-fit: cover; filter: contrast(1.1) brightness(0.9);
+      width: 80%; height: auto; filter: contrast(1.1) brightness(0.9);
       mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
-    .img-rosto {
-      position: absolute; width: 130px; height: 140px; border-radius: 50%; object-fit: cover;
-      top: 55px; left: 175px; 
-      z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.5); border: 2px solid rgba(0,0,0,0.2);
-    }
     
-    /* --- Módulos (Grid) --- */
+    /* --- Módulos --- */
     .grid-modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     .card { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 32px; border-radius: 8px; transition: 0.3s; }
     .card:hover { border-color: var(--primary-blue); background: var(--bg-card-hover); transform: translateY(-5px); }
-    .module-number { color: var(--primary-blue); font-weight: 700; font-family: 'Montserrat', sans-serif; display: block; margin-bottom: 12px; font-size: 0.9rem; }
+    .module-number { color: var(--primary-blue); font-weight: 700; display: block; margin-bottom: 12px; font-size: 0.9rem; }
 
     /* --- Formulário --- */
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -126,17 +114,15 @@
     input:focus { border-color: var(--primary-blue); }
     #status-msg { margin-top: 15px; font-size: 1rem; color: var(--primary-blue); font-weight: 700; }
     
-    footer { background: var(--bg-card); padding: 40px 0; text-align: center; border-top: 1px solid var(--border-subtle); margin-top: var(--section-spacing); }
+    footer { background: var(--bg-card); padding: 40px 0; text-align: center; border-top: 1px solid var(--border-subtle); margin-top: 40px; }
 
-    /* --- Responsivo --- */
     @media (max-width: 900px) {
-      .hero { flex-direction: column-reverse; text-align: center; padding-top: 20px; }
-      .hero-image-wrapper { justify-content: center; height: auto; margin-bottom: 40px; }
+      .hero { flex-direction: column-reverse; text-align: center; }
+      .hero-image-wrapper { justify-content: center; }
       .montagem-container { width: 300px; }
-      .img-rosto { width: 85px; height: 95px; top: 38px; left: 118px; }
       h1 { font-size: 2.5rem; }
       .form-grid { grid-template-columns: 1fr; }
-      .logo-text { font-size: 1rem; }
+      .btn-outline { margin-left: 0; margin-top: 10px; }
     }
   </style>
 </head>
@@ -156,13 +142,16 @@
       <div class="hero-content">
         <h1>NÃO REAJA.<br><span>ESCOLHA.</span></h1>
         <p>Autoliderança e inteligência emocional para alta performance. Combine Estoicismo e Neurociência para dominar seu jogo mental.</p>
-        
         <div>
           <a href="#inscricao" class="btn btn-blue">QUERO ENTRAR NO JOGO</a>
           <a href="#modulos" class="btn btn-outline">VER MÓDULOS</a>
         </div>
       </div>
-
+      <div class="hero-image-wrapper">
+        <div class="montagem-container">
+          <img src="eduardo.png" class="img-corpo" alt="Mentor">
+        </div>
+      </div>
     </section>
 
     <section id="modulos" class="container">
@@ -171,36 +160,31 @@
         <div class="card">
           <span class="module-number">MÓDULO 01</span>
           <h3>Base da Autoliderança</h3>
-          <p>Reconhecer emoções não é fraqueza, é inteligência estratégica. Controle x Consciência nas decisões.</p>
+          <p>Reconhecer emoções não é fraqueza, é inteligência estratégica.</p>
         </div>
         <div class="card">
           <span class="module-number">MÓDULO 02</span>
           <h3>Mente Inabalável</h3>
-          <p>Domine a distinção entre o que está sob seu controle e o que é ruído. Exercícios de Serenidade Ativa.</p>
+          <p>Domine a distinção entre o que está sob seu controle e o que é ruído.</p>
         </div>
         <div class="card">
           <span class="module-number">MÓDULO 03</span>
           <h3>PNL e Regulação</h3>
-          <p>Ferramentas para hackear seu estado emocional. Ancoragem e ressignificação prática.</p>
+          <p>Ferramentas para hackear seu estado emocional e ressignificação prática.</p>
         </div>
         <div class="card">
           <span class="module-number">MÓDULO 04</span>
           <h3>Eneagrama Estratégico</h3>
-          <p>Identifique seus padrões automáticos de sabotagem. O mapa das suas reações.</p>
+          <p>Identifique seus padrões automáticos de sabotagem.</p>
         </div>
       </div>
     </section>
 
     <section id="inscricao" class="container">
-      <h2>Garanta sua vaga na próxima turma</h2>
+      <h2>Garanta sua vaga</h2>
       <div class="form-grid">
         <div>
            <p style="font-size: 1.2rem; color: var(--text);">Você está a um passo de assumir o controle.</p>
-           <ul style="margin-top: 24px; padding-left: 0; list-style: none;">
-             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Acesso vitalício ao conteúdo</li>
-             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Ferramentas práticas em PDF</li>
-             <li style="margin-bottom:16px; display:flex; align-items:center;"><span style="color:var(--primary-blue); margin-right:10px; font-weight: bold;">✓</span> Grupo exclusivo de networking</li>
-           </ul>
            <div style="margin-top: 40px;">
              <span style="display:block; font-size:0.9rem; color:var(--text-secondary);">Investimento:</span>
              <span style="font-size: 2.5rem; font-weight:800; color:var(--primary-blue);">R$ 497</span>
@@ -212,9 +196,9 @@
           <form id="form" action="https://formspree.io/f/mvgeyowq" method="POST"> 
             <input type="text" name="Nome Completo" placeholder="SEU NOME COMPLETO" required>
             <input type="email" name="Email" placeholder="SEU MELHOR E-MAIL" required>
-            <input type="tel" name="WhatsApp" placeholder="SEU WHATSAPP (DDD + NÚMERO)" required>
+            <input type="tel" name="WhatsApp" placeholder="SEU WHATSAPP" required>
             <button type="submit" class="btn btn-blue" style="width:100%; margin-top:16px;">
-              FINALIZAR MINHA INSCRIÇÃO
+              FINALIZAR E IR PARA O PAGAMENTO
             </button>
             <div id="status-msg"></div> 
           </form>
@@ -225,63 +209,35 @@
 
   <footer>
     <div class="container">
-      <div class="logo-text" style="margin-bottom: 20px; opacity: 0.7;">
-        <span class="azul-destaque">PRATICAMENTE</span>
-      </div>
-      <p style="font-size: 0.8rem; color: #555;">© 2025 Eduardo Severo. Todos os direitos reservados.</p>
+      <p style="font-size: 0.8rem; color: #555;">© 2025 Praticamente. Todos os direitos reservados.</p>
     </div>
   </footer>
 
   <script>
     const form = document.getElementById('form');
     const statusDiv = document.getElementById('status-msg');
-    const checkoutLink = "https://pay.hotmart.com/Y103400130Y";
+    
+    // ✅ LINK CAKTO MANTIDO COMO PRINCIPAL
+    const checkoutLink = "https://pay.cakto.com.br/32stqcs_700497";
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      btn.innerText = "PROCESSANDO...";
-      btn.disabled = true;
+      statusDiv.innerText = "Redirecionando para o pagamento...";
       
+      // Envia para o Formspree
       fetch(form.action, {
         method: form.method,
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
       
+      // Redireciona para o Checkout da Cakto
       setTimeout(() => {
           window.location.href = checkoutLink;
-      }, 600);
+      }, 500);
     });
   </script>
-
-<script>
-{
-  "name": "PRATICAMENTE - Eduardo Severo",
-  "short_name": "Praticamente",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#050505",
-  "theme_color": "#007bff",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/eduardo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('App Pronto'))
-      .catch(err => console.log('Erro no App', err));
-  }
-</script>
 </body>
-
 </html>
 
 
