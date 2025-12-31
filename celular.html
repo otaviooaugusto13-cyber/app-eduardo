@@ -13,10 +13,10 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 .app { display: flex; min-height: 100vh; }
 
 /* Sidebar e Logo */
-.sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; }
+.sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; }
 .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
 .logo .pratica { color: #e0e0e0; } 
-.logo .mente { color: #007bff; }   
+.logo .mente { color: #007bff; }    
 
 .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
 .sidebar nav a:hover { background: #1a1a1a; color: #007bff; }
@@ -28,49 +28,84 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 .bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #007bff, #00c6ff); transition: width 0.5s ease; }
 
 /* Main Content */
-main { flex: 1; padding: 40px; max-width: 1200px; margin: 0 auto; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; }
+main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-/* Cards com Cores Invertidas */
-.card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; }
+/* Cards */
+.card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
 .card:hover { transform: translateY(-10px); border-color: #007bff; }
+.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
+.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
 
-.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; } /* Módulo em Azul */
-.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); } /* Nome em Prata */
+/* Overlay para garantir leitura do texto sobre a imagem */
+.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
 
-/* Banners (GitHub) */
-.card-Eneagrama { background-image: linear-gradient(to top, #000, transparent), url("Eneagrama.png"); }
-.card-PNL { background-image: linear-gradient(to top, #000, transparent), url("PNL.png"); }
-.card-estoicismo { background-image: linear-gradient(to top, #000, transparent), url("estoicismo.png"); }
-.card-curso { background-image: linear-gradient(to top, #000, transparent), url("curso.png"); }
-.card-E-book { background-image: linear-gradient(to top, #000, transparent), url("E-book.png"); }
+/* Imagens dos Módulos */
+.card-Eneagrama { background-image: url("Eneagrama.png"); }
+.card-PNL { background-image: url("PNL.png"); }
+.card-estoicismo { background-image: url("estoicismo.png"); }
+.card-curso { background-image: url("curso.png"); }
+.card-E-book { background-image: url("E-book.png"); }
 
 /* Área Interna */
 #module-content { display: none; }
-.btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
-.video-frame { width: 100%; max-width: 750px; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
+.btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; }
+.btn-back:hover { background: #007bff; color: #fff; }
 
-/* Aulas Destaque */
+.video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
+
+/* Aulas */
 .lesson-item { background: #1c1c1c; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
 .lesson-link { color: #007bff; text-decoration: none; font-weight: bold; font-size: 17px; cursor: pointer; }
 
-/* Botão de Download PDF Corrigido */
-.btn-pdf { 
-    background: #333; 
-    color: #fff; 
-    padding: 10px 18px; 
-    text-decoration: none; 
-    border-radius: 6px; 
-    font-size: 13px; 
-    border: 1px solid #007bff; 
-    display: inline-block;
-    transition: 0.3s;
-}
+/* Botão PDF */
+.btn-pdf { background: #333; color: #fff; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 13px; border: 1px solid #007bff; display: inline-block; transition: 0.3s; }
 .btn-pdf:hover { background: #007bff; }
 
+/* --- RESPONSIVIDADE (CELULAR) --- */
 @media (max-width: 768px) {
     .app { flex-direction: column; }
-    .lesson-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+    
+    .sidebar { 
+        width: 100%; 
+        border-right: none; 
+        border-bottom: 1px solid #333; 
+        padding: 20px; 
+        position: relative;
+    }
+    
+    .logo { margin-bottom: 20px; text-align: center; }
+    
+    .sidebar nav { 
+        display: flex; 
+        justify-content: center; 
+        gap: 10px;
+        flex-wrap: wrap; 
+    }
+    
+    .sidebar nav a { 
+        padding: 8px 12px; 
+        font-size: 13px; 
+        margin-bottom: 0; 
+        background: #1a1a1a;
+    }
+    
+    .progress { margin-top: 20px; }
+
+    main { padding: 20px; }
+
+    h1 { font-size: 24px; text-align: center; }
+
+    .cards { 
+        grid-template-columns: 1fr; /* Um card por linha para facilitar o toque */
+    }
+
+    .lesson-item { 
+        flex-direction: column; 
+        align-items: stretch; 
+        gap: 15px; 
+        text-align: center; 
+    }
 }
 </style>
 </head>
@@ -131,7 +166,6 @@ main { flex: 1; padding: 40px; max-width: 1200px; margin: 0 auto; }
 </div>
 
 <script>
-// CADASTRO DE DADOS (Aqui você coloca seus links)
 const data = {
     'Eneagrama': [
         { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' },
@@ -176,12 +210,14 @@ function openModule(name, videoIntro) {
                 <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
             </div>`;
     });
+    window.scrollTo(0,0);
 }
 
 function closeModule() {
     document.getElementById('main-view').style.display = 'block';
     document.getElementById('module-content').style.display = 'none';
     document.getElementById('mod-video').src = '';
+    window.scrollTo(0,0);
 }
 
 function marcarComoVista() {
@@ -199,7 +235,6 @@ function atualizarProgresso() {
 </script>
 </body>
 </html>
-
 
 
 
