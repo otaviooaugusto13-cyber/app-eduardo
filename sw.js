@@ -1,14 +1,27 @@
-// Arquivo: sw.js
 const CACHE_NAME = 'praticamente-v1';
+const ASSETS = [
+  'celular.html',
+  'Eneagrama.png',
+  'PNL.png',
+  'estoicismo.png',
+  'curso.png',
+  'livros.png'
+];
 
-// Instala o Service Worker
+// Instala e armazena os arquivos offline
 self.addEventListener('install', (event) => {
-  console.log('Service Worker instalado');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    })
+  );
 });
 
-// Responde às requisições
+// Faz o app carregar os arquivos do cachê quando estiver sem internet
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
   );
 });
