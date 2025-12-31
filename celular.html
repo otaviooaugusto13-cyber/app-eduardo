@@ -5,6 +5,16 @@
 <title>Praticamente | Evolução da Mente</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050505">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("PWA: Service Worker Registrado!"))
+      .catch(err => console.log("PWA: Erro ao registrar", err));
+  }
+</script>
+
 <style>
 /* Reset e Base */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -41,12 +51,11 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
 .card:hover { transform: translateY(-10px); border-color: #007bff; }
 
-/* Adicionando as imagens conforme seu repositório */
 .card-Eneagrama { background-image: url('Eneagrama.png'); }
 .card-PNL { background-image: url('PNL.png'); }
 .card-estoicismo { background-image: url('estoicismo.png'); }
 .card-curso { background-image: url('curso.png'); }
-.card-E-book { background-image: url('livros.png'); } /* Usando curso.png como padrão se não houver um específico */
+.card-E-book { background-image: url('livros.png'); }
 
 .card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
 .card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
@@ -220,5 +229,4 @@ function atualizarProgresso() {
 </script>
 </body>
 </html>
-
 
