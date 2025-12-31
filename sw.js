@@ -1,27 +1,20 @@
-const CACHE_NAME = 'praticamente-v1';
-const ASSETS = [
-  'celular.html',
-  'Eneagrama.png',
-  'PNL.png',
-  'estoicismo.png',
-  'curso.png',
-  'livros.png'
-];
+const CACHE_NAME = 'praticamente-v2';
 
-// Instala e armazena os arquivos offline
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      return cache.addAll([
+        'celular.html',
+        'manifest.json'
+      ]);
     })
   );
 });
 
-// Faz o app carregar os arquivos do cachê quando estiver sem internet
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });
