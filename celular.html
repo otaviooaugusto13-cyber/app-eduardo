@@ -179,8 +179,11 @@ const data = {
     'E-books': [{ title: 'Livro: Evolução Mental', video: '', pdf: 'ebook_evolucao.pdf' }]
 };
 
-let aulasVistas = 0;
+// Sistema de persistência inteligente: salva uma lista de títulos de aulas concluídas
+let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
 const totalAulas = 6; 
+
+window.onload = atualizarProgresso;
 
 function openModule(name, videoIntro) {
     document.getElementById('main-view').style.display = 'none';
@@ -200,7 +203,7 @@ function openModule(name, videoIntro) {
     data[name].forEach(aula => {
         container.innerHTML += `
             <div class="lesson-item">
-                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista()">▶ ${aula.title}</a>
+                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista('${aula.title}')">▶ ${aula.title}</a>
                 <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
             </div>`;
     });
@@ -214,19 +217,23 @@ function closeModule() {
     window.scrollTo(0,0);
 }
 
-function marcarComoVista() {
-    if(aulasVistas < totalAulas) {
-        aulasVistas++;
+function marcarComoVista(tituloAula) {
+    // Só adiciona se a aula ainda não estiver na lista de concluídas
+    if(!aulasConcluidas.includes(tituloAula)) {
+        aulasConcluidas.push(tituloAula);
+        localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas));
         atualizarProgresso();
     }
 }
 
 function atualizarProgresso() {
-    const porcentagem = Math.round((aulasVistas / totalAulas) * 100);
+    const totalVistas = aulasConcluidas.length;
+    const porcentagem = Math.min(Math.round((totalVistas / totalAulas) * 100), 100);
     document.getElementById('prog-fill').style.width = porcentagem + "%";
     document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
 }
 </script>
 </body>
 </html>
+
 
