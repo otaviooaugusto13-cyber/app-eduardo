@@ -1,14 +1,22 @@
 {
   "name": "Praticamente Cursos",
   "short_name": "Praticamente",
-  "start_url": "index.html",
+  "description": "Evolução da Mente e Cursos",
+  "start_url": "celular.html",
   "display": "standalone",
-  "background_color": "#141414",
-  "theme_color": "#050505",
+  "orientation": "portrait",
+  "background_color": "#0e0e0e",
+  "theme_color": "#007bff",
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/otaviooaugusto13-cyber/edu/main/logo.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ]
