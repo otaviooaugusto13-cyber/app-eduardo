@@ -2,289 +2,201 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Praticamente | Alta Performance</title>
+<title>Praticamente | Evolução da Mente</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+/* Reset e Base */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 
-body {
-  background: #0e0e0e;
-  color: #fff;
-}
+.app { display: flex; min-height: 100vh; }
 
-/* ===== APP ===== */
-.app {
-  display: flex;
-  min-height: 100vh;
-}
+/* Sidebar e Logo */
+.sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; }
+.logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
+.logo .pratica { color: #e0e0e0; } 
+.logo .mente { color: #007bff; }   
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 240px;
-  background: #111;
-  padding: 20px;
-}
+.sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
+.sidebar nav a:hover { background: #1a1a1a; color: #007bff; }
 
-.sidebar h2 {
-  margin-bottom: 30px;
-  font-size: 18px;
-}
+/* Barra de Progresso */
+.progress { margin-top: 50px; }
+.progress span { font-size: 12px; color: #aaa; display: block; margin-bottom: 10px; }
+.bar { width: 100%; height: 8px; background: #333; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
+.bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #007bff, #00c6ff); transition: width 0.5s ease; }
 
-.sidebar nav a {
-  display: block;
-  padding: 10px;
-  color: #fff; /* Mudado para branco para destacar que é clicável */
-  text-decoration: none; /* Remove o sublinhado padrão de links */
-  cursor: pointer;
-}
-}
+/* Main Content */
+main { flex: 1; padding: 40px; max-width: 1200px; margin: 0 auto; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; }
 
-.sidebar nav a {
-  display: block;
-  padding: 10px;
-  color: #fff; /* Mudado para branco para destacar que é clicável */
-  text-decoration: none; /* Remove o sublinhado padrão de links */
-  cursor: pointer;
+/* Cards com Cores Invertidas */
+.card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; }
+.card:hover { transform: translateY(-10px); border-color: #007bff; }
+
+.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; } /* Módulo em Azul */
+.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); } /* Nome em Prata */
+
+/* Banners (GitHub) */
+.card-Eneagrama { background-image: linear-gradient(to top, #000, transparent), url("Eneagrama.png"); }
+.card-PNL { background-image: linear-gradient(to top, #000, transparent), url("PNL.png"); }
+.card-estoicismo { background-image: linear-gradient(to top, #000, transparent), url("estoicismo.png"); }
+.card-curso { background-image: linear-gradient(to top, #000, transparent), url("curso.png"); }
+.card-E-book { background-image: linear-gradient(to top, #000, transparent), url("E-book.png"); }
+
+/* Área Interna */
+#module-content { display: none; }
+.btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
+.video-frame { width: 100%; max-width: 750px; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
+
+/* Aulas Destaque */
+.lesson-item { background: #1c1c1c; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
+.lesson-link { color: #007bff; text-decoration: none; font-weight: bold; font-size: 17px; cursor: pointer; }
+
+/* Botão de Download PDF Corrigido */
+.btn-pdf { 
+    background: #333; 
+    color: #fff; 
+    padding: 10px 18px; 
+    text-decoration: none; 
+    border-radius: 6px; 
+    font-size: 13px; 
+    border: 1px solid #007bff; 
+    display: inline-block;
+    transition: 0.3s;
 }
-}
+.btn-pdf:hover { background: #007bff; }
 
-.progress {
-  margin-top: 40px;
-  font-size: 12px;
-}
-
-.bar {
-  margin-top: 8px;
-  width: 100%;
-  height: 6px;
-  background: #333;
-  border-radius: 6px;
-}
-
-.bar-fill {
-  width: 40%;
-  height: 100%;
-  background: #4caf50;
-  border-radius: 6px;
-}
-
-/* ===== MAIN ===== */
-main {
-  flex: 1;
-  padding: 20px;
-}
-
-.topbar {
-  margin-bottom: 30px;
-}
-
-.topbar input {
-  width: 100%;
-  padding: 12px;
-  background: #1a1a1a;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-}
-
-.content h1 {
-  margin-bottom: 20px;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  height: 300px;
-  background: linear-gradient(180deg, #222, #111);
-  border-radius: 14px;
-  padding: 20px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  transition: transform .2s;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: scale(1.03);
-}
-
-.card span {
-  font-size: 12px;
-  opacity: .8;
-}
-
-.card h3 {
-  font-size: 18px;
-}
-
-/* ===== CAPA MÓDULO 3 - ESTOICISMO ===== */
-.card-estoicismo {
-  background:
-    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-    url("estoicismo.png") center/cover no-repeat;
-}
-/* ===== CAPA MÓDULO 4 - Curso completo ===== */
-.card-curso {
-  background:
-    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-    url("curso.png") center/cover no-repeat;
-  }
-  
-/* ===== CAPA MÓDULO 1 - Eneagrama ===== */
-.card-Eneagrama {
-  background:
-    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-    url("Eneagrama.png") center/cover no-repeat;
-  }
-
-/* ===== CAPA MÓDULO 2 - PNL ===== */
-.card-PNL {
-  background:
-    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-    url("PNL.png") center/cover no-repeat;
-  }
-
-  /* ===== CAPA MÓDULO 5 - E-book ===== */
-.card-E-book {
-  background:
-    linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-    url("E-book.png") center/cover no-repeat;
-  }
-
-  
-/* ===================== */
-/* 📱 MOBILE OPTIMIZAÇÃO */
-/* ===================== */
 @media (max-width: 768px) {
-
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .sidebar nav {
-    display: none;
-  }
-
-  .progress {
-    display: none;
-  }
-
-  main {
-    padding: 16px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    height: 220px;
-  }
-
-  .content h1 {
-    font-size: 22px;
-  }
-}
-
-/* ===================== */
-/* 💻 DESKTOP AJUSTES */
-/* ===================== */
-@media (min-width: 769px) {
-  body.desktop .card:hover {
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
-  }
+    .app { flex-direction: column; }
+    .lesson-item { flex-direction: column; align-items: flex-start; gap: 15px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="app">
-
   <aside class="sidebar">
-    <h2>PRATICAMENTE</h2>
-
-  <nav>
-  <a href="conta.html">Minha Conta</a>
-  <a href="certificados.html">Certificados</a>
-  <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
-</nav>
-
+    <div class="logo">
+        <span class="pratica">Pratica</span><span class="mente">mente</span>
+    </div>
+    <nav>
+      <a href="conta.html">Minha Conta</a>
+      <a href="certificados.html">Certificados</a>
+      <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
+    </nav>
     <div class="progress">
-      <span>Seu progresso</span>
-      <div class="bar">
-        <div class="bar-fill"></div>
-      </div>
+      <span id="prog-text">Evolução: 0%</span>
+      <div class="bar"><div id="prog-fill" class="bar-fill"></div></div>
     </div>
   </aside>
 
   <main>
-    <header class="topbar">
-      <input type="text" placeholder="Pesquisar cursos ou aulas...">
-    </header>
-
-    <section class="content">
-      <h1>Alta Performance</h1>
-
-     <div class="cards">
-  <div class="card card-Eneagrama">
-    <span>MÓDULO 1</span>
-    <h3>Eneagrama</h3>
-  </div>
-
-  <div class="card card-PNL">
-    <span>MÓDULO 2</span>
-    <h3>PNL</h3>
-  </div>
-
-  <div class="card card-estoicismo">
-    <span>MÓDULO 3</span>
-    <h3>Estoicismo</h3>
-  </div>
-
-  <div class="card card-curso">
-    <span>MÓDULO 4</span>
-    <h3>Curso completo</h3>
-  </div>
-
-  <div class="card card-E-book">
-    <span>MÓDULO 5</span>
-    <h3>E-book</h3>
-  </div>
-</div>
+    <section id="main-view">
+      <h1 style="margin-bottom: 30px;">Evolução da Mente</h1>
+      <div class="cards">
+        <div class="card card-Eneagrama" onclick="openModule('Eneagrama', 'https://www.youtube.com/embed/SuaIntroAqui1')">
+          <span>MÓDULO 1</span>
+          <h3>Eneagrama</h3>
+        </div>
+        <div class="card card-PNL" onclick="openModule('PNL', 'https://www.youtube.com/embed/SuaIntroAqui2')">
+          <span>MÓDULO 2</span>
+          <h3>PNL</h3>
+        </div>
+        <div class="card card-estoicismo" onclick="openModule('Estoicismo', 'https://www.youtube.com/embed/SuaIntroAqui3')">
+          <span>MÓDULO 3</span>
+          <h3>Estoicismo</h3>
+        </div>
+        <div class="card card-curso" onclick="openModule('Curso Completo', 'https://www.youtube.com/embed/SuaIntroAqui4')">
+          <span>MÓDULO 4</span>
+          <h3>Curso Completo</h3>
+        </div>
+        <div class="card card-E-book" onclick="openModule('E-books', '')">
+          <span>MÓDULO 5</span>
+          <h3>E-books</h3>
         </div>
       </div>
     </section>
-  </main>
 
+    <section id="module-content">
+      <button class="btn-back" onclick="closeModule()">← Voltar</button>
+      <h1 id="mod-title" style="margin-bottom: 20px; color: #007bff;"></h1>
+      <div id="video-box" class="video-frame">
+        <iframe id="mod-video" src="" allowfullscreen width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+      <div id="lessons-container"></div>
+    </section>
+  </main>
 </div>
 
 <script>
-/* Detecta automaticamente se é desktop */
-if (window.innerWidth > 768) {
-  document.body.classList.add("desktop");
+// CADASTRO DE DADOS (Aqui você coloca seus links)
+const data = {
+    'Eneagrama': [
+        { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' },
+        { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' }
+    ],
+    'PNL': [
+        { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' }
+    ],
+    'Estoicismo': [
+        { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' }
+    ],
+    'Curso Completo': [
+        { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' }
+    ],
+    'E-books': [
+        { title: 'Livro: Evolução Mental', video: '', pdf: 'ebook_evolucao.pdf' }
+    ]
+};
+
+let aulasVistas = 0;
+const totalAulas = 6; 
+
+function openModule(name, videoIntro) {
+    document.getElementById('main-view').style.display = 'none';
+    document.getElementById('module-content').style.display = 'block';
+    document.getElementById('mod-title').innerText = name;
+    
+    if(videoIntro) {
+        document.getElementById('video-box').style.display = 'block';
+        document.getElementById('mod-video').src = videoIntro;
+    } else {
+        document.getElementById('video-box').style.display = 'none';
+    }
+
+    const container = document.getElementById('lessons-container');
+    container.innerHTML = '';
+    
+    data[name].forEach(aula => {
+        container.innerHTML += `
+            <div class="lesson-item">
+                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista()">▶ ${aula.title}</a>
+                <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
+            </div>`;
+    });
+}
+
+function closeModule() {
+    document.getElementById('main-view').style.display = 'block';
+    document.getElementById('module-content').style.display = 'none';
+    document.getElementById('mod-video').src = '';
+}
+
+function marcarComoVista() {
+    if(aulasVistas < totalAulas) {
+        aulasVistas++;
+        atualizarProgresso();
+    }
+}
+
+function atualizarProgresso() {
+    const porcentagem = Math.round((aulasVistas / totalAulas) * 100);
+    document.getElementById('prog-fill').style.width = porcentagem + "%";
+    document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
 }
 </script>
-
 </body>
 </html>
 
