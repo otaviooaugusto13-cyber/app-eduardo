@@ -37,75 +37,49 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
 .card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
 
-/* Overlay para garantir leitura do texto sobre a imagem */
+/* Overlay para garantir leitura do texto */
 .card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
 
-/* Imagens dos Módulos */
+/* Banners (GitHub/Imagens) */
 .card-Eneagrama { background-image: url("Eneagrama.png"); }
 .card-PNL { background-image: url("PNL.png"); }
 .card-estoicismo { background-image: url("estoicismo.png"); }
 .card-curso { background-image: url("curso.png"); }
 .card-E-book { background-image: url("E-book.png"); }
 
-/* Área Interna */
+/* Área Interna - AJUSTADO PARA PRATA */
 #module-content { display: none; }
-.btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; }
-.btn-back:hover { background: #007bff; color: #fff; }
+.btn-back { background: transparent; color: #aaa; border: 1px solid #444; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; }
+.btn-back:hover { border-color: #007bff; color: #007bff; }
+
+/* Título do Módulo em Prata */
+#mod-title { margin-bottom: 20px; color: #e0e0e0; font-size: 28px; text-transform: uppercase; letter-spacing: 1px; }
 
 .video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
 
-/* Aulas */
-.lesson-item { background: #1c1c1c; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
-.lesson-link { color: #007bff; text-decoration: none; font-weight: bold; font-size: 17px; cursor: pointer; }
+/* Aulas - AJUSTADO PARA PRATA */
+.lesson-item { background: #1c1c1c; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; transition: 0.3s; }
+.lesson-item:hover { border-color: #444; background: #222; }
+
+.lesson-link { color: #e0e0e0; text-decoration: none; font-weight: 500; font-size: 17px; cursor: pointer; transition: 0.3s; }
+.lesson-link span { color: #007bff; margin-right: 8px; } /* Cor do Play */
+.lesson-link:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
 /* Botão PDF */
 .btn-pdf { background: #333; color: #fff; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 13px; border: 1px solid #007bff; display: inline-block; transition: 0.3s; }
 .btn-pdf:hover { background: #007bff; }
 
-/* --- RESPONSIVIDADE (CELULAR) --- */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .app { flex-direction: column; }
-    
-    .sidebar { 
-        width: 100%; 
-        border-right: none; 
-        border-bottom: 1px solid #333; 
-        padding: 20px; 
-        position: relative;
-    }
-    
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #333; padding: 20px; }
     .logo { margin-bottom: 20px; text-align: center; }
-    
-    .sidebar nav { 
-        display: flex; 
-        justify-content: center; 
-        gap: 10px;
-        flex-wrap: wrap; 
-    }
-    
-    .sidebar nav a { 
-        padding: 8px 12px; 
-        font-size: 13px; 
-        margin-bottom: 0; 
-        background: #1a1a1a;
-    }
-    
+    .sidebar nav { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .sidebar nav a { padding: 8px 12px; font-size: 13px; margin-bottom: 0; background: #1a1a1a; }
     .progress { margin-top: 20px; }
-
     main { padding: 20px; }
-
-    h1 { font-size: 24px; text-align: center; }
-
-    .cards { 
-        grid-template-columns: 1fr; /* Um card por linha para facilitar o toque */
-    }
-
-    .lesson-item { 
-        flex-direction: column; 
-        align-items: stretch; 
-        gap: 15px; 
-        text-align: center; 
-    }
+    .cards { grid-template-columns: 1fr; }
+    .lesson-item { flex-direction: column; align-items: stretch; gap: 15px; text-align: center; }
 }
 </style>
 </head>
@@ -129,7 +103,7 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 
   <main>
     <section id="main-view">
-      <h1 style="margin-bottom: 30px;">Evolução da Mente</h1>
+      <h1 style="margin-bottom: 30px; color: #e0e0e0;">Evolução da Mente</h1>
       <div class="cards">
         <div class="card card-Eneagrama" onclick="openModule('Eneagrama', 'https://www.youtube.com/embed/SuaIntroAqui1')">
           <span>MÓDULO 1</span>
@@ -156,7 +130,7 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 
     <section id="module-content">
       <button class="btn-back" onclick="closeModule()">← Voltar</button>
-      <h1 id="mod-title" style="margin-bottom: 20px; color: #007bff;"></h1>
+      <h1 id="mod-title"></h1>
       <div id="video-box" class="video-frame">
         <iframe id="mod-video" src="" allowfullscreen width="100%" height="100%" frameborder="0"></iframe>
       </div>
@@ -204,9 +178,10 @@ function openModule(name, videoIntro) {
     container.innerHTML = '';
     
     data[name].forEach(aula => {
+        // Note o span em volta do ícone de play para podermos colorir diferente
         container.innerHTML += `
             <div class="lesson-item">
-                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista()">▶ ${aula.title}</a>
+                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista()"><span>▶</span> ${aula.title}</a>
                 <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
             </div>`;
     });
@@ -229,12 +204,12 @@ function marcarComoVista() {
 
 function atualizarProgresso() {
     const porcentagem = Math.round((aulasVistas / totalAulas) * 100);
-    document.getElementById('prog-fill').style.width = porcentagem + "%";
-    document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
+    const fill = document.getElementById('prog-fill');
+    if(fill) fill.style.width = porcentagem + "%";
+    const text = document.getElementById('prog-text');
+    if(text) text.innerText = `Evolução: ${porcentagem}%`;
 }
 </script>
 </body>
 </html>
-
-
 
