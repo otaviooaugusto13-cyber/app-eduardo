@@ -51,9 +51,11 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
 .card:hover { transform: translateY(-10px); border-color: #007bff; }
 
+/* Imagens dos Cards */
 .card-Eneagrama { background-image: url('Eneagrama.png'); }
 .card-PNL { background-image: url('PNL.png'); }
 .card-estoicismo { background-image: url('estoicismo.png'); }
+.card-familia { background-image: url('familia.png'); } /* Novo card */
 .card-curso { background-image: url('curso.png'); }
 .card-E-book { background-image: url('livros.png'); }
 
@@ -143,12 +145,18 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
           <span>MÓDULO 3</span>
           <h3>Estoicismo</h3>
         </div>
-        <div class="card card-curso" onclick="openModule('Curso Completo', 'https://www.youtube.com/embed/SuaIntroAqui4')">
+        
+        <div class="card card-familia" onclick="openModule('Família', 'https://www.youtube.com/embed/SuaIntroAquiFamilia')">
           <span>MÓDULO 4</span>
+          <h3>Família</h3>
+        </div>
+
+        <div class="card card-curso" onclick="openModule('Curso Completo', 'https://www.youtube.com/embed/SuaIntroAqui4')">
+          <span>MÓDULO 5</span>
           <h3>Curso Completo</h3>
         </div>
         <div class="card card-E-book" onclick="openModule('E-books', '')">
-          <span>MÓDULO 5</span>
+          <span>MÓDULO 6</span>
           <h3>E-books</h3>
         </div>
       </div>
@@ -172,16 +180,32 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 
 <script>
 const data = {
-    'Eneagrama': [{ title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' }],
-    'PNL': [{ title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' }],
-    'Estoicismo': [{ title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' }],
-    'Curso Completo': [{ title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' }],
-    'E-books': [{ title: 'Livro: Evolução Mental', video: '', pdf: 'ebook_evolucao.pdf' }]
+    'Eneagrama': [
+        { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, 
+        { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' }
+    ],
+    'PNL': [
+        { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' }
+    ],
+    'Estoicismo': [
+        { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' }
+    ],
+    // DADOS DO NOVO MÓDULO
+    'Família': [
+        { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' }
+    ],
+    'Curso Completo': [
+        { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' }
+    ],
+    'E-books': [
+        { title: 'Livro: Evolução Mental', video: '', pdf: 'ebook_evolucao.pdf' }
+    ]
 };
 
-// Sistema de persistência inteligente: salva uma lista de títulos de aulas concluídas
 let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
-const totalAulas = 6; 
+
+// Total de aulas atualizado para 7 (2 Eneagrama + 1 PNL + 1 Estoicismo + 1 Família + 1 Curso + 1 E-book)
+const totalAulas = 7; 
 
 window.onload = atualizarProgresso;
 
@@ -218,7 +242,6 @@ function closeModule() {
 }
 
 function marcarComoVista(tituloAula) {
-    // Só adiciona se a aula ainda não estiver na lista de concluídas
     if(!aulasConcluidas.includes(tituloAula)) {
         aulasConcluidas.push(tituloAula);
         localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas));
