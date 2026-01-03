@@ -209,21 +209,54 @@
     </div>
 
     <script>
-        function formatCPF(cpf) {
-            const limpo = cpf.replace(/\D/g, "");
-            return limpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-        }
+      function formatCPF(cpf) {
+    const limpo = cpf.replace(/\D/g, "");
+    if (limpo.length !== 11) return "CPF Inválido";
+    return limpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+}
 
-        window.onload = function() {
-            const nome = localStorage.getItem('user_nome');
-            const cpf = localStorage.getItem('user_cpf');
-            
-            if(nome) document.getElementById('cert-name').innerText = nome.toLowerCase();
-            if(cpf) document.getElementById('cert-cpf').innerText = formatCPF(cpf);
-            
-            const hoje = new Date();
-            document.getElementById('cert-date').innerText = hoje.toLocaleDateString('pt-BR');
-        };
+window.onload = function() {
+    // 1. Recupera os dados
+    const nome = localStorage.getItem('user_nome');
+    const cpf = localStorage.getItem('user_cpf');
+    const aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+    
+    // 2. Define o total de aulas (conforme seu arquivo celular(10).html)
+    const totalAulasNecessarias = 7; 
+    const progresso = Math.min(Math.round((aulasConcluidas.length / totalAulasNecessarias) * 100), 100);
+
+    // 3. Verifica as condições
+    const temNome = nome && nome.trim().length > 3;
+    const temCpf = cpf && cpf.replace(/\D/g, "").length === 11;
+    const cursoConcluido = progresso >= 100;
+
+    // 4. Lógica de Bloqueio
+    if (!temNome || !temCpf || !cursoConcluido) {
+        let mensagem = "<h3>Acesso Bloqueado</h3><br>";
+        
+        if (!cursoConcluido) mensagem += `<p>• Você concluiu apenas ${progresso}%. Complete 100% das aulas para liberar.</p>`;
+        if (!temNome) mensagem += "<p>• Nome completo não configurado em 'Minha Conta'.</p>";
+        if (!temCpf) mensagem += "<p>• CPF inválido ou não informado em 'Minha Conta'.</p>";
+
+        mensagem += '<br><a href="conta.html" style="color: #007bff; text-decoration: none; font-weight: bold;">← Voltar e Corrigir</a>';
+
+        // Substitui o conteúdo da página pela mensagem de erro
+        document.body.innerHTML = `
+            <div style="background: #1a1a1a; color: white; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; font-family: sans-serif; padding: 20px;">
+                <div style="background: #222; padding: 40px; border-radius: 15px; border: 1px solid #ff4444; max-width: 500px;">
+                    ${mensagem}
+                </div>
+            </div>`;
+        return; // Interrompe a execução
+    }
+
+    // 5. Se passar em tudo, preenche o certificado normalmente
+    document.getElementById('cert-name').innerText = nome; // Removi o toLowerCase() para manter a estética do nome original
+    document.getElementById('cert-cpf').innerText = formatCPF(cpf);
+    
+    const hoje = new Date();
+    document.getElementById('cert-date').innerText = hoje.toLocaleDateString('pt-BR');
+};
     </script>
 </body>
 </html>
