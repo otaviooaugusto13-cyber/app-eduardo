@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Certificado | Praticamente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ESTILOS DA TELA DO SITE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #0e0e0e; color: #fff; line-height: 1.6; }
+        .app { display: flex; min-height: 100vh; flex-direction: column; }
+
+        .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; }
+        .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
+        .logo .pratica { color: #e0e0e0; } 
+        .logo .mente { color: #007bff; }    
+
+        .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; }
+        .sidebar nav a.active { background: #1a1a1a; color: #007bff; border-left: 3px solid #007bff; }
+
+        main { flex: 1; padding: 40px; width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+        .status-card { background: #161616; border: 1px solid #333; padding: 40px; border-radius: 18px; margin-top: 20px; }
+        
+        .btn-generate { background: #007bff; color: #fff; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; display: none; margin: 20px auto; }
+        .btn-generate:hover { background: #0056b3; transform: scale(1.05); }
+
+        .requirements { text-align: left; background: #0e0e0e; padding: 20px; border-radius: 10px; border: 1px solid #222; display: inline-block; width: 100%; max-width: 400px; }
+        .check { color: #28a745; margin-right: 10px; font-weight: bold; }
+        .x { color: #dc3545; margin-right: 10px; font-weight: bold; }
+
+        /* AREA DO CERTIFICADO - ESCONDIDA NO NAVEGADOR */
+        #printable-certificate { display: none; }
+
+        /* --- ESTILO DE IMPRESSÃO (O SEGREDO) --- */
+        @media print {
+            /* 1. Esconde absolutamente TUDO do site original */
+            body *, header, aside, main, nav, footer, button, .sidebar, .status-card, .requirements { 
+                display: none !important; 
+            }
+            
+            /* 2. Mostra APENAS o bloco do certificado */
+            #printable-certificate, #printable-certificate * { 
+                display: block !important; 
+            }
+
+            #printable-certificate { 
+                position: absolute;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: white !important; 
+                color: black !important; 
+                padding: 60px;
+                border: 20px solid #007bff; /* Moldura azul */
+                text-align: center;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .cert-content { border: 2px solid #333; height: 100%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+            .cert-title { font-size: 55px; color: #007bff !important; font-weight: bold; margin-bottom: 20px; }
+            .cert-name { font-size: 42px; font-style: italic; border-bottom: 2px solid #000; display: inline-block; margin: 20px 0; padding: 0 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .app { flex-direction: column; }
+            .sidebar { width: 100%; border-bottom: 1px solid #333; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo"><span class="pratica">Pratica</span><span class="mente">mente</span></div>
+        <nav>
+            <a href="celular (10).html">Voltar ao Curso</a>
+            <a href="conta.html">Minha Conta</a>
+            <a href="#" class="active">Certificados</a>
+        </nav>
+    </aside>
+
+    <main>
+        <h1>Emissão de Certificado</h1>
+        <div class="status-card">
+            <h3 id="status-title" style="margin-bottom: 20px;">Requisitos para liberação:</h3>
+            <div class="requirements">
+                <div class="req-item"><span id="check-progress" class="x">✖</span> Curso 100% assistido</div>
+                <div class="req-item"><span id="check-name" class="x">✖</span> Nome completo preenchido</div>
+                <div class="req-item"><span id="check-cpf" class="x">✖</span> CPF cadastrado</div>
+            </div>
+            <button id="btn-cert" class="btn-generate" onclick="window.print()">IMPRIMIR MEU CERTIFICADO</button>
+            <p id="msg-footer" style="font-size: 13px; color: #888; margin-top: 15px;">Acesse "Minha Conta" para completar seus dados.</p>
+        </div>
+
+        <div id="printable-certificate">
+            <div class="cert-content">
+                <p style="font-size: 16px; letter-spacing: 4px; text-transform: uppercase;">Certificado de Conclusão Profissional</p>
+                <h1 class="cert-title">PRATICAMENTE</h1>
+                <p style="font-size: 22px; margin-top: 10px;">Certificamos solenemente que</p>
+                <h2 id="cert-user-name" class="cert-name">Carregando Nome...</h2>
+                <p style="font-size: 20px;">concluiu com êxito o treinamento avançado de</p>
+                <h2 style="font-size: 32px; color: #333; margin-top: 10px;">EVOLUÇÃO DA MENTE E ALTA PERFORMANCE</h2>
+                <p style="font-size: 18px; margin-top: 15px;">Aluno(a) portador(a) do CPF: <strong id="cert-user-cpf"></strong></p>
+                
+                <div style="margin-top: 100px; display: flex; justify-content: space-around; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="border-top: 1px solid #000; width: 250px; margin-bottom: 10px;"></div>
+                        <p style="font-size: 14px;">Assinatura do Coordenador</p>
+                    </div>
+                    <div style="text-align: center;">
+                         <img src="https://cdn-icons-png.flaticon.com/512/7542/7542190.png" width="90">
+                         <p style="font-size: 12px; font-weight: bold; color: #007bff;">SELO DE AUTENTICIDADE</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    window.onload = function() {
+        const nome = localStorage.getItem('user_nome');
+        const cpf = localStorage.getItem('user_cpf');
+        const aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+        const totalAulas = 7; // Definido em celular (10).html
+        
+        let pronto = true;
+
+        // Verifica Progresso
+        if(aulasConcluidas.length >= totalAulas) {
+            document.getElementById('check-progress').innerText = "✔";
+            document.getElementById('check-progress').className = "check";
+        } else { pronto = false; }
+
+        // Verifica Nome
+        if(nome && nome.trim().length > 3) {
+            document.getElementById('check-name').innerText = "✔";
+            document.getElementById('check-name').className = "check";
+            document.getElementById('cert-user-name').innerText = nome;
+        } else { pronto = false; }
+
+        // Verifica CPF
+        if(cpf && cpf.trim().length > 5) {
+            document.getElementById('check-cpf').innerText = "✔";
+            document.getElementById('check-cpf').className = "check";
+            document.getElementById('cert-user-cpf').innerText = cpf;
+        } else { pronto = false; }
+
+        // Libera botão
+        if(pronto) {
+            document.getElementById('status-title').innerText = "Parabéns! Documento Liberado.";
+            document.getElementById('btn-cert').style.display = 'block';
+            document.getElementById('msg-footer').style.color = "#28a745";
+            document.getElementById('msg-footer').innerText = "Clique acima para salvar seu certificado em PDF.";
+        }
+    };
+</script>
+</body>
+</html>

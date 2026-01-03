@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Conta | Praticamente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #0e0e0e; color: #fff; line-height: 1.6; }
+        .app { display: flex; min-height: 100vh; flex-direction: column; }
+
+        .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; }
+        .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
+        .logo .pratica { color: #e0e0e0; } 
+        .logo .mente { color: #007bff; }    
+
+        .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: #1a1a1a; color: #007bff; border-left: 3px solid #007bff; }
+
+        main { flex: 1; padding: 40px; width: 100%; max-width: 900px; margin: 0 auto; }
+        .header-section { margin-bottom: 40px; }
+        .btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .btn-back:hover { background: #007bff; color: #fff; }
+
+        .profile-card { background: #161616; border: 1px solid #333; border-radius: 18px; padding: 30px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
+        .profile-pic { width: 80px; height: 80px; background: #007bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; }
+        
+        .profile-info h2 { color: #fff; margin-bottom: 5px; }
+        .profile-info p { color: #aaa; font-size: 14px; }
+
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .settings-item { background: #161616; border: 1px solid #333; padding: 25px; border-radius: 12px; }
+        .settings-item h4 { margin-bottom: 15px; color: #007bff; font-size: 14px; text-transform: uppercase; }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
+        .input-group input { width: 100%; background: #0e0e0e; border: 1px solid #444; padding: 10px; border-radius: 6px; color: #fff; outline: none; }
+        .input-group input:focus { border-color: #007bff; }
+
+        .btn-save { background: #007bff; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin-top: 10px; }
+        .btn-save:hover { background: #0056b3; }
+
+        .status-msg { font-size: 12px; margin-top: 10px; text-align: center; display: none; }
+
+        .warning-box { background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .warning-box p { font-size: 13px; color: #ffc107; }
+
+        @media (max-width: 768px) {
+            .app { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #333; }
+            .profile-card { flex-direction: column; text-align: center; }
+            main { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="pratica">Pratica</span><span class="mente">mente</span>
+        </div>
+        <nav>
+            <a href="celular (10).html">Voltar ao Curso</a>
+            <a href="#" class="active">Minha Conta</a>
+            <a href="certificados.html">Certificados</a>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="header-section">
+            <a href="celular (10).html" class="btn-back">← Voltar para as aulas</a>
+        </div>
+
+        <section class="profile-card">
+            <div class="profile-pic" id="avatar-char">A</div>
+            <div class="profile-info">
+                <h2 id="display-name">Aluno</h2>
+                <p id="display-email">E-mail não cadastrado</p>
+            </div>
+        </section>
+
+        <div class="settings-grid">
+            <div class="settings-item">
+                <h4>Dados do Certificado</h4>
+                <div class="input-group">
+                    <label>Nome Completo (Como sairá no certificado)</label>
+                    <input type="text" id="input-name" placeholder="Ex: João Silva">
+                </div>
+                <div class="input-group">
+                    <label>CPF (Necessário para validade)</label>
+                    <input type="text" id="input-cpf" placeholder="000.000.000-00">
+                </div>
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="input-email" placeholder="seu@email.com">
+                </div>
+                <button class="btn-save" onclick="salvarDados()">Atualizar Perfil</button>
+                <div id="msg-sucesso" class="status-msg" style="color: #28a745;">Dados salvos com sucesso!</div>
+            </div>
+
+            <div class="settings-item">
+                <h4>Status de Liberação</h4>
+                <div class="warning-box">
+                    <p>⚠️ <strong>Atenção:</strong> A emissão de certificados só é permitida para alunos com Nome e CPF cadastrados nesta página.</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p style="font-size: 14px; color: #aaa;">E-books:</p>
+                    <p style="font-size: 14px; color: #fff;">📚 Evolução Mental (Liberado)</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Função para carregar dados quando a página abre
+    window.onload = function() {
+        const nome = localStorage.getItem('user_nome') || "";
+        const email = localStorage.getItem('user_email') || "";
+        const cpf = localStorage.getItem('user_cpf') || "";
+
+        document.getElementById('input-name').value = nome;
+        document.getElementById('input-email').value = email;
+        document.getElementById('input-cpf').value = cpf;
+
+        atualizarInterface(nome, email);
+    };
+
+    function salvarDados() {
+        const nome = document.getElementById('input-name').value;
+        const email = document.getElementById('input-email').value;
+        const cpf = document.getElementById('input-cpf').value;
+
+        // Salva no navegador do aluno
+        localStorage.setItem('user_nome', nome);
+        localStorage.setItem('user_email', email);
+        localStorage.setItem('user_cpf', cpf);
+
+        atualizarInterface(nome, email);
+
+        // Mostra mensagem de sucesso
+        const msg = document.getElementById('msg-sucesso');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+    }
+
+    function atualizarInterface(nome, email) {
+        if(nome) {
+            document.getElementById('display-name').innerText = nome;
+            document.getElementById('avatar-char').innerText = nome.charAt(0).toUpperCase();
+        }
+        if(email) {
+            document.getElementById('display-email').innerText = email;
+        }
+    }
+</script>
+
+</body>
+</html>
