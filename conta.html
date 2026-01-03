@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #0e0e0e; color: #fff; line-height: 1.6; }
-        .app { display: flex; min-height: 100vh; flex-direction: column; }
+        body { background: #0e0e0e; color: #fff; line-height: 1.6; overflow-x: hidden; }
 
-        .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; }
+        /* Estrutura Principal para Desktop */
+        .app { display: flex; min-height: 100vh; }
+
+        /* Sidebar Fixa */
+        .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; position: sticky; top: 0; height: 100vh; }
         .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
         .logo .pratica { color: #e0e0e0; } 
         .logo .mente { color: #007bff; }    
@@ -17,39 +20,58 @@
         .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
         .sidebar nav a:hover, .sidebar nav a.active { background: #1a1a1a; color: #007bff; border-left: 3px solid #007bff; }
 
-        main { flex: 1; padding: 40px; width: 100%; max-width: 900px; margin: 0 auto; }
-        .header-section { margin-bottom: 40px; }
+        /* Conteúdo Principal Centralizado */
+        main { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; /* Centraliza horizontalmente */
+            justify-content: center; /* Centraliza verticalmente se houver espaço */
+            padding: 40px; 
+            width: 100%;
+        }
+
+        .container-central {
+            width: 100%;
+            max-width: 900px; /* Limita a largura para não espalhar no desktop */
+        }
+        
+        .header-section { margin-bottom: 30px; width: 100%; text-align: left; }
         .btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
         .btn-back:hover { background: #007bff; color: #fff; }
 
-        .profile-card { background: #161616; border: 1px solid #333; border-radius: 18px; padding: 30px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; }
-        .profile-pic { width: 80px; height: 80px; background: #007bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; }
+        /* Card de Perfil */
+        .profile-card { background: #161616; border: 1px solid #333; border-radius: 18px; padding: 30px; margin-bottom: 25px; display: flex; align-items: center; gap: 25px; width: 100%; }
+        .profile-pic { width: 80px; height: 80px; background: #007bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: white; flex-shrink: 0; }
         
-        .profile-info h2 { color: #fff; margin-bottom: 5px; }
+        .profile-info h2 { color: #fff; margin-bottom: 5px; font-size: 24px; }
         .profile-info p { color: #aaa; font-size: 14px; }
 
-        .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .settings-item { background: #161616; border: 1px solid #333; padding: 25px; border-radius: 12px; }
-        .settings-item h4 { margin-bottom: 15px; color: #007bff; font-size: 14px; text-transform: uppercase; }
+        /* Grid de Configurações */
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; }
+        .settings-item { background: #161616; border: 1px solid #333; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; }
+        .settings-item h4 { margin-bottom: 20px; color: #007bff; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
         
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
-        .input-group input { width: 100%; background: #0e0e0e; border: 1px solid #444; padding: 10px; border-radius: 6px; color: #fff; outline: none; }
-        .input-group input:focus { border-color: #007bff; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 12px; color: #888; margin-bottom: 8px; }
+        .input-group input { width: 100%; background: #0e0e0e; border: 1px solid #444; padding: 12px; border-radius: 8px; color: #fff; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0,123,255,0.3); }
 
-        .btn-save { background: #007bff; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin-top: 10px; }
+        .btn-save { background: #007bff; color: #fff; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin-top: auto; }
         .btn-save:hover { background: #0056b3; }
 
-        .status-msg { font-size: 12px; margin-top: 10px; text-align: center; display: none; }
+        .status-msg { font-size: 13px; margin-top: 10px; text-align: center; display: none; font-weight: bold; }
 
-        .warning-box { background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin-top: 20px; }
-        .warning-box p { font-size: 13px; color: #ffc107; }
+        .warning-box { background: rgba(255, 193, 7, 0.05); border: 1px solid rgba(255, 193, 7, 0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .warning-box p { font-size: 13px; color: #ffc107; line-height: 1.4; }
 
+        /* Ajustes Mobile */
         @media (max-width: 768px) {
             .app { flex-direction: column; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #333; }
-            .profile-card { flex-direction: column; text-align: center; }
-            main { padding: 20px; }
+            .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid #333; padding: 20px; }
+            .profile-card { flex-direction: column; text-align: center; padding: 20px; }
+            main { padding: 20px; justify-content: flex-start; }
+            .settings-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -68,45 +90,49 @@
     </aside>
 
     <main>
-        <div class="header-section">
-            <a href="celular (10).html" class="btn-back">← Voltar para as aulas</a>
-        </div>
-
-        <section class="profile-card">
-            <div class="profile-pic" id="avatar-char">A</div>
-            <div class="profile-info">
-                <h2 id="display-name">Aluno</h2>
-                <p id="display-email">E-mail não cadastrado</p>
-            </div>
-        </section>
-
-        <div class="settings-grid">
-            <div class="settings-item">
-                <h4>Dados do Certificado</h4>
-                <div class="input-group">
-                    <label>Nome Completo (Como sairá no certificado)</label>
-                    <input type="text" id="input-name" placeholder="Ex: João Silva">
-                </div>
-                <div class="input-group">
-                    <label>CPF (Necessário para validade)</label>
-                    <input type="text" id="input-cpf" placeholder="000.000.000-00">
-                </div>
-                <div class="input-group">
-                    <label>E-mail</label>
-                    <input type="email" id="input-email" placeholder="seu@email.com">
-                </div>
-                <button class="btn-save" onclick="salvarDados()">Atualizar Perfil</button>
-                <div id="msg-sucesso" class="status-msg" style="color: #28a745;">Dados salvos com sucesso!</div>
+        <div class="container-central">
+            <div class="header-section">
+                <a href="celular (10).html" class="btn-back">← Voltar para as aulas</a>
             </div>
 
-            <div class="settings-item">
-                <h4>Status de Liberação</h4>
-                <div class="warning-box">
-                    <p>⚠️ <strong>Atenção:</strong> A emissão de certificados só é permitida para alunos com Nome e CPF cadastrados nesta página.</p>
+            <section class="profile-card">
+                <div class="profile-pic" id="avatar-char">O</div>
+                <div class="profile-info">
+                    <h2 id="display-name">Otavio Augusto</h2>
+                    <p id="display-email">Carregando e-mail...</p>
                 </div>
-                <div style="margin-top: 20px;">
-                    <p style="font-size: 14px; color: #aaa;">E-books:</p>
-                    <p style="font-size: 14px; color: #fff;">📚 Evolução Mental (Liberado)</p>
+            </section>
+
+            <div class="settings-grid">
+                <div class="settings-item">
+                    <h4>Dados do Certificado</h4>
+                    <div class="input-group">
+                        <label>Nome Completo (Para o certificado)</label>
+                        <input type="text" id="input-name" placeholder="Seu nome completo">
+                    </div>
+                    <div class="input-group">
+                        <label>CPF (Apenas números)</label>
+                        <input type="text" id="input-cpf" placeholder="000.000.000-00">
+                    </div>
+                    <div class="input-group">
+                        <label>E-mail de Acesso</label>
+                        <input type="email" id="input-email" placeholder="seu@email.com">
+                    </div>
+                    <button class="btn-save" onclick="salvarDados()">Atualizar Perfil</button>
+                    <div id="msg-sucesso" class="status-msg" style="color: #28a745;">✓ Alterações salvas!</div>
+                </div>
+
+                <div class="settings-item">
+                    <h4>Status de Aluno</h4>
+                    <div class="warning-box">
+                        <p><strong>Atenção:</strong> Verifique se seu nome e CPF estão corretos. Eles serão usados para gerar seu certificado automaticamente ao fim do curso.</p>
+                    </div>
+                    
+                    <div style="background: #0e0e0e; padding: 15px; border-radius: 8px; border: 1px solid #222;">
+                        <p style="font-size: 13px; color: #888; margin-bottom: 10px;">Conteúdo Liberado:</p>
+                        <p style="font-size: 14px; color: #fff; margin-bottom: 5px;">✅ Evolução Mental (E-book)</p>
+                        <p style="font-size: 14px; color: #fff;">✅ Curso Completo (Vídeo-aulas)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,15 +140,15 @@
 </div>
 
 <script>
-    // Função para carregar dados quando a página abre
+    // Carrega os dados salvos ao abrir a página
     window.onload = function() {
         const nome = localStorage.getItem('user_nome') || "";
         const email = localStorage.getItem('user_email') || "";
         const cpf = localStorage.getItem('user_cpf') || "";
 
-        document.getElementById('input-name').value = nome;
-        document.getElementById('input-email').value = email;
-        document.getElementById('input-cpf').value = cpf;
+        if(nome) document.getElementById('input-name').value = nome;
+        if(email) document.getElementById('input-email').value = email;
+        if(cpf) document.getElementById('input-cpf').value = cpf;
 
         atualizarInterface(nome, email);
     };
@@ -132,14 +158,14 @@
         const email = document.getElementById('input-email').value;
         const cpf = document.getElementById('input-cpf').value;
 
-        // Salva no navegador do aluno
+        // Salva localmente no navegador
         localStorage.setItem('user_nome', nome);
         localStorage.setItem('user_email', email);
         localStorage.setItem('user_cpf', cpf);
 
         atualizarInterface(nome, email);
 
-        // Mostra mensagem de sucesso
+        // Feedback visual
         const msg = document.getElementById('msg-sucesso');
         msg.style.display = 'block';
         setTimeout(() => { msg.style.display = 'none'; }, 3000);
