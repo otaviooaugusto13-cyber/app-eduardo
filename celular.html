@@ -1,261 +1,263 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Praticamente | Evolução da Mente</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado Premium | Praticamente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pinyon+Script&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        @page { size: landscape; margin: 0; }
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#050505">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("PWA: Service Worker Registrado!"))
-      .catch(err => console.log("PWA: Erro ao registrar", err));
-  }
-</script>
+        body { 
+            background: #1a1a1a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
 
-<style>
-/* Reset e Base */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-body { background: #0e0e0e; color: #fff; line-height: 1.6; }
+        /* Container Principal com textura sutil de papel */
+        .certificate-container {
+            width: 297mm; 
+            height: 210mm;
+            background: #fff;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            position: relative;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-.app { display: flex; min-height: 100vh; flex-direction: column; }
+        /* Moldura Elegante */
+        .outer-border {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #000;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-/* Sidebar e Logo */
-.sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; }
-.logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
-.logo .pratica { color: #e0e0e0; } 
-.logo .mente { color: #007bff; }    
+        .inner-border {
+            width: 100%;
+            height: 100%;
+            border: 8px double #000;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
 
-.sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
-.sidebar nav a:hover { background: #1a1a1a; color: #007bff; }
+        /* Cantoneiras decorativas (Vetorizadas via CSS) */
+        .corner { position: absolute; width: 50px; height: 50px; border: 4px solid #000; }
+        .top-left { top: -5px; left: -5px; border-right: none; border-bottom: none; }
+        .top-right { top: -5px; right: -5px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: -5px; left: -5px; border-right: none; border-top: none; }
+        .bottom-right { bottom: -5px; right: -5px; border-left: none; border-top: none; }
 
-/* Barra de Progresso */
-.progress { margin-top: 50px; }
-.progress span { font-size: 12px; color: #aaa; display: block; margin-bottom: 10px; }
-.bar { width: 100%; height: 8px; background: #333; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
-.bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #007bff, #00c6ff); transition: width 0.5s ease; }
+        /* Marca d'água centralizada */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px;
+            opacity: 0.08;
+            z-index: 0;
+        }
 
-/* Estrutura Desktop */
-@media (min-width: 769px) {
-    .app { flex-direction: row; }
-    .mobile-nav { display: none !important; }
-}
+        .content { position: relative; z-index: 1; text-align: center; width: 100%; }
 
-/* Main Content */
-main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .logo-top { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 4px; color: #333; margin-bottom: 20px; }
+        .logo-top span { color: #007bff; }
 
-/* Cards e Thumbnails */
-.card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
-.card:hover { transform: translateY(-10px); border-color: #007bff; }
+        h1 { font-family: 'Cinzel', serif; font-size: 58px; color: #111; letter-spacing: 8px; margin-bottom: 10px; }
+        
+        .sub-title { font-family: 'Montserrat', sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 3px; color: #666; margin-bottom: 40px; }
 
-/* Imagens dos Cards */
-.card-Eneagrama { background-image: url('Eneagrama.png'); }
-.card-PNL { background-image: url('PNL.png'); }
-.card-estoicismo { background-image: url('estoicismo.png'); }
-.card-familia { background-image: url('familia.png'); } /* Novo card */
-.card-curso { background-image: url('curso.png'); }
-.card-E-book { background-image: url('livros.png'); }
+        .presented-to { font-family: 'Montserrat', sans-serif; font-size: 18px; color: #555; font-style: italic; }
 
-.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
-.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
-.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
+        /* Nome com fonte de caligrafia clássica */
+        .student-name { 
+            font-family: 'Pinyon Script', cursive; 
+            font-size: 80px; 
+            color: #000; 
+            margin: 15px 0;
+            padding: 0 40px;
+            border-bottom: 1px solid #ccc;
+        }
 
-/* Área Interna */
-#module-content { display: none; }
-.btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; }
-.btn-back:hover { background: #007bff; color: #fff; }
+        .course-description { 
+            font-family: 'Montserrat', sans-serif; 
+            font-size: 18px; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 25px auto; 
+            color: #444; 
+        }
 
-.video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
-.lesson-item { background: #1c1c1c; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
-.lesson-link { color: #fff; text-decoration: none; font-weight: bold; font-size: 17px; cursor: pointer; }
-.btn-pdf { background: #333; color: #fff; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 13px; border: 1px solid #007bff; display: inline-block; transition: 0.3s; }
+        .course-description strong { color: #000; }
 
-/* --- BARRA MOBILE --- */
-.mobile-nav { display: none; }
+        /* Rodapé com Selo */
+        .footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-end; 
+            width: 100%; 
+            margin-top: 40px;
+            padding: 0 40px;
+        }
 
-@media (max-width: 768px) {
-    .sidebar nav { display: none; } 
-    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #333; padding: 20px; }
-    .logo { margin-bottom: 10px; text-align: center; }
-    .progress { margin-top: 10px; }
-    main { padding: 20px; }
-    .cards { grid-template-columns: 1fr; }
+        .footer-item { width: 220px; text-align: center; }
+        .line { border-top: 1px solid #000; margin-bottom: 10px; }
+        .footer-item p { font-family: 'Montserrat', sans-serif; font-size: 12px; text-transform: uppercase; color: #777; font-weight: bold; }
 
-    .mobile-nav {
-        display: flex;
-        width: 100%;
-        background: #0e0e0e;
-        padding: 40px 0px;
-        justify-content: space-between;
-        margin-top: 20px;
-        gap: 15px;
-    }
+        /* Selo Circular de Qualidade */
+        .seal {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-    .mobile-nav a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: bold;
-        text-align: center;
-        border: 1px solid #007bff;
-        padding: 12px 10px;
-        border-radius: 10px;
-        flex: 1;
-        background: #111;
-    }
+        /* Botões */
+        .no-print { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; gap: 10px; }
+        .btn { border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: bold; transition: 0.3s; text-decoration: none; }
+        .btn-print { background: #000; color: #fff; }
+        .btn-back { background: #555; color: #fff; }
 
-    .lesson-item { flex-direction: column; gap: 15px; text-align: center; }
-}
-</style>
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .certificate-container { width: 100%; height: 100vh; box-shadow: none; }
+            .watermark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">
-        <span class="pratica">Pratica</span><span class="mente">mente</span>
+    <div class="no-print">
+       <a href="celular.html" class="btn btn-back">Voltar</a>
+        <button class="btn btn-print" onclick="window.print()">Imprimir Certificado</button>
     </div>
-    <nav>
-      <a href="conta.html">Minha Conta</a>
-      <a href="certificados.html">Certificados</a>
-      <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
-    </nav>
-    <div class="progress">
-      <span id="prog-text">Evolução: 0%</span>
-      <div class="bar"><div id="prog-fill" class="bar-fill"></div></div>
-    </div>
-  </aside>
 
-  <main>
-    <section id="main-view">
-      <h1 style="margin-bottom: 30px;">Evolução da Mente</h1>
-      <div class="cards">
-        <div class="card card-Eneagrama" onclick="openModule('Eneagrama', 'https://www.youtube.com/embed/SuaIntroAqui1')">
-          <span>MÓDULO 1</span>
-          <h3>Eneagrama</h3>
+    <div class="certificate-container">
+        <img src="image_4025cc.jpg" class="watermark">
+
+        <div class="outer-border">
+            <div class="inner-border">
+                <div class="corner top-left"></div>
+                <div class="corner top-right"></div>
+                <div class="corner bottom-left"></div>
+                <div class="corner bottom-right"></div>
+
+                <div class="content">
+                    <div class="logo-top">PRATICA<span>MENTE</span></div>
+                    <h1>CERTIFICADO</h1>
+                    <p class="sub-title">Conclusão de Treinamento Profissional</p>
+
+                    <p class="presented-to">Este documento certifica que</p>
+                    <div class="student-name" id="cert-name">Nome do Aluno</div>
+                    
+                    <p class="course-description">
+                        portador(a) do CPF <strong><span id="cert-cpf">000.000.000-00</span></strong>, concluiu com distinção o programa acadêmico 
+                        <strong>EVOLUÇÃO DA MENTE: ALTA PERFORMANCE</strong>, com carga horária de 40 horas, 
+                        atingindo todos os requisitos de aproveitamento técnico e prático.
+                    </p>
+                </div>
+
+                <div class="seal">
+                    AUTENTICIDADE GARANTIDA
+                </div>
+
+                <div class="footer">
+                    <div class="footer-item">
+                        <div class="line"></div>
+                        <p>Data de Emissão</p>
+                        <strong id="cert-date">--/--/----</strong>
+                    </div>
+                    
+                    <div class="footer-item">
+                        <div class="line"></div>
+                        <p>Diretor Geral</p>
+                        <strong>Eduardo Severo</strong>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card card-PNL" onclick="openModule('PNL', 'https://www.youtube.com/embed/SuaIntroAqui2')">
-          <span>MÓDULO 2</span>
-          <h3>PNL</h3>
-        </div>
-        <div class="card card-estoicismo" onclick="openModule('Estoicismo', 'https://www.youtube.com/embed/SuaIntroAqui3')">
-          <span>MÓDULO 3</span>
-          <h3>Estoicismo</h3>
-        </div>
+    </div>
+
+    <script>
+      function formatCPF(cpf) {
+    const limpo = cpf.replace(/\D/g, "");
+    if (limpo.length !== 11) return "CPF Inválido";
+    return limpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+}
+
+window.onload = function() {
+    // 1. Recupera os dados
+    const nome = localStorage.getItem('user_nome');
+    const cpf = localStorage.getItem('user_cpf');
+    const aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+    
+    // 2. Define o total de aulas (conforme seu arquivo celular(10).html)
+    const totalAulasNecessarias = 7; 
+    const progresso = Math.min(Math.round((aulasConcluidas.length / totalAulasNecessarias) * 100), 100);
+
+    // 3. Verifica as condições
+    const temNome = nome && nome.trim().length > 3;
+    const temCpf = cpf && cpf.replace(/\D/g, "").length === 11;
+    const cursoConcluido = progresso >= 100;
+
+    // 4. Lógica de Bloqueio
+    if (!temNome || !temCpf || !cursoConcluido) {
+        let mensagem = "<h3>Acesso Bloqueado</h3><br>";
         
-        <div class="card card-familia" onclick="openModule('Família', 'https://www.youtube.com/embed/SuaIntroAquiFamilia')">
-          <span>MÓDULO 4</span>
-          <h3>Família</h3>
-        </div>
+        if (!cursoConcluido) mensagem += `<p>• Você concluiu apenas ${progresso}%. Complete 100% das aulas para liberar.</p>`;
+        if (!temNome) mensagem += "<p>• Nome completo não configurado em 'Minha Conta'.</p>";
+        if (!temCpf) mensagem += "<p>• CPF inválido ou não informado em 'Minha Conta'.</p>";
 
-        <div class="card card-curso" onclick="openModule('Curso Completo', 'https://www.youtube.com/embed/SuaIntroAqui4')">
-          <span>MÓDULO 5</span>
-          <h3>Curso Completo</h3>
-        </div>
-        <div class="card card-E-book" onclick="openModule('E-books', '')">
-          <span>MÓDULO 6</span>
-          <h3>E-books</h3>
-        </div>
-      </div>
+        mensagem += '<br><a href="conta.html" style="color: #007bff; text-decoration: none; font-weight: bold;">← Voltar e Corrigir</a>';
 
-      <nav class="mobile-nav">
-          <a href="certificados.html">Certificados</a>
-          <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
-      </nav>
-    </section>
-
-    <section id="module-content">
-      <button class="btn-back" onclick="closeModule()">← Voltar</button>
-      <h1 id="mod-title" style="margin-bottom: 20px; color: #fff;"></h1>
-      <div id="video-box" class="video-frame">
-        <iframe id="mod-video" src="" allowfullscreen width="100%" height="100%" frameborder="0"></iframe>
-      </div>
-      <div id="lessons-container"></div>
-    </section>
-  </main>
-</div>
-
-<script>
-const data = {
-    'Eneagrama': [
-        { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, 
-        { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' }
-    ],
-    'PNL': [
-        { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' }
-    ],
-    'Estoicismo': [
-        { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' }
-    ],
-    // DADOS DO NOVO MÓDULO
-    'Família': [
-        { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' }
-    ],
-    'Curso Completo': [
-        { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' }
-    ],
-    'E-books': [
-        { title: 'Livro: Evolução Mental', video: '', pdf: 'ebook_evolucao.pdf' }
-    ]
-};
-
-let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
-
-// Total de aulas atualizado para 7 (2 Eneagrama + 1 PNL + 1 Estoicismo + 1 Família + 1 Curso + 1 E-book)
-const totalAulas = 7; 
-
-window.onload = atualizarProgresso;
-
-function openModule(name, videoIntro) {
-    document.getElementById('main-view').style.display = 'none';
-    document.getElementById('module-content').style.display = 'block';
-    document.getElementById('mod-title').innerText = name;
-    
-    if(videoIntro) {
-        document.getElementById('video-box').style.display = 'block';
-        document.getElementById('mod-video').src = videoIntro;
-    } else {
-        document.getElementById('video-box').style.display = 'none';
-    }
-
-    const container = document.getElementById('lessons-container');
-    container.innerHTML = '';
-    
-    data[name].forEach(aula => {
-        container.innerHTML += `
-            <div class="lesson-item">
-                <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista('${aula.title}')">▶ ${aula.title}</a>
-                <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
+        // Substitui o conteúdo da página pela mensagem de erro
+        document.body.innerHTML = `
+            <div style="background: #1a1a1a; color: white; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; font-family: sans-serif; padding: 20px;">
+                <div style="background: #222; padding: 40px; border-radius: 15px; border: 1px solid #ff4444; max-width: 500px;">
+                    ${mensagem}
+                </div>
             </div>`;
-    });
-    window.scrollTo(0,0);
-}
-
-function closeModule() {
-    document.getElementById('main-view').style.display = 'block';
-    document.getElementById('module-content').style.display = 'none';
-    document.getElementById('mod-video').src = '';
-    window.scrollTo(0,0);
-}
-
-function marcarComoVista(tituloAula) {
-    if(!aulasConcluidas.includes(tituloAula)) {
-        aulasConcluidas.push(tituloAula);
-        localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas));
-        atualizarProgresso();
+        return; // Interrompe a execução
     }
-}
 
-function atualizarProgresso() {
-    const totalVistas = aulasConcluidas.length;
-    const porcentagem = Math.min(Math.round((totalVistas / totalAulas) * 100), 100);
-    document.getElementById('prog-fill').style.width = porcentagem + "%";
-    document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
-}
-</script>
+    // 5. Se passar em tudo, preenche o certificado normalmente
+    document.getElementById('cert-name').innerText = nome; // Removi o toLowerCase() para manter a estética do nome original
+    document.getElementById('cert-cpf').innerText = formatCPF(cpf);
+    
+    const hoje = new Date();
+    document.getElementById('cert-date').innerText = hoje.toLocaleDateString('pt-BR');
+};
+    </script>
 </body>
 </html>
 
