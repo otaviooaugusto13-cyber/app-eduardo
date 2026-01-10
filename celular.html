@@ -7,11 +7,12 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#050505">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
 /* Reset e Base */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 
 .app { display: flex; min-height: 100vh; flex-direction: column; }
@@ -63,7 +64,7 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
     border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8);
 }
 
-/* Imagens - Certifique-se que essas imagens existem na pasta ou os cards ficarão pretos */
+/* Imagens - Certifique-se que essas imagens existem na pasta */
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #222; }
 .card-PNL { background-image: url('PNL.png'); background-color: #222; }
 .card-estoicismo { background-image: url('estoicismo.png'); background-color: #222; }
@@ -98,14 +99,14 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 
     .mobile-nav {
         display: flex; width: 100%; background: #0e0e0e; padding: 40px 0px;
-        justify-content: space-between; margin-top: 20px; gap: 15px;
+        justify-content: space-between; margin-top: 20px; gap: 10px;
     }
     .mobile-nav a {
-        color: #fff; text-decoration: none; font-size: 14px; font-weight: bold;
-        text-align: center; border: 1px solid #007bff; padding: 12px 10px;
+        color: #fff; text-decoration: none; font-size: 13px; font-weight: bold;
+        text-align: center; border: 1px solid #333; padding: 12px 5px;
         border-radius: 10px; flex: 1; background: #111;
+        display: flex; align-items: center; justify-content: center;
     }
-    .lesson-item { flex-direction: column; gap: 15px; text-align: center; }
 }
 </style>
 </head>
@@ -168,6 +169,9 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
       <nav class="mobile-nav">
           <a href="certificados.html">Certificados</a>
           <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
+          <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;">
+            <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i> Sair
+          </a>
       </nav>
     </section>
 
@@ -184,11 +188,9 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 
 <script>
 // --- VERIFICAÇÃO DE LOGIN ---
-// Se não tiver permissão salva, manda pro login
 const userPlan = localStorage.getItem('praticamente_plano');
 
 if (!userPlan) {
-    // Redireciona para o login se tentar entrar direto sem estar logado
     window.location.href = 'login.html';
 }
 
@@ -199,7 +201,7 @@ window.onload = function() {
 
 // --- TRAVAS DOS CADEADOS ---
 function aplicarBloqueios() {
-    if (userPlan === 'completo') return; // Se for completo, libera tudo e sai
+    if (userPlan === 'completo') return;
 
     // 1. SE FOR SÓ EBOOKS
     if (userPlan === 'ebooks') {
@@ -208,7 +210,6 @@ function aplicarBloqueios() {
         bloquear('mod-estoicismo');
         bloquear('mod-familia');
         bloquear('mod-completo');
-        // Ebooks fica livre
     }
     
     // 2. SE FOR SÓ ENEAGRAMA
@@ -218,7 +219,6 @@ function aplicarBloqueios() {
         bloquear('mod-familia');
         bloquear('mod-completo');
         bloquear('mod-ebooks');
-        // Eneagrama fica livre
     }
 
     // 3. SE FOR SÓ PNL
@@ -228,7 +228,6 @@ function aplicarBloqueios() {
         bloquear('mod-familia');
         bloquear('mod-completo');
         bloquear('mod-ebooks');
-        // PNL fica livre
     }
 }
 
@@ -238,7 +237,6 @@ function bloquear(id) {
 }
 
 function tryOpen(name, requiredPlan, videoIntro) {
-    // Abre se tiver plano completo OU o plano específico
     if (userPlan === 'completo' || userPlan === requiredPlan) {
         openModule(name, videoIntro);
     } else {
@@ -287,7 +285,6 @@ function openModule(name, videoIntro) {
     const container = document.getElementById('lessons-container');
     container.innerHTML = '';
     
-    // Verifica se existem dados para esse módulo
     if(data[name]) {
         data[name].forEach(aula => {
             container.innerHTML += `
@@ -322,9 +319,12 @@ function atualizarProgresso() {
     document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
 }
 
+// --- FUNÇÃO DE SAIR (Logout) ---
 function logout() {
-    localStorage.removeItem('praticamente_plano');
-    window.location.href = 'login.html';
+    if(confirm("Deseja realmente sair?")) {
+        localStorage.removeItem('praticamente_plano');
+        window.location.href = 'login.html';
+    }
 }
 </script>
 </body>
