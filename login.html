@@ -1,51 +1,69 @@
 <script>
-        // --- CONFIGURAÇÃO DAS PERMISSÕES ---
+        // --- CONFIGURAÇÃO DOS CÓDIGOS DE ACESSO ---
         const permissoes = {
-            'SOU_LIDER': 'completo',
-            'LEITOR_VIP': 'ebooks', // Esse é o código que você quer usar no link
-            'PERFIL_ON': 'eneagrama',
-            'MENTE_PNL': 'pnl'
+            // ACESSO TOTAL
+            'SOU_LIDER': 'completo',      // Código antigo (mantido por segurança)
+            'CURSO_COMPLETO': 'completo', // NOVO: Para quem compra tudo
+            
+            // ACESSO SÓ E-BOOKS
+            'LEITOR_VIP': 'ebooks',       
+            
+            // ACESSO SÓ ENEAGRAMA ("Minha Grama")
+            'PERFIL_ON': 'eneagrama',     // Código antigo
+            'CURSO_ENEAGRAMA': 'eneagrama', // NOVO: Só para o módulo Eneagrama
+            
+            // ACESSO SÓ PNL
+            'MENTE_PNL': 'pnl',           // Código antigo
+            'CURSO_PNL': 'pnl'            // NOVO: Só para o módulo PNL
         };
 
+        function salvarERedirecionar(plano) {
+            console.log("Liberando acesso para plano:", plano);
+            
+            // 1. Grava a permissão
+            localStorage.setItem('praticamente_plano', plano);
+            
+            // 2. Pausa de segurança para garantir o salvamento
+            setTimeout(function() {
+                window.location.href = '/celular'; // Redireciona para o curso
+            }, 200);
+        }
+
         function fazerLogin(codigoAutomatico) {
-            // Se veio código automático do link, usa ele. Se não, pega do input.
             const codeInput = document.getElementById('accessCode');
+            // Prioridade: Código do Link > Código digitado
             const code = codigoAutomatico || codeInput.value.toUpperCase().trim();
             const errorMsg = document.getElementById('msgError');
 
             if (permissoes[code]) {
-                // 1. Grava a permissão no navegador do usuário
-                localStorage.setItem('praticamente_plano', permissoes[code]);
-                
-                // 2. REDIRECIONAMENTO CORRIGIDO
-                // Tiramos o '.html' para bater com a rota do seu servidor Render
-                window.location.href = '/celular'; 
-                
+                salvarERedirecionar(permissoes[code]);
             } else {
-                // Só mostra erro visual se a pessoa estiver digitando manualmente
-                if (!codigoAutomatico) {
+                if (!codigoAutomatico) { 
+                    // Erro visual para quem digita errado
                     errorMsg.style.display = 'block';
                     document.querySelector('.login-box').animate([
                         { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, 
                         { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
                     ], { duration: 300 });
+                } else {
+                    console.log("Código do link inválido.");
                 }
             }
         }
         
-        // --- DETECTOR DE LINK MÁGICO ---
+        // --- DETECTA O LINK MÁGICO AO CARREGAR ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const codigoUrl = urlParams.get('codigo'); // Lê o que está depois de ?codigo=
+            const codigoUrl = urlParams.get('codigo');
 
             if (codigoUrl) {
-                // Se achou um código no link, executa o login imediatamente
                 fazerLogin(codigoUrl.toUpperCase());
             }
         }
 
-        // Permite apertar ENTER para entrar
+        // Tecla Enter no input
         document.getElementById("accessCode").addEventListener("keypress", function(event) {
             if (event.key === "Enter") fazerLogin();
         });
     </script>
+
