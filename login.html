@@ -1,105 +1,51 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Login | Praticamente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { margin: 0; padding: 0; background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        
-        body::before {
-            content: ''; position: absolute; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0, 123, 255, 0.15) 0%, rgba(5,5,5,1) 70%);
-            z-index: -1;
-        }
-
-        .login-box {
-            background: #111; padding: 40px; border-radius: 18px;
-            border: 1px solid #333; text-align: center; width: 90%; max-width: 400px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-
-        .logo { margin-bottom: 30px; font-size: 24px; font-weight: bold; text-transform: uppercase; }
-        .logo .pratica { color: #fff; } 
-        .logo .mente { color: #007bff; }
-
-        p { color: #aaa; margin-bottom: 30px; font-size: 0.9rem; }
-
-        input {
-            width: 100%; padding: 15px; background: #0e0e0e; border: 1px solid #333;
-            color: #fff; border-radius: 10px; margin-bottom: 20px; text-align: center;
-            font-size: 1.1rem; letter-spacing: 2px; outline: none; transition: 0.3s;
-        }
-        input:focus { border-color: #007bff; box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); }
-
-        button {
-            width: 100%; padding: 15px; background: linear-gradient(90deg, #007bff, #0056b3);
-            border: none; color: #fff; font-weight: bold; border-radius: 10px; cursor: pointer;
-            font-size: 1rem; transition: 0.3s; text-transform: uppercase;
-        }
-        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); }
-
-        .error { color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; }
-    </style>
-</head>
-<body>
-
-    <div class="login-box">
-        <div class="logo">
-            <span class="pratica">Pratica</span><span class="mente">mente</span>
-        </div>
-        <p>Digite seu código ou use o link de acesso</p>
-        
-        <input type="text" id="accessCode" placeholder="CÓDIGO DE ACESSO">
-        <button onclick="fazerLogin()">ACESSAR PLATAFORMA</button>
-        <div id="msgError" class="error">Código inválido.</div>
-    </div>
-
-    <script>
-        // --- LÓGICA DO LOGIN ---
-        
+<script>
+        // --- CONFIGURAÇÃO DAS PERMISSÕES ---
         const permissoes = {
             'SOU_LIDER': 'completo',
-            'LEITOR_VIP': 'ebooks',
+            'LEITOR_VIP': 'ebooks', // Esse é o código que você quer usar no link
             'PERFIL_ON': 'eneagrama',
             'MENTE_PNL': 'pnl'
         };
 
-        function fazerLogin() {
+        function fazerLogin(codigoAutomatico) {
+            // Se veio código automático do link, usa ele. Se não, pega do input.
             const codeInput = document.getElementById('accessCode');
-            const code = codeInput.value.toUpperCase().trim();
+            const code = codigoAutomatico || codeInput.value.toUpperCase().trim();
             const errorMsg = document.getElementById('msgError');
 
             if (permissoes[code]) {
+                // 1. Grava a permissão no navegador do usuário
                 localStorage.setItem('praticamente_plano', permissoes[code]);
                 
-                // AQUI ESTAVA O ERRO! AGORA APONTA PARA O ARQUIVO CERTO:
-                window.location.href = 'celular.html'; 
+                // 2. REDIRECIONAMENTO CORRIGIDO
+                // Tiramos o '.html' para bater com a rota do seu servidor Render
+                window.location.href = '/celular'; 
                 
             } else {
-                errorMsg.style.display = 'block';
-                document.querySelector('.login-box').animate([
-                    { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, 
-                    { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
-                ], { duration: 300 });
+                // Só mostra erro visual se a pessoa estiver digitando manualmente
+                if (!codigoAutomatico) {
+                    errorMsg.style.display = 'block';
+                    document.querySelector('.login-box').animate([
+                        { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, 
+                        { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
+                    ], { duration: 300 });
+                }
             }
         }
         
-        // --- LOGIN AUTOMÁTICO PELO LINK ---
+        // --- DETECTOR DE LINK MÁGICO ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const codigoUrl = urlParams.get('codigo');
+            const codigoUrl = urlParams.get('codigo'); // Lê o que está depois de ?codigo=
 
             if (codigoUrl) {
-                document.getElementById('accessCode').value = codigoUrl;
-                fazerLogin();
+                // Se achou um código no link, executa o login imediatamente
+                fazerLogin(codigoUrl.toUpperCase());
             }
         }
 
+        // Permite apertar ENTER para entrar
         document.getElementById("accessCode").addEventListener("keypress", function(event) {
             if (event.key === "Enter") fazerLogin();
         });
     </script>
-</body>
-</html>
