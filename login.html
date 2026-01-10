@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <title>Login | Praticamente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* --- ESTILO VISUAL (CSS) --- */
-        body { margin: 0; padding: 0; background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        body { 
+            margin: 0; padding: 0; 
+            background: #050505; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
         
         body::before {
             content: ''; position: absolute; width: 100%; height: 100%;
@@ -90,60 +100,66 @@
 
         function mostrarCarregando() {
             document.getElementById('loadingScreen').style.display = 'flex';
-            document.getElementById('btnEntrar').innerHTML = 'ENTRANDO...';
-            document.getElementById('btnEntrar').disabled = true;
+            const btn = document.getElementById('btnEntrar');
+            if(btn) {
+                btn.innerHTML = 'ENTRANDO...';
+                btn.disabled = true;
+            }
         }
 
         function salvarERedirecionar(plano) {
-            mostrarCarregando(); // Mostra o aviso visual
+            mostrarCarregando(); 
             
             console.log("Acesso liberado:", plano);
             localStorage.setItem('praticamente_plano', plano);
             
-            // Pequeno delay para o navegador processar
+            // Pausa de 1.5s para garantir que salvou e mostrar o loading
             setTimeout(function() {
-                window.location.href = '/celular';
-            }, 500);
+                window.location.href = '/celular'; 
+            }, 1500);
         }
 
         function fazerLogin(codigoAutomatico) {
             const codeInput = document.getElementById('accessCode');
-            const code = codigoAutomatico || codeInput.value.toUpperCase().trim();
+            const code = codigoAutomatico || (codeInput ? codeInput.value.toUpperCase().trim() : '');
             const errorMsg = document.getElementById('msgError');
 
             if (permissoes[code]) {
                 salvarERedirecionar(permissoes[code]);
             } else {
                 if (!codigoAutomatico) {
-                    errorMsg.style.display = 'block';
-                    // Animação de erro (tremida)
-                    document.querySelector('.login-box').animate([
-                        { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, 
-                        { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
-                    ], { duration: 300 });
+                    if(errorMsg) errorMsg.style.display = 'block';
+                    const box = document.querySelector('.login-box');
+                    if(box) {
+                        box.animate([
+                            { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' }, 
+                            { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
+                        ], { duration: 300 });
+                    }
                 }
             }
         }
         
-        // --- DETECTOR DE LINK MÁGICO ---
+        // --- AO CARREGAR A PÁGINA ---
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const codigoUrl = urlParams.get('codigo');
 
             if (codigoUrl) {
-                // Se tiver código no link, mostra que está validando
                 mostrarCarregando();
-                // Pequeno delay para o usuário ver que algo está acontecendo
                 setTimeout(() => {
                     fazerLogin(codigoUrl.toUpperCase());
-                }, 800);
+                }, 1000);
             }
         }
 
-        document.getElementById("accessCode").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") fazerLogin();
-        });
+        // Tecla Enter
+        const input = document.getElementById("accessCode");
+        if(input) {
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") fazerLogin();
+            });
+        }
     </script>
 </body>
 </html>
-
