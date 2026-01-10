@@ -57,9 +57,8 @@
     </div>
 
     <script>
-        // --- LÓGICA DO LOGIN (MANUAL E AUTOMÁTICO) ---
+        // --- LÓGICA DO LOGIN ---
         
-        // Definição das Senhas
         const permissoes = {
             'SOU_LIDER': 'completo',
             'LEITOR_VIP': 'ebooks',
@@ -74,7 +73,10 @@
 
             if (permissoes[code]) {
                 localStorage.setItem('praticamente_plano', permissoes[code]);
-                window.location.href = 'app.html';
+                
+                // AQUI ESTAVA O ERRO! AGORA APONTA PARA O ARQUIVO CERTO:
+                window.location.href = 'celular.html'; 
+                
             } else {
                 errorMsg.style.display = 'block';
                 document.querySelector('.login-box').animate([
@@ -84,14 +86,12 @@
             }
         }
         
-        // --- MAGIA DO LINK AUTOMÁTICO ---
+        // --- LOGIN AUTOMÁTICO PELO LINK ---
         window.onload = function() {
-            // Pega o código que está na URL (ex: ?codigo=LEITOR_VIP)
             const urlParams = new URLSearchParams(window.location.search);
             const codigoUrl = urlParams.get('codigo');
 
             if (codigoUrl) {
-                // Se tiver código no link, preenche e clica no botão sozinho
                 document.getElementById('accessCode').value = codigoUrl;
                 fazerLogin();
             }
