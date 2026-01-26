@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Praticamente | Evolução da Mente</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050505">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
@@ -12,10 +15,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: #050505; color: #fff; line-height: 1.6; overflow-x: hidden; }
 
-/* Estrutura Principal */
 .app { display: flex; flex-direction: column; min-height: 100vh; }
 
-/* --- SIDEBAR (Só aparece no Desktop) --- */
+/* --- SIDEBAR (Desktop) --- */
 .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #222; flex-shrink: 0; display: none; }
 .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; }
 .logo .pratica { color: #e0e0e0; } .logo .mente { color: #007bff; }    
@@ -28,7 +30,6 @@ body { background: #050505; color: #fff; line-height: 1.6; overflow-x: hidden; }
 /* --- CONTEÚDO PRINCIPAL --- */
 main { flex: 1; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; padding-bottom: 40px; }
 
-/* Desktop Adjustment */
 @media (min-width: 769px) {
     .app { flex-direction: row; }
     .sidebar { display: flex; flex-direction: column; }
@@ -39,12 +40,12 @@ main { flex: 1; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; p
 section { display: none; }
 #main-view { display: block; animation: fadeIn 0.5s; }
 
-/* Grid de Cards */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; } /* Ajustado para mobile */
+/* Grid Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
 
-/* Cards Estilo Netflix */
+/* Cards Netflix Style */
 .card { 
-    height: 220px; /* Altura ajustada para mobile */
+    height: 220px; 
     border-radius: 16px; padding: 15px; cursor: pointer; 
     display: flex; flex-direction: column; justify-content: flex-end; 
     position: relative; overflow: hidden; 
@@ -52,7 +53,6 @@ section { display: none; }
     transition: transform 0.3s;
 }
 .card:active { transform: scale(0.98); }
-
 .card-gradient { background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.2) 100%); position: absolute; inset: 0; z-index: 1; }
 .card-content { position: relative; z-index: 2; }
 .card-badge { font-size: 9px; font-weight: 800; color: #fff; background: #007bff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -75,7 +75,7 @@ section { display: none; }
 .header-home h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 5px; }
 .header-home p { color: #888; font-size: 14px; }
 
-/* --- TELA DE AULAS --- */
+/* TELA DE AULAS */
 #module-content { padding-top: 20px; }
 .btn-back { background: transparent; color: #007bff; border: none; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; cursor: pointer; }
 .video-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
@@ -87,25 +87,19 @@ section { display: none; }
    CHAT SÊNECA (PREMIUM & TELA CHEIA)
    ========================================= */
 #chat-view {
-    /* CORREÇÃO: Agora ocupa a tela inteira sobrepondo tudo */
-    position: fixed; 
-    top: 0; left: 0; right: 0; bottom: 0;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     width: 100%; height: 100%;
     background-color: #000; 
     background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
-    z-index: 9999; /* Fica acima de tudo */
-    display: none; 
-    flex-direction: column;
+    z-index: 9999; display: none; flex-direction: column;
 }
 #chat-view.active { display: flex; }
 
-/* Header do Chat */
+/* Header Chat */
 .chat-header {
-    background: rgba(20, 20, 20, 0.85); 
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    padding: 15px 20px; display: flex; align-items: center; gap: 15px;
-    border-bottom: 1px solid #222;
-    padding-top: max(15px, env(safe-area-inset-top)); /* Respeita o notch do iPhone */
+    background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #222;
+    padding-top: max(15px, env(safe-area-inset-top));
 }
 .chat-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #007bff; overflow: hidden; box-shadow: 0 0 10px rgba(0,123,255,0.4); }
 .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -113,14 +107,10 @@ section { display: none; }
 .chat-info span { font-size: 12px; color: #00ff88; font-weight: 500; display: flex; align-items: center; gap: 4px; }
 .chat-info span::before { content: ''; width: 6px; height: 6px; background: #00ff88; border-radius: 50%; display: block; box-shadow: 0 0 5px #00ff88; }
 
-/* Corpo das Mensagens */
+/* Corpo Chat */
 .chat-body { 
-    flex: 1; 
-    padding: 20px; 
-    overflow-y: auto; 
-    display: flex; flex-direction: column; gap: 12px; 
-    background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); /* Textura leve */
-    background-opacity: 0.05;
+    flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; 
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
 }
 
 .message { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 15px; line-height: 1.4; position: relative; animation: slideUp 0.3s ease-out; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -128,11 +118,9 @@ section { display: none; }
 .message.sent { background: linear-gradient(135deg, #007bff 0%, #0062cc 100%); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
 .msg-time { font-size: 10px; color: rgba(255,255,255,0.5); text-align: right; margin-top: 4px; display: block; }
 
-/* Footer do Chat */
+/* Footer Chat */
 .chat-footer {
-    background: #111; 
-    padding: 10px 15px; 
-    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    background: #111; padding: 10px 15px; padding-bottom: max(10px, env(safe-area-inset-bottom));
     display: flex; align-items: center; gap: 10px; border-top: 1px solid #222;
 }
 .chat-input-wrapper { flex: 1; background: #222; border-radius: 25px; padding: 5px 15px; display: flex; align-items: center; border: 1px solid #333; }
@@ -144,41 +132,23 @@ section { display: none; }
 }
 .chat-send-btn:active { transform: scale(0.9); }
 
-/* Botão Microfone */
+/* Ícones */
 .icon-btn { background: transparent; border: none; color: #666; font-size: 18px; padding: 0 5px; margin-right: 5px; }
 .listening { color: #ff3b30 !important; animation: pulse 1s infinite; }
 
 /* --- BOLINHA FLUTUANTE (FAB) --- */
 .seneca-float {
-    position: fixed; 
-    bottom: 30px; 
-    right: 20px; 
-    width: 60px; height: 60px; 
-    border-radius: 50%;
-    /* Borda brilhante para destacar do fundo */
-    border: 3px solid #007bff; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(0,123,255,0.4);
-    cursor: pointer; z-index: 4000; 
-    background: #000; 
-    transition: transform 0.2s;
+    position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; border-radius: 50%;
+    border: 3px solid #007bff; box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(0,123,255,0.4);
+    cursor: pointer; z-index: 4000; background: #000; transition: transform 0.2s;
 }
 .seneca-float img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .seneca-float:active { transform: scale(0.9); }
-.online-dot { 
-    position: absolute; bottom: 3px; right: 3px; 
-    width: 14px; height: 14px; 
-    background-color: #00ff88; 
-    border: 2px solid #000; 
-    border-radius: 50%; 
-    box-shadow: 0 0 5px #00ff88;
-}
+.online-dot { position: absolute; bottom: 3px; right: 3px; width: 14px; height: 14px; background-color: #00ff88; border: 2px solid #000; border-radius: 50%; box-shadow: 0 0 5px #00ff88; }
 
-/* --- MENU INFERIOR (CORRIGIDO: Agora é parte do fluxo, não fixo) --- */
+/* --- MENU INFERIOR --- */
 .mobile-nav { 
-    margin-top: auto; /* Empurra para o final */
-    background: #0a0a0a; 
-    padding: 30px 20px; 
-    border-top: 1px solid #222;
+    margin-top: auto; background: #0a0a0a; padding: 30px 20px; border-top: 1px solid #222;
     display: flex; justify-content: space-around;
 }
 .mobile-nav-item {
@@ -214,7 +184,8 @@ section { display: none; }
   <main>
     <section id="main-view">
       <div class="header-home">
-        <h1>Olá, Otávio</h1> <p>Continue sua evolução.</p>
+        <h1>Olá, Otávio</h1>
+        <p>Continue sua evolução.</p>
       </div>
       
       <div class="cards">
@@ -222,32 +193,27 @@ section { display: none; }
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Módulo 01</span><h3 class="card-title">Eneagrama</h3></div>
         </div>
-        
         <div id="mod-pnl" class="card bg-pnl" onclick="tryOpen('PNL', 'pnl', 'LinkVideo')">
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Módulo 02</span><h3 class="card-title">PNL Aplicada</h3></div>
         </div>
-        
         <div id="mod-estoicismo" class="card bg-estoicismo" onclick="tryOpen('Estoicismo', 'completo', 'LinkVideo')">
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Módulo 03</span><h3 class="card-title">Estoicismo</h3></div>
         </div>
-        
         <div id="mod-familia" class="card bg-familia" onclick="tryOpen('Família', 'completo', 'LinkVideo')">
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Módulo 04</span><h3 class="card-title">Família</h3></div>
         </div>
-
         <div id="mod-completo" class="card bg-curso" onclick="tryOpen('Curso Completo', 'completo', 'LinkVideo')">
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Módulo 05</span><h3 class="card-title">Método PráticaMente</h3></div>
         </div>
-        
         <div id="mod-ebooks" class="card bg-ebook" onclick="tryOpen('E-books', 'ebooks', '')">
           <div class="card-gradient"></div><div class="card-lock"><i class="fas fa-lock"></i></div>
           <div class="card-content"><span class="card-badge">Biblioteca</span><h3 class="card-title">E-books</h3></div>
         </div>
-        </div>
+      </div>
     </section>
 
     <section id="module-content">
@@ -258,7 +224,6 @@ section { display: none; }
       </div>
       <div id="lessons-container"></div>
     </section>
-
   </main>
 
   <nav class="mobile-nav">
@@ -435,15 +400,21 @@ function scrollToBottom() {
     b.scrollTop = b.scrollHeight;
 }
 
-// --- VOZ ---
+// --- VOZ AVELUDADA ---
 function falarTexto(texto) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(texto);
-    u.lang = 'pt-BR'; u.rate = 1.0; u.pitch = 0.9;
-    // Tenta pegar voz Google
+    
+    // Configurações para voz aveludada
+    u.lang = 'pt-BR'; 
+    u.rate = 0.9;  // Um pouco mais lento (reflexivo)
+    u.pitch = 0.8; // Tom mais grave (autoridade e calma)
+
+    // Tenta forçar a voz do Google se existir (é a melhor gratuita)
     const voices = window.speechSynthesis.getVoices();
     const googleVoice = voices.find(v => v.name.includes("Google") && v.lang.includes("pt-BR"));
     if(googleVoice) u.voice = googleVoice;
+
     window.speechSynthesis.speak(u);
 }
 
@@ -465,14 +436,12 @@ function startDictation() {
 function aplicarBloqueios() {
     if (userPlan === 'completo') return;
     const allIds = ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks'];
-    // Lógica simplificada: Bloqueia tudo se não for 'completo' (ajuste conforme sua regra original)
-    // Se quiser manter a lógica detalhada anterior, copie e cole aqui.
     if(userPlan !== 'completo') allIds.forEach(bloquear); 
 }
 function bloquear(id) { const el = document.getElementById(id); if(el) el.classList.add('locked'); }
 
 function tryOpen(name, plan, video) {
-    if (userPlan === 'completo') openModule(name, video); // Simplificado para teste
+    if (userPlan === 'completo') openModule(name, video); 
     else alert("Bloqueado no seu plano.");
 }
 
@@ -485,7 +454,6 @@ function openModule(name, videoIntro) {
     document.getElementById('mod-title').innerText = name;
     document.getElementById('mod-video').src = videoIntro;
     
-    // Injeta aulas fictícias (você pode expandir o objeto 'data' depois)
     const container = document.getElementById('lessons-container');
     container.innerHTML = `<div class="lesson-item"><span class="lesson-link">Aula 1: Introdução</span></div>`;
 }
