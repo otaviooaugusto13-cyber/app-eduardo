@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Praticamente | Evolução da Mente</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#050505">
@@ -12,7 +12,7 @@
 
 <style>
 /* Reset e Base */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
 body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 
 .app { display: flex; min-height: 100vh; flex-direction: column; }
@@ -39,7 +39,13 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; }
 }
 
 /* Main Content */
-main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
+main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; position: relative; overflow: hidden; }
+/* Adicionado overflow hidden para o chat funcionar bem */
+
+/* Views (Telas) */
+section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
+#main-view { display: block; } /* Home visível por padrão */
+
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
 /* Cards */
@@ -71,12 +77,14 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .card-familia { background-image: url('familia.png'); background-color: #222; } 
 .card-curso { background-image: url('curso.png'); background-color: #222; }
 .card-E-book { background-image: url('livros.png'); background-color: #222; }
+/* Novo Card IA */
+.card-ia { background: radial-gradient(circle at center, #4e54c8, #8f94fb); }
 
 .card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
 .card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
 .card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
 
-/* Área Interna */
+/* Área Interna (Aulas) */
 #module-content { display: none; }
 .btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; }
 .btn-back:hover { background: #007bff; color: #fff; }
@@ -86,6 +94,30 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
 .lesson-link { color: #fff; text-decoration: none; font-weight: bold; font-size: 17px; cursor: pointer; }
 .btn-pdf { background: #333; color: #fff; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-size: 13px; border: 1px solid #007bff; display: inline-block; transition: 0.3s; }
 .btn-pdf:hover { background: #007bff; }
+
+/* --- ESTILOS DO CHAT (Módulo 7) --- */
+#chat-view { padding: 0; display: none; flex-direction: column; background-color: #0b0b0b; height: 100%; background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-blend-mode: overlay; }
+#chat-view.active { display: flex; }
+
+.chat-header { background: #202c33; padding: 10px 15px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #2a3942; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.chat-avatar { width: 40px; height: 40px; border-radius: 50%; background: #007bff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: #fff; overflow: hidden; }
+.chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.chat-info h3 { font-size: 16px; margin: 0; color: #e9edef; }
+.chat-info span { font-size: 12px; color: #8696a0; }
+
+.chat-body { flex: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+
+.message { max-width: 80%; padding: 10px 15px; border-radius: 8px; font-size: 14px; line-height: 1.4; position: relative; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.message.received { background: #202c33; color: #e9edef; align-self: flex-start; border-top-left-radius: 0; }
+.message.sent { background: #005c4b; color: #e9edef; align-self: flex-end; border-top-right-radius: 0; }
+.msg-time { font-size: 10px; color: #8696a0; text-align: right; margin-top: 4px; display: block; }
+
+.chat-footer { background: #202c33; padding: 10px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #2a3942; flex-shrink: 0; }
+.chat-input-wrapper { flex: 1; background: #2a3942; border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; }
+.chat-input { background: transparent; border: none; color: #d1d7db; width: 100%; outline: none; font-size: 15px; max-height: 100px; resize: none; }
+.chat-send-btn { background: #00a884; border: none; width: 40px; height: 40px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
+.chat-send-btn:active { transform: scale(0.9); }
+.chat-send-btn i { font-size: 18px; margin-left: 2px; }
 
 /* Mobile Nav */
 .mobile-nav { display: none; }
@@ -100,6 +132,7 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
     .mobile-nav {
         display: flex; width: 100%; background: #0e0e0e; padding: 40px 0px;
         justify-content: space-between; margin-top: 20px; gap: 10px;
+        position: fixed; bottom: 0; left: 0; z-index: 100; border-top: 1px solid #333;
     }
     .mobile-nav a {
         color: #fff; text-decoration: none; font-size: 13px; font-weight: bold;
@@ -118,6 +151,7 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
         <span class="pratica">Pratica</span><span class="mente">mente</span>
     </div>
     <nav>
+      <a href="#" onclick="goHome()">Módulos</a>
       <a href="conta.html">Minha Conta</a>
       <a href="certificados.html">Certificados</a>
       <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
@@ -164,15 +198,13 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
           <span>MÓDULO 6</span>
           <h3>E-books</h3>
         </div>
-      </div>
 
-      <nav class="mobile-nav">
-          <a href="certificados.html">Certificados</a>
-          <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
-          <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;">
-            <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i> Sair
-          </a>
-      </nav>
+        <div id="mod-ia" class="card card-ia" onclick="openChatInterface()">
+            <span style="color: white; background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">MÓDULO 7</span>
+            <h3>Sêneca: Mentor IA</h3>
+        </div>
+
+      </div>
     </section>
 
     <section id="module-content">
@@ -183,51 +215,179 @@ main { flex: 1; padding: 40px; width: 100%; max-width: 1200px; margin: 0 auto; }
       </div>
       <div id="lessons-container"></div>
     </section>
+
+    <section id="chat-view">
+        <div class="chat-header">
+            <button class="btn-back" onclick="goHome()" style="background: transparent; width: auto;"><i class="fas fa-arrow-left"></i></button>
+            <div class="chat-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Pseudo-Seneca.jpg" alt="Sêneca"></div>
+            <div class="chat-info">
+                <h3>Sêneca (Mentor IA)</h3>
+                <span id="chat-status">Online</span>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+            <div class="message received">
+                Olá, Otávio. Sou Sêneca. <br>Estou online e operando em alta velocidade (Via Groq/Llama 3). <br><br>
+                Posso te orientar sobre Estoicismo, PNL, Gestão ou Desafios Emocionais. O que você precisa hoje?
+                <span class="msg-time">Agora</span>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <div class="chat-input-wrapper">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Digite sua mensagem..." autocomplete="off">
+            </div>
+            <button class="chat-send-btn" id="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </section>
+
   </main>
+
+  <nav class="mobile-nav">
+      <a href="#" onclick="goHome()">Módulos</a>
+      <a href="certificados.html">Certificados</a>
+      <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
+      <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;">
+        <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i> Sair
+      </a>
+  </nav>
+
 </div>
 
 <script>
 // --- VERIFICAÇÃO DE LOGIN ---
 const userPlan = localStorage.getItem('praticamente_plano');
+if (!userPlan) window.location.href = 'login.html';
 
-if (!userPlan) {
-    window.location.href = 'login.html';
-}
+// --- CONFIGURAÇÃO DA IA (Groq) ---
+const API_KEY = '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'; 
+const systemInstruction = `
+Você é Sêneca, um mentor de alta performance e sabedoria estoica. 
+Seu objetivo é ajudar o usuário Otávio a evoluir na carreira e na vida pessoal.
+Regras:
+1. Respostas curtas e diretas (estilo chat de WhatsApp), máx 3 parágrafos curtos.
+2. Seja empático, mas focado em ação/solução.
+3. Responda sempre em Português do Brasil.
+`;
+let conversationHistory = [{ role: "system", content: systemInstruction }];
 
 window.onload = function() {
     atualizarProgresso();
     aplicarBloqueios();
+
+    // Enter para o chat
+    const chatInput = document.getElementById('chat-input');
+    if(chatInput) {
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
 };
 
-// --- TRAVAS DOS CADEADOS ---
+// --- NAVEGAÇÃO ---
+function goHome() {
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    document.getElementById('main-view').style.display = 'block';
+    
+    // Limpa vídeo se estiver tocando
+    const modVideo = document.getElementById('mod-video');
+    if(modVideo) modVideo.src = '';
+}
+
+// --- FUNÇÕES DO CHAT ---
+function openChatInterface() {
+    if(userPlan !== 'completo') {
+        alert("🔒 Este conteúdo é exclusivo para o plano Completo.");
+        return;
+    }
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    const chatSection = document.getElementById('chat-view');
+    chatSection.style.display = 'flex'; // Flex para layout de chat
+    scrollToBottom();
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if(!text) return;
+
+    // 1. UI
+    addMessage(text, 'sent');
+    input.value = '';
+    scrollToBottom();
+
+    const status = document.getElementById('chat-status');
+    const btn = document.getElementById('send-btn');
+    if(status) { status.innerText = 'digitando...'; status.style.color = '#00a884'; }
+    input.disabled = true;
+    if(btn) btn.disabled = true;
+
+    // 2. Histórico
+    conversationHistory.push({ role: "user", content: text });
+
+    // 3. API
+    try {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: conversationHistory,
+                max_tokens: 500,
+                temperature: 0.7
+            })
+        });
+
+        const data = await response.json();
+        if(data.error) throw new Error(data.error.message);
+
+        const aiText = data.choices[0].message.content;
+        conversationHistory.push({ role: "assistant", content: aiText });
+        addMessage(aiText, 'received');
+
+    } catch (error) {
+        addMessage(`Erro ao conectar: ${error.message}`, 'received');
+    } finally {
+        if(status) { status.innerText = 'Online'; status.style.color = '#8696a0'; }
+        input.disabled = false;
+        if(btn) btn.disabled = false;
+        input.focus();
+        scrollToBottom();
+    }
+}
+
+function addMessage(text, type) {
+    const body = document.getElementById('chat-body');
+    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    const div = document.createElement('div');
+    div.className = `message ${type}`;
+    div.innerHTML = `${formattedText} <span class="msg-time">${time}</span>`;
+    body.appendChild(div);
+}
+
+function scrollToBottom() {
+    const body = document.getElementById('chat-body');
+    if(body) body.scrollTop = body.scrollHeight;
+}
+
+// --- TRAVAS E LÓGICA ANTIGA ---
 function aplicarBloqueios() {
     if (userPlan === 'completo') return;
-
-    // 1. SE FOR SÓ EBOOKS
     if (userPlan === 'ebooks') {
-        bloquear('mod-eneagrama');
-        bloquear('mod-pnl');
-        bloquear('mod-estoicismo');
-        bloquear('mod-familia');
-        bloquear('mod-completo');
+        ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ia'].forEach(bloquear);
     }
-    
-    // 2. SE FOR SÓ ENEAGRAMA
     if (userPlan === 'eneagrama') {
-        bloquear('mod-pnl');
-        bloquear('mod-estoicismo');
-        bloquear('mod-familia');
-        bloquear('mod-completo');
-        bloquear('mod-ebooks');
+        ['mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear);
     }
-
-    // 3. SE FOR SÓ PNL
     if (userPlan === 'pnl') {
-        bloquear('mod-eneagrama');
-        bloquear('mod-estoicismo');
-        bloquear('mod-familia');
-        bloquear('mod-completo');
-        bloquear('mod-ebooks');
+        ['mod-eneagrama','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear);
     }
 }
 
@@ -244,34 +404,21 @@ function tryOpen(name, requiredPlan, videoIntro) {
     }
 }
 
-// --- CONTEÚDO ---
+// --- CONTEÚDO AULAS ---
 const data = {
-    'Eneagrama': [
-        { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, 
-        { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' }
-    ],
-    'PNL': [
-        { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' }
-    ],
-    'Estoicismo': [
-        { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' }
-    ],
-    'Família': [
-        { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' }
-    ],
-    'Curso Completo': [
-        { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' }
-    ],
-    'E-books': [
-        { title: 'Praticamente: Os Códigos da Liderança', video: '', pdf: 'praticamente_codigos_lideranca.pdf' }
-    ]
+    'Eneagrama': [ { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' } ],
+    'PNL': [ { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' } ],
+    'Estoicismo': [ { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' } ],
+    'Família': [ { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' } ],
+    'Curso Completo': [ { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' } ],
+    'E-books': [ { title: 'Praticamente: Os Códigos da Liderança', video: '', pdf: 'praticamente_codigos_lideranca.pdf' } ]
 };
 
 let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
 const totalAulas = 7; 
 
 function openModule(name, videoIntro) {
-    document.getElementById('main-view').style.display = 'none';
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
     document.getElementById('module-content').style.display = 'block';
     document.getElementById('mod-title').innerText = name;
     
@@ -298,9 +445,7 @@ function openModule(name, videoIntro) {
 }
 
 function closeModule() {
-    document.getElementById('main-view').style.display = 'block';
-    document.getElementById('module-content').style.display = 'none';
-    document.getElementById('mod-video').src = '';
+    goHome();
     window.scrollTo(0,0);
 }
 
@@ -319,7 +464,6 @@ function atualizarProgresso() {
     document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
 }
 
-// --- FUNÇÃO DE SAIR (Logout) ---
 function logout() {
     if(confirm("Deseja realmente sair?")) {
         localStorage.removeItem('praticamente_plano');
