@@ -40,13 +40,13 @@ main { flex: 1; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; p
 section { display: none; }
 #main-view { display: block; animation: fadeIn 0.5s; }
 
-/* Grid Cards */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+/* Grid Cards (CORRIGIDO PARA FICAR GRANDE) */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 
 /* Cards Netflix Style */
 .card { 
-    height: 220px; 
-    border-radius: 16px; padding: 15px; cursor: pointer; 
+    height: 300px; /* Altura maior restaurada */
+    border-radius: 16px; padding: 20px; cursor: pointer; 
     display: flex; flex-direction: column; justify-content: flex-end; 
     position: relative; overflow: hidden; 
     background-color: #1a1a1a; border: 1px solid #222;
@@ -55,12 +55,12 @@ section { display: none; }
 .card:active { transform: scale(0.98); }
 .card-gradient { background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.2) 100%); position: absolute; inset: 0; z-index: 1; }
 .card-content { position: relative; z-index: 2; }
-.card-badge { font-size: 9px; font-weight: 800; color: #fff; background: #007bff; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-.card-title { font-size: 16px; color: #fff; font-weight: 700; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+.card-badge { font-size: 10px; font-weight: 800; color: #fff; background: #007bff; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.card-title { font-size: 20px; color: #fff; font-weight: 700; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
 /* Bloqueio */
 .card.locked { filter: grayscale(100%); opacity: 0.6; }
-.card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; color: #fff; z-index: 3; background: rgba(0,0,0,0.6); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+.card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: #fff; z-index: 3; background: rgba(0,0,0,0.6); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
 
 /* Backgrounds */
 .bg-eneagrama { background-image: url('Eneagrama.png'); background-size: cover; background-position: center; }
@@ -80,8 +80,8 @@ section { display: none; }
 .btn-back { background: transparent; color: #007bff; border: none; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; cursor: pointer; }
 .video-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
 .lesson-item { background: #161616; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
-.lesson-link { color: #fff; font-weight: 600; text-decoration: none; font-size: 14px; flex: 1; }
-.btn-pdf { background: #222; color: #888; padding: 8px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; }
+.lesson-link { color: #fff; font-weight: 600; text-decoration: none; font-size: 14px; flex: 1; cursor: pointer; }
+.btn-pdf { background: #222; color: #888; padding: 8px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; border: 1px solid #333; }
 
 /* =========================================
    CHAT SÊNECA (PREMIUM & TELA CHEIA)
@@ -146,7 +146,7 @@ section { display: none; }
 .seneca-float:active { transform: scale(0.9); }
 .online-dot { position: absolute; bottom: 3px; right: 3px; width: 14px; height: 14px; background-color: #00ff88; border: 2px solid #000; border-radius: 50%; box-shadow: 0 0 5px #00ff88; }
 
-/* --- MENU INFERIOR --- */
+/* --- MENU INFERIOR (CORRIGIDO: Sem Módulos) --- */
 .mobile-nav { 
     margin-top: auto; background: #0a0a0a; padding: 30px 20px; border-top: 1px solid #222;
     display: flex; justify-content: space-around;
@@ -224,12 +224,36 @@ section { display: none; }
       </div>
       <div id="lessons-container"></div>
     </section>
+
+    <section id="chat-view">
+        <div class="chat-header">
+            <button class="btn-back" onclick="closeChat()" style="background: transparent; width: auto;"><i class="fas fa-arrow-left"></i></button>
+            <div class="chat-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Pseudo-Seneca.jpg" alt="Sêneca"></div>
+            <div class="chat-info">
+                <h3>Sêneca (Mentor IA)</h3>
+                <span id="chat-status">Online (Groq)</span>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+            </div>
+
+        <div class="chat-footer">
+            <div class="chat-input-wrapper">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Digite ou toque no mic..." autocomplete="off">
+                <button id="mic-btn" class="icon-btn" onclick="startDictation()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+            </div>
+            <button class="chat-send-btn" id="send-btn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </section>
+
   </main>
 
   <nav class="mobile-nav">
-      <a href="#" onclick="goHome()" class="mobile-nav-item active">
-          <i class="fas fa-th-large"></i> Módulos
-      </a>
       <a href="certificados.html" class="mobile-nav-item">
           <i class="fas fa-certificate"></i> Certificados
       </a>
@@ -246,27 +270,6 @@ section { display: none; }
       <div class="online-dot"></div>
   </div>
 
-  <section id="chat-view">
-      <div class="chat-header">
-          <button onclick="closeChat()" style="background:none; border:none; color:#fff; font-size:20px; margin-right:10px;"><i class="fas fa-arrow-left"></i></button>
-          <div class="chat-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Pseudo-Seneca.jpg"></div>
-          <div class="chat-info">
-              <h3>Sêneca</h3>
-              <span>Online</span>
-          </div>
-      </div>
-
-      <div class="chat-body" id="chat-body"></div>
-
-      <div class="chat-footer">
-          <div class="chat-input-wrapper">
-              <input type="text" id="chat-input" class="chat-input" placeholder="Mensagem..." autocomplete="off">
-              <button id="mic-btn" class="icon-btn" onclick="startDictation()"><i class="fas fa-microphone"></i></button>
-          </div>
-          <button class="chat-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-      </div>
-  </section>
-
 </div>
 
 <script>
@@ -277,64 +280,65 @@ const API_KEY = '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'; // G
 
 if (!userPlan) window.location.href = 'login.html';
 
-// Instruções para a IA
 const systemInstruction = `
-Você é Sêneca, mentor estoico. Ajude ${userName}.
-Use sabedoria do Estoicismo, PNL e Gestão.
-Seja breve, direto e prático (max 3 frases).
-Fale Português Brasil.
+Você é Sêneca, um mentor estoico do curso "Praticamente". 
+Ajude o aluno ${userName}.
+Regras:
+1. Respostas curtas e diretas (estilo WhatsApp).
+2. Seja empático e prático.
+3. Responda em Português do Brasil.
 `;
 
 let conversationHistory = JSON.parse(localStorage.getItem('seneca_history')) || [{ role: "system", content: systemInstruction }];
 
 window.onload = function() {
+    atualizarProgresso();
     aplicarBloqueios();
-    renderHistory();
     
-    // Boas vindas se for vazio
-    if (conversationHistory.length === 1) {
-        addMessage(`Olá, ${userName}. Estou à disposição.`, 'received', false);
+    renderHistory();
+    if(conversationHistory.length === 1) {
+        addMessage(`Olá, ${userName}. Sou Sêneca. Como posso te ajudar na sua jornada hoje?`, 'received', false);
     }
 
     const chatInput = document.getElementById('chat-input');
-    if(chatInput) chatInput.addEventListener('keypress', (e) => { if(e.key==='Enter') sendMessage(); });
+    if(chatInput) {
+        chatInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    }
 };
 
 // --- NAVEGAÇÃO ---
 function goHome() {
     document.getElementById('main-view').style.display = 'block';
-    document.querySelector('.mobile-nav').style.display = 'flex'; // Mostra menu
-    document.querySelector('.seneca-float').style.display = 'flex'; // Mostra bolinha
+    document.querySelector('.mobile-nav').style.display = 'flex'; 
+    document.querySelector('.seneca-float').style.display = 'flex'; 
     
     document.getElementById('module-content').style.display = 'none';
-    document.getElementById('chat-view').classList.remove('active'); // Esconde chat
+    document.getElementById('chat-view').style.display = 'none';
     document.getElementById('mod-video').src = '';
+}
+
+function closeChat() {
+    goHome();
 }
 
 function openChatInterface() {
     if(userPlan !== 'completo') { alert("🔒 Recurso exclusivo plano Completo."); return; }
-    
-    // Abre Chat Fullscreen
-    const chat = document.getElementById('chat-view');
-    chat.classList.add('active');
-    
-    // Esconde a bolinha para não atrapalhar o chat
+    document.getElementById('main-view').style.display = 'none';
+    document.getElementById('module-content').style.display = 'none';
+    const chatSection = document.getElementById('chat-view');
+    chatSection.style.display = 'flex'; 
     document.querySelector('.seneca-float').style.display = 'none';
     scrollToBottom();
 }
 
-function closeChat() {
-    document.getElementById('chat-view').classList.remove('active');
-    document.querySelector('.seneca-float').style.display = 'flex'; // Volta a bolinha
-}
-
-// --- CHAT LÓGICA ---
 function renderHistory() {
     const chatBody = document.getElementById('chat-body');
     chatBody.innerHTML = '';
-    conversationHistory.filter(m => m.role !== 'system').forEach(m => {
-        const type = m.role === 'user' ? 'sent' : 'received';
-        appendMessageToDOM(m.content, type);
+    conversationHistory.filter(msg => msg.role !== 'system').forEach(msg => {
+        const type = msg.role === 'user' ? 'sent' : 'received';
+        appendMessageToDOM(msg.content, type);
     });
 }
 
@@ -346,6 +350,9 @@ async function sendMessage() {
     addMessage(text, 'sent', true);
     input.value = '';
 
+    const status = document.getElementById('chat-status');
+    if(status) { status.innerText = 'digitando...'; status.style.color = '#00a884'; }
+
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -353,7 +360,8 @@ async function sendMessage() {
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: conversationHistory,
-                max_tokens: 400
+                max_tokens: 500,
+                temperature: 0.7
             })
         });
         const data = await response.json();
@@ -361,14 +369,15 @@ async function sendMessage() {
         addMessage(aiText, 'received', true);
     } catch (e) {
         addMessage("Erro de conexão.", 'received', false);
+    } finally {
+        if(status) { status.innerText = 'Online (Groq)'; status.style.color = '#00ff88'; }
     }
 }
 
 function addMessage(text, type, save) {
     appendMessageToDOM(text, type);
     if(save) {
-        const role = type === 'sent' ? 'user' : 'assistant';
-        conversationHistory.push({ role, content: text });
+        conversationHistory.push({ role: type === 'sent' ? 'user' : 'assistant', content: text });
         if(conversationHistory.length > 20) conversationHistory.splice(1, 1);
         localStorage.setItem('seneca_history', JSON.stringify(conversationHistory));
     }
@@ -377,44 +386,24 @@ function addMessage(text, type, save) {
 function appendMessageToDOM(text, type) {
     const body = document.getElementById('chat-body');
     const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    let formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    let audioBtn = type === 'received' ? `<i class="fas fa-volume-up" style="margin-left:10px; cursor:pointer; opacity:0.7;" onclick="falarTexto('${text.replace(/'/g, "").replace(/\n/g, " ")}')"></i>` : '';
     
-    // Formatação leve
-    let formatted = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-    
-    // Botão Falar
-    let audioBtn = '';
-    if(type === 'received') {
-        const cleanText = text.replace(/'/g, "").replace(/"/g, "").replace(/\n/g, " ");
-        audioBtn = `<i class="fas fa-volume-up" style="margin-left:10px; opacity:0.6;" onclick="falarTexto('${cleanText}')"></i>`;
-    }
-
     const div = document.createElement('div');
     div.className = `message ${type}`;
-    div.innerHTML = `${formatted} ${audioBtn} <span class="msg-time">${time}</span>`;
+    div.innerHTML = `${formattedText} ${audioBtn} <span class="msg-time">${time}</span>`;
     body.appendChild(div);
     scrollToBottom();
 }
 
-function scrollToBottom() {
-    const b = document.getElementById('chat-body');
-    b.scrollTop = b.scrollHeight;
-}
-
-// --- VOZ AVELUDADA ---
+/* VOZ AVELUDADA */
 function falarTexto(texto) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(texto);
-    
-    // Configurações para voz aveludada
-    u.lang = 'pt-BR'; 
-    u.rate = 0.9;  // Um pouco mais lento (reflexivo)
-    u.pitch = 0.8; // Tom mais grave (autoridade e calma)
-
-    // Tenta forçar a voz do Google se existir (é a melhor gratuita)
+    u.lang = 'pt-BR'; u.rate = 0.9; u.pitch = 0.8;
     const voices = window.speechSynthesis.getVoices();
     const googleVoice = voices.find(v => v.name.includes("Google") && v.lang.includes("pt-BR"));
     if(googleVoice) u.voice = googleVoice;
-
     window.speechSynthesis.speak(u);
 }
 
@@ -426,10 +415,15 @@ function startDictation() {
         r.onend = () => document.getElementById('mic-btn').classList.remove('listening');
         r.onresult = (e) => { 
             document.getElementById('chat-input').value = e.results[0][0].transcript;
-            sendMessage();
+            sendMessage(); 
         };
         r.start();
     } else alert("Navegador sem suporte a voz.");
+}
+
+function scrollToBottom() {
+    const body = document.getElementById('chat-body');
+    if(body) body.scrollTop = body.scrollHeight;
 }
 
 // --- UTILITÁRIOS ---
@@ -440,27 +434,80 @@ function aplicarBloqueios() {
 }
 function bloquear(id) { const el = document.getElementById(id); if(el) el.classList.add('locked'); }
 
-function tryOpen(name, plan, video) {
-    if (userPlan === 'completo') openModule(name, video); 
-    else alert("Bloqueado no seu plano.");
+function tryOpen(name, requiredPlan, videoIntro) {
+    if (userPlan === 'completo' || userPlan === requiredPlan) openModule(name, videoIntro);
+    else alert("🔒 Este módulo não faz parte do seu pacote. Adquira na loja.");
 }
+
+/* --- DADOS DAS AULAS (Restaurado) --- */
+const data = {
+    'Eneagrama': [
+        { title: 'Aula 1: A Base', video: 'https://youtube.com/embed/XXXXXX', pdf: 'eneagrama_aula1.pdf' }, 
+        { title: 'Aula 2: Perfil', video: 'https://youtube.com/embed/XXXXXX', pdf: 'eneagrama_aula2.pdf' }
+    ],
+    'PNL': [ { title: 'Aula 1: Conceitos', video: 'https://youtube.com/embed/XXXXXX', pdf: 'pnl_aula1.pdf' } ],
+    'Estoicismo': [ { title: 'Aula 1: Introdução', video: 'https://youtube.com/embed/XXXXXX', pdf: 'estoicismo_aula1.pdf' } ],
+    'Família': [ { title: 'Aula 1: Pilares', video: 'https://youtube.com/embed/XXXXXX', pdf: 'familia_aula1.pdf' } ],
+    'Curso Completo': [ { title: 'Aula Master', video: 'https://youtube.com/embed/XXXXXX', pdf: 'completo.pdf' } ],
+    'E-books': [ { title: 'E-book Liderança', video: '', pdf: 'lideranca.pdf' } ]
+};
+
+let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+const totalAulas = 7; 
 
 function openModule(name, videoIntro) {
     document.getElementById('main-view').style.display = 'none';
-    document.querySelector('.mobile-nav').style.display = 'none'; // Esconde menu
-    document.querySelector('.seneca-float').style.display = 'none'; // Esconde bolinha
+    document.querySelector('.mobile-nav').style.display = 'none'; 
+    document.querySelector('.seneca-float').style.display = 'none'; 
     
     document.getElementById('module-content').style.display = 'block';
     document.getElementById('mod-title').innerText = name;
     document.getElementById('mod-video').src = videoIntro;
     
     const container = document.getElementById('lessons-container');
-    container.innerHTML = `<div class="lesson-item"><span class="lesson-link">Aula 1: Introdução</span></div>`;
+    container.innerHTML = '';
+    
+    /* LÓGICA RESTAURADA AQUI */
+    if(data[name]) {
+        data[name].forEach(aula => {
+            // Se tiver vídeo, cria link. Se não, oculta o play.
+            const linkVideo = aula.video ? `<a href="#" class="lesson-link" onclick="document.getElementById('mod-video').src='${aula.video}'; marcarComoVista('${aula.title}')">▶ ${aula.title}</a>` : `<span class="lesson-link">${aula.title}</span>`;
+            
+            container.innerHTML += `
+                <div class="lesson-item">
+                    ${linkVideo}
+                    <a href="${aula.pdf}" class="btn-pdf" download>PDF</a>
+                </div>`;
+        });
+    } else {
+        container.innerHTML = '<p style="color:#666">Nenhuma aula disponível.</p>';
+    }
+    window.scrollTo(0,0);
 }
 
 function closeModule() { goHome(); }
-function logout() { if(confirm("Sair?")) { localStorage.removeItem('praticamente_plano'); window.location.href='login.html'; } }
 
+function marcarComoVista(tituloAula) {
+    if(!aulasConcluidas.includes(tituloAula)) {
+        aulasConcluidas.push(tituloAula);
+        localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas));
+        atualizarProgresso();
+    }
+}
+
+function atualizarProgresso() {
+    const totalVistas = aulasConcluidas.length;
+    const porcentagem = Math.min(Math.round((totalVistas / totalAulas) * 100), 100);
+    document.getElementById('prog-fill').style.width = porcentagem + "%";
+    document.getElementById('prog-text').innerText = `Evolução: ${porcentagem}%`;
+}
+
+function logout() {
+    if(confirm("Deseja realmente sair?")) {
+        localStorage.removeItem('praticamente_plano');
+        window.location.href = 'login.html';
+    }
+}
 </script>
 </body>
 </html>
