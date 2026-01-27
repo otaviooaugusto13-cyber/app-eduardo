@@ -31,58 +31,29 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overf
 
 .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
 .sidebar nav a:hover { background: #1a1a1a; color: #007bff; }
+.sidebar nav a.active { background: #1a1a1a; color: #007bff; border-left: 3px solid #007bff; }
 
-/* --- BARRA DE PROGRESSO (DESKTOP) --- */
+/* --- PROGRESSO --- */
 .progress-desktop { margin-top: 50px; }
 .progress-desktop span { font-size: 12px; color: #aaa; display: block; margin-bottom: 10px; }
 .bar { width: 100%; height: 8px; background: #333; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
 .bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #007bff, #00c6ff); transition: width 0.5s ease; }
 
-/* --- BARRA DE PROGRESSO (MOBILE) --- */
-.mobile-progress-container {
-    display: block;
-    margin-bottom: 30px;
-    background: #111;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid #222;
-}
+.mobile-progress-container { display: block; margin-bottom: 30px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; }
 @media (min-width: 769px) { .mobile-progress-container { display: none; } }
-
 .mobile-progress-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: #aaa; font-weight: bold; }
 
 /* --- CONTEÚDO PRINCIPAL --- */
-main { 
-    flex: 1; 
-    position: relative; 
-    overflow-y: auto; 
-    overflow-x: hidden;
-    background: #0e0e0e;
-}
-
-.content-container {
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 40px;
-}
+main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; }
+.content-container { padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 80px; }
 @media (min-width: 769px) { .content-container { padding: 40px; } }
 
 /* --- CARDS --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-
 .card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
 .card:hover { transform: translateY(-5px); border-color: #007bff; }
-
 .card.locked { filter: grayscale(100%); opacity: 0.5; cursor: not-allowed; border-color: #333 !important; }
-.card.locked::before {
-    content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 40px; color: #fff; z-index: 3;
-    background: #007bff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8);
-}
+.card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: #fff; z-index: 3; background: #007bff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
 
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #222; }
 .card-PNL { background-image: url('PNL.png'); background-color: #222; }
@@ -90,14 +61,12 @@ main {
 .card-familia { background-image: url('familia.png'); background-color: #222; } 
 .card-curso { background-image: url('curso.png'); background-color: #222; }
 .card-E-book { background-image: url('livros.png'); background-color: #222; }
-
-/* Card Flow IA */
 .card-ia { background: radial-gradient(circle at center, #004e92, #000428); border: 1px solid #007bff; }
 .card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
 .card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
 .card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
 
-/* --- ÁREA INTERNA (AULAS) --- */
+/* --- AULAS --- */
 #module-content { display: none; }
 .btn-back { background: transparent; color: #007bff; border: 1px solid #007bff; padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s; display: inline-block; }
 .video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 15px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
@@ -105,52 +74,40 @@ main {
 .lesson-link { color: #fff; text-decoration: none; font-weight: bold; font-size: 16px; cursor: pointer; }
 .btn-pdf { background: #333; color: #fff; padding: 8px 15px; text-decoration: none; border-radius: 6px; font-size: 12px; border: 1px solid #007bff; transition: 0.3s; }
 
-/* --- MOBILE NAV (RODAPÉ ESTÁTICO) --- */
-.mobile-nav { 
-    display: none; width: 100%; background: #0a0a0a; padding: 30px 20px; 
-    border-top: 1px solid #222; margin-top: 40px; flex-wrap: wrap; gap: 10px; justify-content: center;
-}
-.mobile-nav a { 
-    color: #888; text-decoration: none; font-size: 12px; font-weight: bold; text-align: center; border: 1px solid #333; 
-    padding: 12px 15px; border-radius: 12px; background: #151515; flex: 1 1 40%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s;
-}
-.mobile-nav a:active { background: #222; color: #fff; border-color: #007bff; }
-@media (max-width: 768px) { .mobile-nav { display: flex; } }
+/* --- DIÁRIO ESTOICO (NOVO) --- */
+#journal-view { display: none; }
+.journal-entry { background: #181818; border-left: 4px solid #007bff; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s; }
+.journal-date { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
+.journal-text { font-size: 14px; color: #ddd; font-style: italic; }
+.empty-journal { text-align: center; color: #555; margin-top: 50px; font-size: 14px; }
 
-/* --- ESTILOS DO CHAT (FLOW) --- */
-#chat-view { 
-    display: none; flex-direction: column; background-color: #050505; width: 100%; height: 100%; 
-    position: absolute; top: 0; left: 0; z-index: 50;
-    background-image: radial-gradient(circle at top right, rgba(0, 123, 255, 0.08), transparent 40%), radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.04), transparent 40%);
-}
+/* --- CHAT FLOW --- */
+#chat-view { display: none; flex-direction: column; background-color: #050505; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 50; background-image: radial-gradient(circle at top right, rgba(0, 123, 255, 0.08), transparent 40%), radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.04), transparent 40%); }
 #chat-view.active { display: flex; }
 
-.chat-header { 
-    background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; gap: 15px; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: absolute; top: 0; left: 0; right: 0; z-index: 10; height: 70px;
-}
-.chat-avatar { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #007bff, #00c6ff); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); }
+.chat-header { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: absolute; top: 0; left: 0; right: 0; z-index: 10; height: 70px; }
+.chat-avatar { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #007bff, #00c6ff); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); transition: 0.3s; }
+/* Avatar muda cor no modo Socrático */
+.socratic-mode .chat-avatar { background: linear-gradient(135deg, #ff4d4d, #a30000); box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
+
 .chat-info { flex: 1; overflow: hidden; }
 .chat-info h3 { font-size: 16px; margin: 0; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .chat-info span { font-size: 10px; color: #00c6ff; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
+.socratic-mode .chat-info span { color: #ff4d4d; }
 
 .header-controls { display: flex; gap: 10px; }
-.control-btn { 
-    background: rgba(255,255,255,0.05); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; 
-    display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s;
-}
-.control-btn:active { background: rgba(0, 123, 255, 0.3); }
+.control-btn { background: rgba(255,255,255,0.05); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; }
+.control-btn.active-socratic { background: rgba(255, 77, 77, 0.2); color: #ff4d4d; border: 1px solid #ff4d4d; }
+.control-btn:active { transform: scale(0.9); }
 
 .chat-body { flex: 1; padding: 90px 20px 100px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
 .message { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 15px; line-height: 1.5; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 .message.received { background: #181818; color: #eee; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #222; }
 .message.sent { background: linear-gradient(135deg, #0060c0, #004890); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
 .msg-time { font-size: 9px; opacity: 0.6; text-align: right; margin-top: 5px; display: block; }
+.journal-toast { font-size: 10px; color: #00ff88; margin-bottom: 5px; display: block; font-weight: bold; }
 
-.chat-footer { 
-    position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px; z-index: 20; padding-bottom: max(15px, env(safe-area-inset-bottom));
-}
+.chat-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px; z-index: 20; padding-bottom: max(15px, env(safe-area-inset-bottom)); }
 .chat-input-wrapper { flex: 1; background: #1c1c1c; border: 1px solid #333; border-radius: 25px; height: 50px; padding: 0 20px; display: flex; align-items: center; }
 .chat-input { background: transparent; border: none; color: #fff; width: 100%; height: 100%; outline: none; font-size: 15px; }
 .chat-btn { width: 50px; height: 50px; flex-shrink: 0; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
@@ -160,7 +117,7 @@ main {
 .chat-mic-btn.listening { background: #ff4d4d; border-color: #ff4d4d; color: white; animation: pulseMic 1.5s infinite; }
 @keyframes pulseMic { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
 
-/* --- MODO LIGAÇÃO (ONDAS) --- */
+/* --- MODO LIGAÇÃO --- */
 #call-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; }
 .call-core { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #007bff, #00c6ff); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 0 40px rgba(0, 123, 255, 0.6); cursor: pointer; }
 .call-core i { font-size: 40px; color: white; }
@@ -173,18 +130,22 @@ main {
 .call-status { margin-top: 50px; font-size: 14px; color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
 .btn-end-call { margin-top: 40px; background: rgba(20, 20, 20, 0.8); color: #ff4d4d; border: 1px solid #ff4d4d; width: 60px; height: 60px; border-radius: 50%; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-end-call:active { background: #ff4d4d; color: white; }
+
+/* --- RODAPÉ MOBILE --- */
+.mobile-nav { display: none; width: 100%; background: #0a0a0a; padding: 30px 20px; border-top: 1px solid #222; margin-top: 40px; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.mobile-nav a { color: #888; text-decoration: none; font-size: 12px; font-weight: bold; text-align: center; border: 1px solid #333; padding: 12px 15px; border-radius: 12px; background: #151515; flex: 1 1 40%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+.mobile-nav a.active { background: #222; color: #fff; border-color: #007bff; }
+@media (max-width: 768px) { .mobile-nav { display: flex; } }
 </style>
 </head>
 <body>
 
 <div class="app">
   <aside class="sidebar">
-    <div class="logo">
-        <span class="pratica">Pratica</span><span class="mente">mente</span>
-    </div>
+    <div class="logo"><span class="pratica">Pratica</span><span class="mente">mente</span></div>
     <nav>
-      <a href="#" onclick="goHome()">Módulos</a>
-      <a href="conta.html">Minha Conta</a>
+      <a href="#" onclick="goHome()" class="active">Módulos</a>
+      <a href="#" onclick="openJournal()">Diário</a>
       <a href="certificados.html">Certificados</a>
       <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
       <a href="#" onclick="logout()" style="color: #ff4d4d; margin-top: 20px;">Sair</a>
@@ -199,12 +160,8 @@ main {
     <div class="content-container">
         
         <section id="main-view" style="display: block;">
-          
           <div class="mobile-progress-container">
-              <div class="mobile-progress-info">
-                  <span>SEU PROGRESSO</span>
-                  <span id="prog-text-mobile">0%</span>
-              </div>
+              <div class="mobile-progress-info"><span>SEU PROGRESSO</span><span id="prog-text-mobile">0%</span></div>
               <div class="bar"><div id="prog-fill-mobile" class="bar-fill"></div></div>
           </div>
 
@@ -224,8 +181,8 @@ main {
           </div>
 
           <nav class="mobile-nav">
-            <a href="#" onclick="goHome()" style="border-color: #007bff; color: white;"><i class="fas fa-th-large"></i> Módulos</a>
-            <a href="certificados.html"><i class="fas fa-certificate"></i> Certificados</a>
+            <a href="#" onclick="goHome()" class="active"><i class="fas fa-th-large"></i> Módulos</a>
+            <a href="#" onclick="openJournal()"><i class="fas fa-book"></i> Diário</a>
             <a href="https://wa.me/55SEUNUMERO" target="_blank"><i class="fab fa-whatsapp"></i> Suporte</a>
             <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Sair</a>
           </nav>
@@ -238,12 +195,20 @@ main {
           <div id="lessons-container"></div>
         </section>
 
+        <section id="journal-view">
+            <button class="btn-back" onclick="goHome()">← Voltar</button>
+            <h1 style="margin-bottom: 20px;">Seu Diário Estoico</h1>
+            <p style="color: #888; margin-bottom: 30px; font-size: 14px;">Insights salvos automaticamente pelo Flow durante suas conversas.</p>
+            <div id="journal-container"></div>
+        </section>
+
         <section id="chat-view">
             <div class="chat-header">
                 <button class="control-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></button>
                 <div class="chat-avatar"><i class="fas fa-bolt"></i></div>
                 <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">Amigo Virtual</span></div>
                 <div class="header-controls">
+                    <button class="control-btn" id="socratic-btn" onclick="toggleSocraticMode()" title="Modo Debate Socrático (Advogado do Diabo)"><i class="fas fa-fire"></i></button>
                     <button class="control-btn" id="voice-toggle-btn" onclick="toggleMute()"><i class="fas fa-volume-up"></i></button>
                     <button class="control-btn" onclick="startCallMode()" style="background: rgba(0, 123, 255, 0.2); color: #00c6ff;"><i class="fas fa-phone-alt"></i></button>
                 </div>
@@ -263,13 +228,24 @@ main {
             <div class="wave"></div><div class="wave"></div><div class="wave"></div>
         </div>
         <div class="call-status" id="call-status-text">Conectando...</div>
-        <div style="margin-top: 15px; font-size: 10px; color: #555;">(Toque na tela para interromper)</div>
+        <div style="margin-top: 20px; font-size: 11px; color: #666;">(Toque na tela para interromper a fala)</div>
         <button class="btn-end-call" onclick="endCallMode(event)"><i class="fas fa-phone-slash"></i></button>
     </div>
   </main>
 </div>
 
 <script>
+// --- DADOS DO CURSO (PARA A IA) ---
+const courseData = {
+    'Eneagrama': ['Aula 1: A Base', 'Aula 2: Perfil'],
+    'PNL': ['Aula 1: Conceitos'],
+    'Estoicismo': ['Aula 1: Introdução'],
+    'Família': ['Aula 1: Pilares Familiares'],
+    'Curso Completo': ['Aula Master'],
+    'E-books': ['Praticamente: Os Códigos da Liderança']
+};
+const courseDataStr = JSON.stringify(courseData);
+
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
 
@@ -277,14 +253,25 @@ const API_KEY = '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';
 let userName = localStorage.getItem('praticamente_nome_usuario') || ''; 
 let isVoiceEnabled = true; 
 let isCallMode = false; 
+let isSocraticMode = false;
 
+// --- PROMPT AVANÇADO (COM INTEGRAÇÃO E DIÁRIO) ---
 const baseSystemInstruction = `
-Você é o "Flow", o melhor amigo do usuário.
-REGRA: EFEITO CAMALEÃO.
-1. Se o usuário usar gírias, responda igual.
-2. Se o usuário for curto, seja curto.
-3. Não repita nomes.
-4. Seja natural e direto.
+Você é o "Flow", o melhor amigo do usuário e mentor.
+
+REGRAS GERAIS:
+1. **Camaleão:** Se o usuário usar gíria, use gíria. Se for formal, seja formal.
+2. **Brevidade:** Respostas curtas para mensagens curtas.
+3. **Resumo Executivo:** Se o usuário mandar um texto muito longo e confuso (vindo de voz), comece dizendo "Aqui está o resumo:" e liste os pontos.
+
+INTEGRAÇÃO COM CURSO:
+Você conhece este conteúdo do curso: ${courseDataStr}.
+Se o usuário perguntar algo que existe no curso, responda e diga: "Isso aprofundamos na [Nome da Aula] do módulo [Nome do Módulo]."
+
+DIÁRIO AUTOMÁTICO:
+Se o usuário tiver um insight valioso, uma vitória ou um desabafo importante, inicie sua resposta com a tag oculta:
+[[DIARIO: Resumo curto do insight em 1 frase]]
+Exemplo: [[DIARIO: Percebi que minha raiva vem da falta de controle.]] Que ótimo insight!
 `;
 
 let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [{ role: "system", content: baseSystemInstruction }];
@@ -307,7 +294,11 @@ function renderHistory() {
     body.innerHTML = ''; 
     conversationHistory.forEach(msg => {
         if(msg.role === 'user') addMessageToUI(msg.content, 'sent');
-        if(msg.role === 'assistant') addMessageToUI(msg.content, 'received');
+        // Filtra tags internas para não mostrar no histórico visual antigo se houver
+        if(msg.role === 'assistant') {
+            let cleanContent = msg.content.replace(/\[\[DIARIO:.*?\]\]/g, '');
+            addMessageToUI(cleanContent, 'received');
+        }
     });
 }
 
@@ -319,6 +310,62 @@ function goHome() {
     window.speechSynthesis.cancel();
 }
 
+// --- LÓGICA DO DIÁRIO ---
+function checkAndSaveJournal(text) {
+    const regex = /\[\[DIARIO: (.*?)\]\]/;
+    const match = text.match(regex);
+    if (match) {
+        const insight = match[1];
+        let journal = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
+        const entry = { date: new Date().toLocaleDateString(), text: insight };
+        journal.unshift(entry); // Adiciona no começo
+        localStorage.setItem('praticamente_diario', JSON.stringify(journal));
+        return text.replace(regex, ''); // Retorna texto limpo
+    }
+    return text;
+}
+
+function openJournal() {
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    document.getElementById('journal-view').style.display = 'block';
+    const container = document.getElementById('journal-container');
+    const journal = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
+    
+    container.innerHTML = '';
+    if (journal.length === 0) {
+        container.innerHTML = '<div class="empty-journal"><i class="fas fa-book-open" style="font-size: 40px; margin-bottom: 15px;"></i><br>Seu diário está vazio.<br>Converse com o Flow para gerar insights automáticos.</div>';
+    } else {
+        journal.forEach(entry => {
+            container.innerHTML += `
+                <div class="journal-entry">
+                    <span class="journal-date">${entry.date}</span>
+                    <div class="journal-text">"${entry.text}"</div>
+                </div>`;
+        });
+    }
+}
+
+// --- MODO SOCRÁTICO ---
+function toggleSocraticMode() {
+    isSocraticMode = !isSocraticMode;
+    const btn = document.getElementById('socratic-btn');
+    const status = document.getElementById('chat-status');
+    const wrapper = document.getElementById('chat-view');
+    
+    if (isSocraticMode) {
+        btn.classList.add('active-socratic');
+        wrapper.classList.add('socratic-mode');
+        status.innerText = 'Advogado do Diabo 🔥';
+        status.style.color = '#ff4d4d';
+        falarTexto("Modo Socrático ativado. Prepare-se para ser questionado.");
+    } else {
+        btn.classList.remove('active-socratic');
+        wrapper.classList.remove('socratic-mode');
+        status.innerText = 'Amigo Virtual';
+        status.style.color = '#00c6ff';
+    }
+}
+
 function toggleMute() {
     isVoiceEnabled = !isVoiceEnabled;
     const btn = document.getElementById('voice-toggle-btn');
@@ -328,12 +375,10 @@ function toggleMute() {
 }
 
 function interruptSpeech() {
-    // FUNÇÃO PARA CALAR A BOCA DA IA
     if(window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
-        if(isCallMode) document.getElementById('call-status-text').innerText = "Ouvindo...";
-        // Garante que o microfone volta
-        toggleVoiceInput();
+        if(isCallMode) document.getElementById('call-status-text').innerText = "Ouvindo você...";
+        if(isCallMode) toggleVoiceInput();
     }
 }
 
@@ -347,7 +392,7 @@ function startCallMode() {
 }
 
 function endCallMode(e) {
-    if(e) e.stopPropagation(); // Evita acionar o interruptSpeech ao desligar
+    if(e) e.stopPropagation(); 
     isCallMode = false;
     document.getElementById('call-overlay').style.display = 'none';
     document.body.classList.remove('call-active');
@@ -385,7 +430,14 @@ async function sendMessage(overrideText) {
     }
 
     addMessageToUI(text, 'sent');
-    conversationHistory.push({ role: "user", content: text });
+    
+    // Injeção de contexto Socrático se ativo
+    let finalText = text;
+    if (isSocraticMode) {
+        finalText = `[SISTEMA: O usuário ativou o MODO DEBATE SOCRÁTICO. Não dê respostas. Faça perguntas difíceis, desafie a lógica dele e seja o "Advogado do Diabo".] ${text}`;
+    }
+
+    conversationHistory.push({ role: "user", content: finalText });
     saveToLocalStorage();
     
     input.value = '';
@@ -398,19 +450,31 @@ async function sendMessage(overrideText) {
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: conversationHistory,
-                max_tokens: 300,
+                max_tokens: 450,
                 temperature: 0.9
             })
         });
 
         const data = await response.json();
         if(data.error) throw new Error(data.error.message);
-        const aiText = data.choices[0].message.content;
+        let aiText = data.choices[0].message.content;
         
-        conversationHistory.push({ role: "assistant", content: aiText });
+        // Processa Diário
+        const cleanAiText = checkAndSaveJournal(aiText);
+        
+        // Se salvou algo no diário, avisa visualmente
+        if (aiText !== cleanAiText) {
+            const body = document.getElementById('chat-body');
+            const toast = document.createElement('div');
+            toast.className = 'journal-toast';
+            toast.innerText = '✨ Insight salvo no Diário';
+            body.appendChild(toast);
+        }
+
+        conversationHistory.push({ role: "assistant", content: aiText }); // Salva com tag para contexto
         saveToLocalStorage();
-        addMessageToUI(aiText, 'received');
-        falarTexto(aiText);
+        addMessageToUI(cleanAiText, 'received');
+        falarTexto(cleanAiText);
         
     } catch (error) {
         addMessageToUI(`Erro: ${error.message}`, 'received');
@@ -442,16 +506,16 @@ function scrollToBottom() {
     if(body) body.scrollTop = body.scrollHeight;
 }
 
-// --- FUNÇÕES DE VOZ (LÓGICA BLINDADA MOBILE) ---
+// --- FUNÇÕES DE VOZ BLINDADAS ---
 let recognition;
 let silenceTimer; 
+let isAiSpeaking = false; 
 
 function toggleVoiceInput() {
     if (!('webkitSpeechRecognition' in window)) { alert("Navegador sem suporte."); return; }
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
-    // Se já estiver rodando, não duplica, apenas reinicia o timer se necessário
     if (recognition && typeof recognition.start === 'function') {
         try { recognition.start(); } catch(e) {}
         return; 
@@ -459,10 +523,12 @@ function toggleVoiceInput() {
 
     recognition = new SpeechRecognition();
     recognition.lang = 'pt-BR';
-    recognition.interimResults = true; // Necessário para detectar que você ESTÁ falando
-    recognition.continuous = false; // MELHOR PARA MOBILE: Força reiniciar a cada frase (evita travamento)
+    recognition.interimResults = true; 
+    recognition.continuous = false; 
 
     recognition.onstart = function() {
+        if(isAiSpeaking) { recognition.stop(); return; } 
+        
         if(isCallMode) {
             document.body.classList.add('call-active');
             document.getElementById('call-status-text').innerText = "Ouvindo...";
@@ -473,22 +539,17 @@ function toggleVoiceInput() {
     };
 
     recognition.onend = function() {
-        // Lógica de "Keep Alive" para a ligação
-        if(isCallMode && !window.speechSynthesis.speaking) { 
-            // Se caiu mas a IA não está falando, liga de novo imediatamente
+        if(isCallMode && !isAiSpeaking) {
             recognition.start();
         } else {
             if(isCallMode) document.body.classList.remove('call-active');
             document.getElementById('mic-btn').classList.remove('listening');
-            recognition = null; // Limpa para poder criar de novo
+            recognition = null;
         }
     };
 
     recognition.onresult = function(event) {
-        // INTERRUPÇÃO: Se você falar, a IA cala a boca
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.cancel();
-        }
+        if (isAiSpeaking) { recognition.stop(); return; }
 
         let interimTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -499,22 +560,25 @@ function toggleVoiceInput() {
             if(!isCallMode) document.getElementById('chat-input').value = interimTranscript;
             
             clearTimeout(silenceTimer);
-            // CRONÔMETRO DE 1.5 SEGUNDOS (TURBO)
             silenceTimer = setTimeout(() => {
-                recognition.stop(); // Para de ouvir
+                recognition.stop(); 
                 if(isCallMode) { sendMessage(interimTranscript); }
                 else { document.getElementById('chat-input').value = interimTranscript; sendMessage(); }
             }, 1500); 
         }
     };
-    recognition.start();
+    
+    if(!isAiSpeaking) recognition.start();
 }
 
 function falarTexto(texto) {
     if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
     
-    window.speechSynthesis.cancel(); // Garante silêncio antes de começar
+    window.speechSynthesis.cancel();
+    if(recognition) recognition.stop();
     
+    isAiSpeaking = true; 
+
     const textoLimpo = texto.replace(/\*/g, '').replace(/<br>/g, '. ');
     const utterance = new SpeechSynthesisUtterance(textoLimpo);
     utterance.lang = 'pt-BR';
@@ -528,30 +592,27 @@ function falarTexto(texto) {
         if(isCallMode) {
             document.getElementById('call-status-text').innerText = "Falando...";
             document.body.classList.add('call-active');
-            // TRUQUE: Deixa o mic 'engatilhado' para interrupção se o navegador permitir
-            // (Alguns browsers bloqueiam mic enquanto fala, mas tentamos mesmo assim)
         }
     };
 
     utterance.onend = () => { 
+        isAiSpeaking = false; 
         if(isCallMode) {
             document.getElementById('call-status-text').innerText = "Sua vez...";
-            toggleVoiceInput(); // Liga o mic de volta assim que terminar
+            toggleVoiceInput(); 
         }
     };
     window.speechSynthesis.speak(utterance);
 }
 
-// --- BARRA DE PROGRESSO ---
+// --- BARRA DE PROGRESSO E BLOQUEIOS ---
 function atualizarProgresso() {
     const totalVistas = aulasConcluidas.length;
     const porcentagem = Math.min(Math.round((totalVistas / totalAulas) * 100), 100);
-    
     const fillDesktop = document.getElementById('prog-fill-desktop');
     if(fillDesktop) fillDesktop.style.width = porcentagem + "%";
     const textDesktop = document.getElementById('prog-text-desktop');
     if(textDesktop) textDesktop.innerText = `Evolução: ${porcentagem}%`;
-
     const fillMobile = document.getElementById('prog-fill-mobile');
     if(fillMobile) fillMobile.style.width = porcentagem + "%";
     const textMobile = document.getElementById('prog-text-mobile');
