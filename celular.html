@@ -44,7 +44,7 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overf
 .mobile-progress-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: #aaa; font-weight: bold; }
 
 /* --- CONTEÚDO PRINCIPAL --- */
-main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; padding-bottom: 80px; /* Espaço para a nav bar */ }
+main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; padding-bottom: 100px; /* Mais espaço para o menu vidro */ }
 .content-container { padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
 @media (min-width: 769px) { .content-container { padding: 40px; padding-bottom: 40px; } }
 
@@ -55,16 +55,26 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .card.locked { filter: grayscale(100%); opacity: 0.5; cursor: not-allowed; border-color: #333 !important; }
 .card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: #fff; z-index: 3; background: #007bff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
 
+/* --- IMAGENS DOS CARDS --- */
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #222; }
 .card-PNL { background-image: url('PNL.png'); background-color: #222; }
 .card-estoicismo { background-image: url('estoicismo.png'); background-color: #222; }
 .card-familia { background-image: url('familia.png'); background-color: #222; } 
 .card-curso { background-image: url('curso.png'); background-color: #222; }
 .card-E-book { background-image: url('livros.png'); background-color: #222; }
-.card-ia { background: radial-gradient(circle at center, #004e92, #000428); border: 1px solid #007bff; }
-.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; }
-.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; }
-.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 1; }
+
+/* MÓDULO 7 COM IMAGEM DE FUNDO (IGUAL AOS OUTROS) */
+.card-ia { 
+    /* Usei uma imagem de IA futurista azulada de alta qualidade */
+    background-image: url('https://img.freepik.com/free-photo/view-futuristic-robot-face_23-2150893049.jpg'); 
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #007bff; 
+}
+
+.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.95); position: relative; z-index: 2; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.2) 80%); z-index: 1; }
 
 /* --- AULAS --- */
 #module-content { display: none; }
@@ -119,19 +129,19 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .chat-send-btn { background: linear-gradient(135deg, #007bff, #0056b3); }
 .chat-send-btn:active { transform: scale(0.95); }
 
-/* Botão Phone no Footer */
 .chat-phone-btn { background: rgba(0, 123, 255, 0.15); border: 1px solid rgba(0, 123, 255, 0.3); color: #00c6ff; }
 .chat-phone-btn:active { background: rgba(0, 123, 255, 0.3); }
 
-/* Botão Mic */
-.chat-mic-btn { background: #2a2a2a; border: 1px solid #333; }
+/* MIC FICA VERMELHO AO OUVIR */
+.chat-mic-btn { background: #2a2a2a; border: 1px solid #333; transition: 0.3s; }
 .chat-mic-btn.listening { 
     background-color: #ff4d4d !important; 
     border-color: #ff4d4d !important; 
     color: white !important; 
     animation: pulseRed 1.5s infinite; 
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
 }
-@keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
+@keyframes pulseRed { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
 /* --- MODO LIGAÇÃO --- */
 #call-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 300; display: none; flex-direction: column; align-items: center; justify-content: center; }
@@ -147,27 +157,36 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .btn-end-call { margin-top: 40px; background: rgba(20, 20, 20, 0.8); color: #ff4d4d; border: 1px solid #ff4d4d; width: 60px; height: 60px; border-radius: 50%; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-end-call:active { background: #ff4d4d; color: white; }
 
-/* --- NAVBAR MOBILE PREMIUM (FIXO) --- */
+/* --- NAVBAR MOBILE PREMIUM (EFEITO VIDRO/FUMÊ) --- */
 .mobile-nav { 
     display: none; 
-    position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-    background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255,255,255,0.08);
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+    width: 90%; max-width: 400px; height: 70px;
+    
+    /* EFEITO VIDRO (FUMÊ) */
+    background: rgba(20, 20, 20, 0.75); 
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
+    
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 25px; /* Bordas bem arredondadas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    
     display: flex; justify-content: space-around; align-items: center;
     z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom);
 }
 @media (min-width: 769px) { .mobile-nav { display: none !important; } }
 
 .nav-item {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: #666; text-decoration: none; background: none; border: none;
+    color: #888; text-decoration: none; background: none; border: none;
     font-size: 10px; font-weight: bold; transition: 0.3s;
-    flex: 1; height: 100%;
+    flex: 1; height: 100%; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 .nav-item i { font-size: 20px; margin-bottom: 4px; transition: 0.3s; }
-.nav-item.active { color: #007bff; }
-.nav-item.active i { transform: translateY(-2px); }
+.nav-item:active { transform: scale(0.9); }
+.nav-item:active i { color: #fff; }
 .nav-item.logout { color: #ff4d4d; }
 
 </style>
@@ -207,6 +226,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
             <div id="mod-familia" class="card card-familia" onclick="tryOpen('Família', 'completo', 'https://www.youtube.com/embed/SuaIntroAquiFamilia')"><span>MÓDULO 4</span><h3>Família e relações</h3></div>
             <div id="mod-completo" class="card card-curso" onclick="tryOpen('Curso Completo', 'completo', 'https://www.youtube.com/embed/SuaIntroAqui4')"><span>MÓDULO 5</span><h3>Método PráticaMente</h3></div>
             <div id="mod-ebooks" class="card card-E-book" onclick="tryOpen('E-books', 'ebooks', '')"><span>MÓDULO 6</span><h3>E-books</h3></div>
+            
             <div id="mod-ia" class="card card-ia" onclick="openChatInterface()">
                 <span style="color: white; background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">MÓDULO 7</span>
                 <i class="fas fa-brain" style="font-size: 40px; color: rgba(255,255,255,0.9); margin-bottom: 15px; opacity: 0.8;"></i>
@@ -554,7 +574,6 @@ function toggleVoiceInput() {
             document.body.classList.add('call-active');
             document.getElementById('call-status-text').innerText = "Ouvindo...";
         } else {
-            // FIX: Adiciona classe para ficar VERMELHO
             document.getElementById('mic-btn').classList.add('listening');
             document.getElementById('chat-input').placeholder = "Ouvindo...";
         }
@@ -563,7 +582,6 @@ function toggleVoiceInput() {
         if(isCallMode && !isAiSpeaking) { recognition.start(); } 
         else { 
             if(isCallMode) document.body.classList.remove('call-active'); 
-            // FIX: Remove classe do VERMELHO
             document.getElementById('mic-btn').classList.remove('listening');
             recognition = null; 
         }
