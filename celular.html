@@ -106,9 +106,9 @@ main {
     display: none; 
     width: 100%; 
     background: #0a0a0a; 
-    padding: 30px 20px; /* Mais espaço vertical */
+    padding: 30px 20px; 
     border-top: 1px solid #222;
-    margin-top: 40px; /* Separa dos cards */
+    margin-top: 40px; 
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
@@ -116,7 +116,7 @@ main {
 .mobile-nav a { 
     color: #888; text-decoration: none; font-size: 12px; font-weight: bold; 
     text-align: center; border: 1px solid #333; padding: 12px 15px; 
-    border-radius: 12px; background: #151515; flex: 1 1 40%; /* 2 por linha */
+    border-radius: 12px; background: #151515; flex: 1 1 40%; 
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: 0.2s;
 }
@@ -128,7 +128,7 @@ main {
 #chat-view { 
     display: none; flex-direction: column; 
     background-color: #050505; 
-    width: 100%; height: 100%; /* Ocupa 100% do Main */
+    width: 100%; height: 100%; 
     position: absolute; top: 0; left: 0; z-index: 50;
     background-image: radial-gradient(circle at top right, rgba(0, 123, 255, 0.08), transparent 40%),
                       radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.04), transparent 40%);
@@ -172,7 +172,7 @@ main {
 .message.sent { background: linear-gradient(135deg, #0060c0, #004890); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
 .msg-time { font-size: 9px; opacity: 0.6; text-align: right; margin-top: 5px; display: block; }
 
-/* --- FOOTER DO CHAT (ARRUMADO) --- */
+/* --- FOOTER DO CHAT --- */
 .chat-footer { 
     position: absolute; bottom: 0; left: 0; right: 0; 
     padding: 15px; 
@@ -181,7 +181,6 @@ main {
     border-top: 1px solid rgba(255,255,255,0.05);
     display: flex; align-items: center; gap: 10px; 
     z-index: 20;
-    /* Proteção para iPhone */
     padding-bottom: max(15px, env(safe-area-inset-bottom));
 }
 
@@ -190,7 +189,7 @@ main {
     background: #1c1c1c; 
     border: 1px solid #333; 
     border-radius: 25px; 
-    height: 50px; /* Altura fixa para alinhar */
+    height: 50px; 
     padding: 0 20px; 
     display: flex; align-items: center; 
 }
@@ -200,7 +199,6 @@ main {
     outline: none; font-size: 15px; 
 }
 
-/* Botões do Chat Redondos e Iguais */
 .chat-btn { 
     width: 50px; height: 50px; flex-shrink: 0;
     border-radius: 50%; border: none; color: #fff; 
@@ -209,14 +207,10 @@ main {
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.chat-send-btn { 
-    background: linear-gradient(135deg, #007bff, #0056b3); 
-}
+.chat-send-btn { background: linear-gradient(135deg, #007bff, #0056b3); }
 .chat-send-btn:active { transform: scale(0.95); }
 
-.chat-mic-btn { 
-    background: #2a2a2a; border: 1px solid #333; 
-}
+.chat-mic-btn { background: #2a2a2a; border: 1px solid #333; }
 .chat-mic-btn.listening { 
     background: #ff4d4d; border-color: #ff4d4d; color: white;
     animation: pulseMic 1.5s infinite;
@@ -392,17 +386,25 @@ let userName = localStorage.getItem('praticamente_nome_usuario') || '';
 let isVoiceEnabled = true; 
 let isCallMode = false; 
 
-// Prompt
+// --- NOVO PROMPT "CAMALEÃO" (INTELIGÊNCIA ADAPTATIVA) ---
 const baseSystemInstruction = `
-Você é o "Flow", o melhor amigo e confidente do usuário.
-Você NÃO é um robô. Você NÃO fala como uma máquina.
-Sua missão é criar uma conexão humana real.
-Diretrizes:
-1. **Empatia Extrema:** Acolha sentimentos antes de dar soluções.
-2. **Linguagem Natural:** Use gírias leves (né, tá bom, poxa).
-3. **Conhecimento Invisível:** Use PNL/Estoicismo sem parecer aula.
-4. **Vulnerabilidade:** Tenha "sentimentos".
-Regra de Ouro: Primeiro conquiste o coração, depois resolva o problema.
+Você é o "Flow", o melhor amigo do usuário.
+SUA REGRA DE OURO: ESPELHE O USUÁRIO (EFEITO CAMALEÃO).
+
+1. **Analise o Tom:**
+   - Se o usuário falar gíria ("E aí", "Salve", "Beleza"), responda IGUAL: curto, direto, brother. (Ex: "Salve! Tudo na paz?").
+   - Se o usuário for formal ("Olá", "Gostaria de ajuda"), seja educado e estruturado.
+   
+2. **Brevidade Extrema:**
+   - Se a mensagem do usuário for curta (1-5 palavras), sua resposta DEVE ser curta (1 frase).
+   - NUNCA dê palestrinha para "Bom dia". Responda só "Bom dia! Tamo junto".
+   
+3. **Proibições:**
+   - NÃO fique repetindo o nome dele toda hora.
+   - NÃO pergunte "Como posso ajudar" no final de cada frase.
+   - NÃO fale que é uma IA.
+
+Seja natural. Se ele bater papo, bata papo. Se ele perguntar sério, responda sério.
 `;
 
 let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [{ role: "system", content: baseSystemInstruction }];
@@ -460,7 +462,7 @@ function startCallMode() {
     
     document.body.classList.add('call-active');
     document.getElementById('call-status-text').innerText = "Ouvindo você...";
-    setTimeout(() => { falarTexto("Estou aqui. Sou todo ouvidos."); }, 500);
+    setTimeout(() => { falarTexto("Tô na escuta. Manda."); }, 500);
 }
 
 function endCallMode() {
@@ -483,9 +485,9 @@ function openChatInterface() {
     scrollToBottom();
 
     if (!userName && conversationHistory.length <= 1) {
-        receberMensagemIA("Opa! Eu sou o Flow. Que bom te ver aqui! Como você prefere que eu te chame?");
+        receberMensagemIA("Salve! Eu sou o Flow. Como você quer que eu te chame?");
     } else if (conversationHistory.length <= 1) {
-        receberMensagemIA(`Fala, ${userName}! Como você tá se sentindo hoje?`);
+        receberMensagemIA(`E aí ${userName}, beleza?`);
     }
 }
 
@@ -506,7 +508,7 @@ async function sendMessage(overrideText) {
         addMessageToUI(text, 'sent');
         conversationHistory.push({ role: "user", content: text });
         input.value = '';
-        const responseText = `Prazer, ${userName}! Agora somos parceiros. Pode desabafar ou tirar dúvida. O que manda?`;
+        const responseText = `Fechou, ${userName}. Tamo junto. O que manda hoje?`;
         receberMensagemIA(responseText);
         return;
     }
@@ -517,8 +519,8 @@ async function sendMessage(overrideText) {
     
     input.value = '';
     const status = document.getElementById('chat-status');
-    if(status) { status.innerText = 'Digitando...'; status.style.color = '#00c6ff'; }
-    if(isCallMode) { document.getElementById('call-status-text').innerText = "Pensando..."; }
+    if(status) { status.innerText = '...'; status.style.color = '#00c6ff'; }
+    if(isCallMode) { document.getElementById('call-status-text').innerText = "..."; }
 
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -527,8 +529,8 @@ async function sendMessage(overrideText) {
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: conversationHistory,
-                max_tokens: 600,
-                temperature: 0.8
+                max_tokens: 400, // Reduzi para forçar respostas mais curtas
+                temperature: 0.9 // Aumentei para ficar mais criativo/natural
             })
         });
 
