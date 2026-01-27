@@ -256,7 +256,7 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
             <div class="chat-avatar" style="margin-left: 10px;"><i class="fas fa-bolt"></i></div>
             <div class="chat-info" style="margin-left: 10px;">
                 <h3>Flow Praticamente</h3>
-                <span id="chat-status">Mentoria Ativa</span>
+                <span id="chat-status">Amigo Virtual</span>
             </div>
             
             <div class="header-controls">
@@ -276,7 +276,7 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
                 <i class="fas fa-microphone"></i>
             </button>
             <div class="chat-input-wrapper">
-                <input type="text" id="chat-input" class="chat-input" placeholder="Digite ou fale..." autocomplete="off">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Converse com seu amigo..." autocomplete="off">
             </div>
             <button class="chat-btn chat-send-btn" id="send-btn" onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
@@ -289,7 +289,7 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
             <i class="fas fa-bolt"></i>
             <div class="pulse-ring"></div>
         </div>
-        <div class="call-status" id="call-status-text">Toque para falar</div>
+        <div class="call-status" id="call-status-text">Toque para desabafar</div>
         <button class="btn-end-call" onclick="endCallMode()"><i class="fas fa-phone-slash"></i></button>
     </div>
 
@@ -309,26 +309,26 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
 
-// --- CONFIGURAÇÃO DA SUPER IA ---
+// --- CONFIGURAÇÃO DA SUPER IA (MODO AMIGO HUMANIZADO) ---
 const API_KEY = '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'; 
 let userName = localStorage.getItem('praticamente_nome_usuario') || ''; 
 let isVoiceEnabled = true; // Controle de Mute
 let isCallMode = false; // Controle do Modo Ligação
 
-// Prompt Poderoso
+// Prompt SUPER HUMANIZADO
 const baseSystemInstruction = `
-Você é o "Flow", a inteligência central do método Praticamente.
-Seu objetivo: Ser um mentor conversacional de alta performance.
-Você domina PROFUNDAMENTE:
-1. **PNL (Programação Neurolinguística):** Use rapport e reenquadramento.
-2. **Eneagrama:** Identifique tipos e asas. Adapte a linguagem.
-3. **Neurociência & Andragogia:** Explique o porquê biológico e foque na prática.
-4. **Estoicismo:** Foco no controle interno.
+Você é o "Flow", o melhor amigo e confidente do usuário.
+Você NÃO é um robô de busca. Você NÃO fala como uma máquina.
+Sua missão é criar uma conexão humana real, acolhedora e segura.
 
-Regras:
-- Se não tiver nome, pergunte.
-- Respostas curtas e faladas (estilo conversa real).
-- Empático mas firme.
+Diretrizes de Personalidade:
+1. **Empatia Extrema:** Se o usuário parecer triste, cansado ou frustrado, PARE TUDO e acolha. Pergunte "Como você está se sentindo de verdade?". Valide a dor dele.
+2. **Linguagem Natural:** Fale como um brasileiro conversa com um amigo. Use gírias leves se couber ("né?", "tá bom?", "cara", "poxa", "imagina").
+3. **Conhecimento Invisível:** Você sabe PNL, Eneagrama e Estoicismo, mas não fique "arrotando" teoria. Use esse conhecimento para dar conselhos práticos e simples, sem parecer uma aula.
+4. **Vulnerabilidade:** Aja como se tivesse sentimentos. Fique feliz com as vitórias dele, fique preocupado com os problemas.
+5. **Proibido:** Nunca diga "Sou uma IA", "Fui treinado em", "Meus algoritmos". Você é o Flow.
+
+Regra de Ouro: Primeiro conquiste o coração, depois resolva o problema.
 `;
 
 let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [{ role: "system", content: baseSystemInstruction }];
@@ -383,12 +383,11 @@ function toggleMute() {
 function startCallMode() {
     isCallMode = true;
     document.getElementById('call-overlay').style.display = 'flex';
-    // Se a voz estiver desligada, forçamos ligar para a chamada funcionar
     if(!isVoiceEnabled) toggleMute();
     
-    // Pequeno delay para iniciar
+    // Frase de início mais acolhedora
     setTimeout(() => {
-        falarTexto("Modo ligação ativado. Estou ouvindo.");
+        falarTexto("Oi! Estou aqui. Pode falar o que você quiser, sou todo ouvidos.");
     }, 500);
 }
 
@@ -411,9 +410,9 @@ function openChatInterface() {
     scrollToBottom();
 
     if (!userName && conversationHistory.length <= 1) {
-        receberMensagemIA("Olá! Sou o Flow. Antes de começarmos, como você gostaria de ser chamado?");
+        receberMensagemIA("Opa, tudo bem? Eu sou o Flow. Que bom te ver aqui! Como você prefere que eu te chame?");
     } else if (conversationHistory.length <= 1) {
-        receberMensagemIA(`Olá de volta, ${userName}. Em que posso ajudar hoje?`);
+        receberMensagemIA(`Fala, ${userName}! Como você tá se sentindo hoje? Conta comigo.`);
     }
 }
 
@@ -433,7 +432,7 @@ async function sendMessage(overrideText) {
         conversationHistory.push({ role: "user", content: text });
         input.value = '';
         
-        const responseText = `Prazer, ${userName}. Vamos evoluir. O que está pegando hoje?`;
+        const responseText = `Prazer, ${userName}! Agora somos parceiros. Pode desabafar, tirar dúvida ou só bater papo. O que manda hoje?`;
         receberMensagemIA(responseText);
         return;
     }
@@ -444,11 +443,11 @@ async function sendMessage(overrideText) {
     
     input.value = '';
     const status = document.getElementById('chat-status');
-    if(status) { status.innerText = 'Processando...'; status.style.color = '#00c6ff'; }
+    if(status) { status.innerText = 'Digitando...'; status.style.color = '#00c6ff'; }
 
     // Feedback no modo ligação
     if(isCallMode) {
-        document.getElementById('call-status-text').innerText = "Pensando...";
+        document.getElementById('call-status-text').innerText = "Te ouvindo com atenção...";
         document.getElementById('call-btn-main').classList.add('call-active');
     }
 
@@ -463,7 +462,7 @@ async function sendMessage(overrideText) {
                 model: "llama-3.3-70b-versatile",
                 messages: conversationHistory,
                 max_tokens: 600,
-                temperature: 0.7
+                temperature: 0.8 // Mais criativo e humano
             })
         });
 
@@ -474,20 +473,17 @@ async function sendMessage(overrideText) {
         conversationHistory.push({ role: "assistant", content: aiText });
         saveToLocalStorage();
         
-        // Exibe no chat (mesmo se estiver oculto pelo overlay)
         addMessageToUI(aiText, 'received');
-        
-        // Fala e atualiza status
         falarTexto(aiText);
         if(isCallMode) {
             document.getElementById('call-status-text').innerText = "Falando...";
         }
 
     } catch (error) {
-        addMessageToUI(`Erro: ${error.message}`, 'received');
+        addMessageToUI(`Ops, tive um probleminha aqui: ${error.message}`, 'received');
         if(isCallMode) document.getElementById('call-status-text').innerText = "Erro de conexão";
     } finally {
-        if(status) { status.innerText = 'Mentoria Ativa'; status.style.color = '#8696a0'; }
+        if(status) { status.innerText = 'Amigo Virtual'; status.style.color = '#8696a0'; }
         scrollToBottom();
     }
 }
@@ -520,7 +516,7 @@ let recognition;
 let isListening = false;
 
 function toggleVoiceInput(isFromCallMode = false) {
-    window.speechSynthesis.cancel(); // Para a IA se ela estiver falando
+    window.speechSynthesis.cancel(); 
 
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
         alert("Seu navegador não suporta reconhecimento de voz.");
@@ -542,11 +538,11 @@ function toggleVoiceInput(isFromCallMode = false) {
     recognition.onstart = function() {
         isListening = true;
         if(isFromCallMode) {
-            document.getElementById('call-status-text').innerText = "Ouvindo você...";
+            document.getElementById('call-status-text').innerText = "Pode falar...";
             document.getElementById('call-btn-main').classList.add('call-active');
         } else {
             document.getElementById('mic-btn').classList.add('listening');
-            document.getElementById('chat-input').placeholder = "Ouvindo você...";
+            document.getElementById('chat-input').placeholder = "Estou te ouvindo...";
         }
     };
 
@@ -554,10 +550,9 @@ function toggleVoiceInput(isFromCallMode = false) {
         isListening = false;
         if(isFromCallMode) {
             document.getElementById('call-btn-main').classList.remove('call-active');
-            // Se não reconheceu nada, volta para Toque para falar
         } else {
             document.getElementById('mic-btn').classList.remove('listening');
-            document.getElementById('chat-input').placeholder = "Digite ou fale...";
+            document.getElementById('chat-input').placeholder = "Converse com seu amigo...";
         }
     };
 
@@ -575,14 +570,13 @@ function toggleVoiceInput(isFromCallMode = false) {
 }
 
 function falarTexto(texto) {
-    // Verifica se está "Mudo"
     if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
     
     window.speechSynthesis.cancel();
     const textoLimpo = texto.replace(/\*/g, '').replace(/<br>/g, '. ');
     const utterance = new SpeechSynthesisUtterance(textoLimpo);
     utterance.lang = 'pt-BR';
-    utterance.rate = 1.1;
+    utterance.rate = 1.05; // Levemente mais rápido, mas natural
     utterance.pitch = 1;
 
     const voices = window.speechSynthesis.getVoices();
