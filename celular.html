@@ -51,19 +51,16 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 .card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
 .card:hover { transform: translateY(-10px); border-color: #007bff; }
 
-/* Bloqueio (Locked) */
 .card.locked { filter: grayscale(100%); opacity: 0.5; cursor: not-allowed; border-color: #333 !important; }
 .card.locked:hover { transform: none; }
 .card.locked::before {
-    content: '\f023'; /* Ícone Cadeado */
-    font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     font-size: 40px; color: #fff; z-index: 3;
     background: #007bff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;
     border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8);
 }
 
-/* Imagens dos Cards */
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #222; }
 .card-PNL { background-image: url('PNL.png'); background-color: #222; }
 .card-estoicismo { background-image: url('estoicismo.png'); background-color: #222; }
@@ -71,7 +68,7 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 .card-curso { background-image: url('curso.png'); background-color: #222; }
 .card-E-book { background-image: url('livros.png'); background-color: #222; }
 
-/* Novo Card Flow (Substituindo IA antiga) */
+/* Card Flow IA */
 .card-ia { 
     background: radial-gradient(circle at center, #004e92, #000428); 
     border: 1px solid #007bff;
@@ -94,120 +91,59 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 
 /* --- ESTILOS DO CHAT (FLOW PRATICAMENTE) --- */
 #chat-view { 
-    padding: 0; 
-    display: none; 
-    flex-direction: column; 
-    background-color: #050505; 
-    height: 100%; 
-    position: relative;
-    /* Fundo abstrato sutil e elegante */
+    padding: 0; display: none; flex-direction: column; background-color: #050505; height: 100%; position: relative;
     background-image: radial-gradient(circle at top right, rgba(0, 123, 255, 0.1), transparent 40%),
                       radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.05), transparent 40%);
 }
 #chat-view.active { display: flex; }
 
-/* Header com efeito de vidro (Glassmorphism) */
 .chat-header { 
-    background: rgba(15, 15, 15, 0.85); 
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
-    padding: 15px 20px; 
-    display: flex; 
-    align-items: center; 
-    gap: 15px; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-    position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+    background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 15px 20px; display: flex; align-items: center; gap: 15px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: absolute; top: 0; left: 0; right: 0; z-index: 10;
 }
 
 .chat-avatar { 
-    width: 45px; height: 45px; 
-    border-radius: 12px; 
-    background: linear-gradient(135deg, #007bff, #00c6ff); 
-    display: flex; align-items: center; justify-content: center; 
-    font-size: 20px; color: #fff; 
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    width: 45px; height: 45px; border-radius: 12px; background: linear-gradient(135deg, #007bff, #00c6ff); 
+    display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
+.voice-wave { display: none; font-size: 12px; color: #00ff88; margin-left: auto; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-.chat-info h3 { 
-    font-size: 16px; margin: 0; color: #fff; letter-spacing: 0.5px; 
-}
-.chat-info span { 
-    font-size: 11px; color: #00c6ff; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; 
-}
+.chat-info h3 { font-size: 16px; margin: 0; color: #fff; letter-spacing: 0.5px; }
+.chat-info span { font-size: 11px; color: #00c6ff; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
 
 .chat-body { 
-    flex: 1; 
-    padding: 90px 20px 100px 20px; /* Espaço para header e footer fixos */
-    overflow-y: auto; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-    scroll-behavior: smooth; 
+    flex: 1; padding: 90px 20px 100px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; 
 }
 
-/* Balões de Mensagem Modernos */
 .message { 
-    max-width: 85%; 
-    padding: 15px 20px; 
-    border-radius: 18px; 
-    font-size: 15px; 
-    line-height: 1.6; 
-    position: relative; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: fadeIn 0.3s ease;
+    max-width: 85%; padding: 15px 20px; border-radius: 18px; font-size: 15px; line-height: 1.6; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease;
 }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.message.received { 
-    background: #1a1a1a; 
-    color: #e0e0e0; 
-    align-self: flex-start; 
-    border-bottom-left-radius: 4px; 
-    border: 1px solid #333;
-}
-.message.sent { 
-    background: linear-gradient(135deg, #0066cc, #0052a3); 
-    color: #fff; 
-    align-self: flex-end; 
-    border-bottom-right-radius: 4px; 
-}
-.msg-time { 
-    font-size: 10px; opacity: 0.6; text-align: right; margin-top: 8px; display: block; 
-}
+.message.received { background: #1a1a1a; color: #e0e0e0; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #333; }
+.message.sent { background: linear-gradient(135deg, #0066cc, #0052a3); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg-time { font-size: 10px; opacity: 0.6; text-align: right; margin-top: 8px; display: block; }
 
-/* Área de Input Flutuante */
 .chat-footer { 
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 20px; 
-    background: linear-gradient(to top, #050505 80%, transparent); 
-    display: flex; align-items: center; gap: 10px; 
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; 
+    background: linear-gradient(to top, #050505 80%, transparent); display: flex; align-items: center; gap: 10px; 
 }
 
 .chat-input-wrapper { 
-    flex: 1; 
-    background: #1a1a1a; 
-    border: 1px solid #333; 
-    border-radius: 30px; 
-    padding: 5px 20px; 
-    display: flex; align-items: center; 
-    transition: 0.3s;
+    flex: 1; background: #1a1a1a; border: 1px solid #333; border-radius: 30px; padding: 5px 20px; display: flex; align-items: center; transition: 0.3s;
 }
 .chat-input-wrapper:focus-within { border-color: #007bff; box-shadow: 0 0 15px rgba(0, 123, 255, 0.15); }
+.chat-input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 15px; padding: 10px 0; }
 
-.chat-input { 
-    background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 15px; padding: 10px 0; 
+.chat-btn { 
+    width: 50px; height: 50px; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
-
-.chat-send-btn { 
-    background: #007bff; 
-    width: 50px; height: 50px; 
-    border-radius: 50%; border: none; color: #fff; 
-    display: flex; align-items: center; justify-content: center; 
-    cursor: pointer; transition: 0.3s; 
-    box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
-}
-.chat-send-btn:hover { transform: scale(1.05); background: #00c6ff; }
-.chat-send-btn:active { transform: scale(0.95); }
+.chat-send-btn { background: #007bff; }
+.chat-mic-btn { background: #222; border: 1px solid #444; color: #fff; }
+.chat-mic-btn.listening { background: #ff4d4d; border-color: #ff4d4d; animation: pulseRed 1s infinite; }
+@keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
 
 /* --- MOBILE NAV --- */
 .mobile-nav { display: none; }
@@ -218,18 +154,8 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
     .progress { margin-top: 10px; }
     main { padding: 20px; }
     .cards { grid-template-columns: 1fr; }
-
-    .mobile-nav {
-        display: flex; width: 100%; background: #0e0e0e; padding: 40px 0px;
-        justify-content: space-between; margin-top: 20px; gap: 10px;
-        position: fixed; bottom: 0; left: 0; z-index: 100; border-top: 1px solid #333;
-    }
-    .mobile-nav a {
-        color: #fff; text-decoration: none; font-size: 13px; font-weight: bold;
-        text-align: center; border: 1px solid #333; padding: 12px 5px;
-        border-radius: 10px; flex: 1; background: #111;
-        display: flex; align-items: center; justify-content: center;
-    }
+    .mobile-nav { display: flex; width: 100%; background: #0e0e0e; padding: 40px 0px; justify-content: space-between; margin-top: 20px; gap: 10px; position: fixed; bottom: 0; left: 0; z-index: 100; border-top: 1px solid #333; }
+    .mobile-nav a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; text-align: center; border: 1px solid #333; padding: 12px 5px; border-radius: 10px; flex: 1; background: #111; display: flex; align-items: center; justify-content: center; }
 }
 </style>
 </head>
@@ -256,45 +182,30 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
   <main>
     <section id="main-view">
       <h1 style="margin-bottom: 30px;">Evolução da Mente</h1>
-      
       <div class="cards">
-        
         <div id="mod-eneagrama" class="card card-Eneagrama" onclick="tryOpen('Eneagrama', 'eneagrama', 'https://www.youtube.com/embed/SuaIntroAqui1')">
-          <span>MÓDULO 1</span>
-          <h3>Autoliderança emocional</h3>
+          <span>MÓDULO 1</span><h3>Autoliderança emocional</h3>
         </div>
-        
         <div id="mod-pnl" class="card card-PNL" onclick="tryOpen('PNL', 'pnl', 'https://www.youtube.com/embed/SuaIntroAqui2')">
-          <span>MÓDULO 2</span>
-          <h3>Consciência aplicada</h3>
+          <span>MÓDULO 2</span><h3>Consciência aplicada</h3>
         </div>
-        
         <div id="mod-estoicismo" class="card card-estoicismo" onclick="tryOpen('Estoicismo', 'completo', 'https://www.youtube.com/embed/SuaIntroAqui3')">
-          <span>MÓDULO 3</span>
-          <h3>Vida real</h3>
+          <span>MÓDULO 3</span><h3>Vida real</h3>
         </div>
-        
         <div id="mod-familia" class="card card-familia" onclick="tryOpen('Família', 'completo', 'https://www.youtube.com/embed/SuaIntroAquiFamilia')">
-          <span>MÓDULO 4</span>
-          <h3>Família e relações</h3>
+          <span>MÓDULO 4</span><h3>Família e relações</h3>
         </div>
-
         <div id="mod-completo" class="card card-curso" onclick="tryOpen('Curso Completo', 'completo', 'https://www.youtube.com/embed/SuaIntroAqui4')">
-          <span>MÓDULO 5</span>
-          <h3>Método PráticaMente</h3>
+          <span>MÓDULO 5</span><h3>Método PráticaMente</h3>
         </div>
-        
         <div id="mod-ebooks" class="card card-E-book" onclick="tryOpen('E-books', 'ebooks', '')">
-          <span>MÓDULO 6</span>
-          <h3>E-books</h3>
+          <span>MÓDULO 6</span><h3>E-books</h3>
         </div>
-
         <div id="mod-ia" class="card card-ia" onclick="openChatInterface()">
             <span style="color: white; background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">MÓDULO 7</span>
             <i class="fas fa-brain" style="font-size: 40px; color: rgba(255,255,255,0.9); margin-bottom: 15px; opacity: 0.8;"></i>
             <h3>Flow Praticamente</h3>
         </div>
-
       </div>
     </section>
 
@@ -310,23 +221,24 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
     <section id="chat-view">
         <div class="chat-header">
             <button class="btn-back" onclick="goHome()" style="background: transparent; border:none; color: #fff; padding: 0; width: auto;"><i class="fas fa-arrow-left" style="font-size: 18px;"></i></button>
-            <div class="chat-avatar">
-                <i class="fas fa-bolt"></i>
-            </div>
+            <div class="chat-avatar"><i class="fas fa-bolt"></i></div>
             <div class="chat-info">
                 <h3>Flow Praticamente</h3>
                 <span id="chat-status">Mentoria Ativa</span>
             </div>
+            <div class="voice-wave" id="voice-indicator"><i class="fas fa-volume-up"></i> Falando...</div>
         </div>
 
-        <div class="chat-body" id="chat-body">
-            </div>
+        <div class="chat-body" id="chat-body"></div>
 
         <div class="chat-footer">
+            <button class="chat-btn chat-mic-btn" id="mic-btn" onclick="toggleVoice()">
+                <i class="fas fa-microphone"></i>
+            </button>
             <div class="chat-input-wrapper">
-                <input type="text" id="chat-input" class="chat-input" placeholder="Pergunte sobre gestão, emoções ou estratégia..." autocomplete="off">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Digite ou fale..." autocomplete="off">
             </div>
-            <button class="chat-send-btn" id="send-btn" onclick="sendMessage()">
+            <button class="chat-btn chat-send-btn" id="send-btn" onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
         </div>
@@ -338,9 +250,7 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
       <a href="#" onclick="goHome()">Módulos</a>
       <a href="certificados.html">Certificados</a>
       <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
-      <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;">
-        <i class="fas fa-sign-out-alt" style="margin-right: 5px;"></i> Sair
-      </a>
+      <a href="#" onclick="logout()" style="border-color: #ff4d4d; color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Sair</a>
   </nav>
 
 </div>
@@ -350,45 +260,67 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
 
-// --- CONFIGURAÇÃO DA IA (FLOW PRATICAMENTE) ---
+// --- CONFIGURAÇÃO DA SUPER IA ---
 const API_KEY = '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'; 
-const systemInstruction = `
-Você é o "Flow", a inteligência central do método Praticamente.
-Sua missão é elevar a performance do usuário (Otávio) unindo:
-1. Sabedoria Estoica (foco no que controla, resiliência).
-2. PNL (comunicação eficaz, modelagem de excelência).
-3. Gestão Moderna (visão estratégica, liderança de equipes).
+let userName = localStorage.getItem('praticamente_nome_usuario') || ''; // Recupera nome se existir
 
-Regras de Resposta:
-- Seja sofisticado, profissional e direto. Use tom de "Mentor Executivo".
-- Evite palestras longas. Dê insights acionáveis e curtos (máx 3 parágrafos).
-- Se o usuário falar de problemas com equipe, foque na solução prática.
+// Prompt Poderoso
+const baseSystemInstruction = `
+Você é o "Flow", a inteligência central do método Praticamente.
+Seu objetivo: Ser um mentor conversacional de alta performance.
+Você domina PROFUNDAMENTE:
+1. **PNL (Programação Neurolinguística):** Use rapport, metamodelos e reenquadramento.
+2. **Eneagrama:** Conheça os 9 tipos, suas Asas, Instintos (autopreservação, social, sexual) e caminhos de integração/desintegração. Use isso para personalizar conselhos.
+3. **Neurociência:** Explique o "porquê" biológico dos comportamentos (amígdala, córtex pré-frontal, dopamina).
+4. **Andragogia:** Ensine como adultos aprendem (foco na prática, resolução de problemas reais).
+5. **Estoicismo:** Traga clareza sobre o que está no controle do usuário.
+
+Regras de Interação:
+- Se o usuário não tiver nome definido, pergunte o nome primeiro.
+- Responda de forma falada e natural (evite listas longas se for conversa por voz).
+- Seja empático mas firme no crescimento.
 - Responda sempre em Português do Brasil.
 `;
 
-let conversationHistory = [{ role: "system", content: systemInstruction }];
+// Histórico (carrega do localStorage ou inicia novo)
+let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [{ role: "system", content: baseSystemInstruction }];
 
 window.onload = function() {
     atualizarProgresso();
     aplicarBloqueios();
-
-    // Enter para o chat
+    
+    // Configura tecla Enter
     const chatInput = document.getElementById('chat-input');
     if(chatInput) {
         chatInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') sendMessage();
         });
     }
+    
+    // Se já tiver histórico visual, renderiza
+    renderHistory();
 };
+
+function renderHistory() {
+    const body = document.getElementById('chat-body');
+    body.innerHTML = ''; // Limpa
+    
+    // Filtra apenas mensagens de user e assistant para mostrar
+    conversationHistory.forEach(msg => {
+        if(msg.role === 'user') addMessageToUI(msg.content, 'sent');
+        if(msg.role === 'assistant') addMessageToUI(msg.content, 'received');
+    });
+}
 
 // --- NAVEGAÇÃO ---
 function goHome() {
     document.querySelectorAll('section').forEach(s => s.style.display = 'none');
     document.getElementById('main-view').style.display = 'block';
-    
-    // Limpa vídeo se estiver tocando
     const modVideo = document.getElementById('mod-video');
     if(modVideo) modVideo.src = '';
+    
+    // Para voz se sair
+    window.speechSynthesis.cancel();
 }
 
 // --- LÓGICA DO CHAT FLOW ---
@@ -400,46 +332,52 @@ function openChatInterface() {
     document.querySelectorAll('section').forEach(s => s.style.display = 'none');
     const chatSection = document.getElementById('chat-view');
     chatSection.style.display = 'flex'; 
-    
-    // Mensagem de boas-vindas na primeira vez
-    const body = document.getElementById('chat-body');
-    if(body.innerHTML.trim() === "") {
-        const welcomeMsg = `
-            Olá, Otávio. O <strong>Flow</strong> está conectado.
-            <br><br>
-            Tenho acesso aos princípios de Estoicismo, PNL e Estratégia de Negócios.
-            <br><br>
-            Podemos traçar um plano para sua liderança hoje ou alinhar sua gestão emocional. Onde está o seu foco agora?
-        `;
-        const div = document.createElement('div');
-        div.className = 'message received';
-        div.innerHTML = `${welcomeMsg} <span class="msg-time">Agora</span>`;
-        body.appendChild(div);
-    }
-    
     scrollToBottom();
+
+    // Se não tiver nome e nenhum histórico, inicia conversa
+    if (!userName && conversationHistory.length <= 1) {
+        receberMensagemIA("Olá! Sou o Flow. Antes de começarmos nossa jornada de evolução, como você gostaria de ser chamado?");
+    } else if (conversationHistory.length <= 1) {
+        // Se já tem nome mas sem histórico (reset)
+        receberMensagemIA(`Olá de volta, ${userName}. Em que posso ajudar na sua gestão ou emoções hoje?`);
+    }
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
 }
 
 async function sendMessage() {
     const input = document.getElementById('chat-input');
-    const text = input.value.trim();
+    let text = input.value.trim();
     if(!text) return;
 
-    // 1. UI Local
-    addMessage(text, 'sent');
-    input.value = '';
-    scrollToBottom();
+    // Se estiver esperando o nome
+    if (!userName) {
+        userName = text;
+        localStorage.setItem('praticamente_nome_usuario', userName);
+        addMessageToUI(text, 'sent');
+        conversationHistory.push({ role: "user", content: text }); // Salva
+        input.value = '';
+        
+        // Resposta personalizada após pegar o nome
+        const responseText = `Prazer, ${userName}. Agora que estamos conectados, o que está tirando seu sono ou onde você quer acelerar seus resultados?`;
+        conversationHistory.push({ role: "assistant", content: responseText });
+        saveToLocalStorage();
+        addMessageToUI(responseText, 'received');
+        falarTexto(responseText);
+        return;
+    }
 
-    const status = document.getElementById('chat-status');
-    const btn = document.getElementById('send-btn');
-    if(status) { status.innerText = 'Processando...'; status.style.color = '#00c6ff'; }
-    input.disabled = true;
-    if(btn) btn.disabled = true;
-
-    // 2. Histórico
+    // Fluxo normal
+    addMessageToUI(text, 'sent');
     conversationHistory.push({ role: "user", content: text });
+    saveToLocalStorage();
+    
+    input.value = '';
+    const status = document.getElementById('chat-status');
+    if(status) { status.innerText = 'Processando...'; status.style.color = '#00c6ff'; }
 
-    // 3. API Call
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -449,8 +387,8 @@ async function sendMessage() {
             },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
-                messages: conversationHistory,
-                max_tokens: 500,
+                messages: conversationHistory, // Manda histórico completo para contexto
+                max_tokens: 600,
                 temperature: 0.7
             })
         });
@@ -459,28 +397,36 @@ async function sendMessage() {
         if(data.error) throw new Error(data.error.message);
 
         const aiText = data.choices[0].message.content;
-        conversationHistory.push({ role: "assistant", content: aiText });
-        addMessage(aiText, 'received');
+        
+        receberMensagemIA(aiText);
 
     } catch (error) {
-        addMessage(`Erro na conexão neural: ${error.message}`, 'received');
+        addMessageToUI(`Erro: ${error.message}`, 'received');
     } finally {
         if(status) { status.innerText = 'Mentoria Ativa'; status.style.color = '#8696a0'; }
-        input.disabled = false;
-        if(btn) btn.disabled = false;
-        input.focus();
         scrollToBottom();
     }
 }
 
-function addMessage(text, type) {
+function receberMensagemIA(text) {
+    conversationHistory.push({ role: "assistant", content: text });
+    saveToLocalStorage();
+    addMessageToUI(text, 'received');
+    falarTexto(text);
+}
+
+function addMessageToUI(text, type) {
     const body = document.getElementById('chat-body');
     const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    // Converte markdown básico para HTML visual
     let formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
     const div = document.createElement('div');
     div.className = `message ${type}`;
     div.innerHTML = `${formattedText} <span class="msg-time">${time}</span>`;
     body.appendChild(div);
+    scrollToBottom();
 }
 
 function scrollToBottom() {
@@ -488,18 +434,84 @@ function scrollToBottom() {
     if(body) body.scrollTop = body.scrollHeight;
 }
 
+// --- FUNÇÕES DE VOZ (SPEECH API) ---
+let recognition;
+let isListening = false;
+
+function toggleVoice() {
+    // Cancela fala da IA se estiver falando
+    window.speechSynthesis.cancel();
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Seu navegador não suporta reconhecimento de voz.");
+        return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (isListening) {
+        recognition.stop();
+        return;
+    }
+
+    recognition = new SpeechRecognition();
+    recognition.lang = 'pt-BR';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = function() {
+        isListening = true;
+        document.getElementById('mic-btn').classList.add('listening');
+        document.getElementById('chat-input').placeholder = "Ouvindo você...";
+    };
+
+    recognition.onend = function() {
+        isListening = false;
+        document.getElementById('mic-btn').classList.remove('listening');
+        document.getElementById('chat-input').placeholder = "Digite ou fale...";
+    };
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('chat-input').value = transcript;
+        sendMessage(); // Envia automaticamente após falar
+    };
+
+    recognition.start();
+}
+
+function falarTexto(texto) {
+    if (!('speechSynthesis' in window)) return;
+    
+    // Para qualquer fala anterior
+    window.speechSynthesis.cancel();
+
+    // Limpa formatação para leitura (remove asteriscos, etc)
+    const textoLimpo = texto.replace(/\*/g, '').replace(/<br>/g, '. ');
+
+    const utterance = new SpeechSynthesisUtterance(textoLimpo);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1.1; // Um pouco mais rápido para ficar natural
+    utterance.pitch = 1;
+
+    // Tenta pegar uma voz brasileira melhor se disponível
+    const voices = window.speechSynthesis.getVoices();
+    const brVoice = voices.find(v => v.lang.includes('PT-BR') || v.lang.includes('pt-BR'));
+    if (brVoice) utterance.voice = brVoice;
+
+    // Indicador visual
+    utterance.onstart = () => { document.getElementById('voice-indicator').style.display = 'block'; };
+    utterance.onend = () => { document.getElementById('voice-indicator').style.display = 'none'; };
+
+    window.speechSynthesis.speak(utterance);
+}
+
 // --- TRAVAS E CONTEÚDO ---
 function aplicarBloqueios() {
     if (userPlan === 'completo') return;
-    if (userPlan === 'ebooks') {
-        ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ia'].forEach(bloquear);
-    }
-    if (userPlan === 'eneagrama') {
-        ['mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear);
-    }
-    if (userPlan === 'pnl') {
-        ['mod-eneagrama','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear);
-    }
+    if (userPlan === 'ebooks') { ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ia'].forEach(bloquear); }
+    if (userPlan === 'eneagrama') { ['mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear); }
+    if (userPlan === 'pnl') { ['mod-eneagrama','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear); }
 }
 
 function bloquear(id) {
@@ -531,17 +543,14 @@ function openModule(name, videoIntro) {
     document.querySelectorAll('section').forEach(s => s.style.display = 'none');
     document.getElementById('module-content').style.display = 'block';
     document.getElementById('mod-title').innerText = name;
-    
     if(videoIntro) {
         document.getElementById('video-box').style.display = 'block';
         document.getElementById('mod-video').src = videoIntro;
     } else {
         document.getElementById('video-box').style.display = 'none';
     }
-
     const container = document.getElementById('lessons-container');
     container.innerHTML = '';
-    
     if(data[name]) {
         data[name].forEach(aula => {
             container.innerHTML += `
@@ -554,10 +563,7 @@ function openModule(name, videoIntro) {
     window.scrollTo(0,0);
 }
 
-function closeModule() {
-    goHome();
-    window.scrollTo(0,0);
-}
+function closeModule() { goHome(); window.scrollTo(0,0); }
 
 function marcarComoVista(tituloAula) {
     if(!aulasConcluidas.includes(tituloAula)) {
