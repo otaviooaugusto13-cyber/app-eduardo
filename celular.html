@@ -74,7 +74,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .lesson-link { color: #fff; text-decoration: none; font-weight: bold; font-size: 16px; cursor: pointer; }
 .btn-pdf { background: #333; color: #fff; padding: 8px 15px; text-decoration: none; border-radius: 6px; font-size: 12px; border: 1px solid #007bff; transition: 0.3s; }
 
-/* --- DIÁRIO ESTOICO (NOVO) --- */
+/* --- DIÁRIO ESTOICO --- */
 #journal-view { display: none; }
 .journal-entry { background: #181818; border-left: 4px solid #007bff; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s; }
 .journal-date { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
@@ -87,7 +87,6 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
 .chat-header { background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: absolute; top: 0; left: 0; right: 0; z-index: 10; height: 70px; }
 .chat-avatar { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #007bff, #00c6ff); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); transition: 0.3s; }
-/* Avatar muda cor no modo Socrático */
 .socratic-mode .chat-avatar { background: linear-gradient(135deg, #ff4d4d, #a30000); box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); }
 
 .chat-info { flex: 1; overflow: hidden; }
@@ -158,7 +157,6 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
   <main>
     <div class="content-container">
-        
         <section id="main-view" style="display: block;">
           <div class="mobile-progress-container">
               <div class="mobile-progress-info"><span>SEU PROGRESSO</span><span id="prog-text-mobile">0%</span></div>
@@ -318,9 +316,9 @@ function checkAndSaveJournal(text) {
         const insight = match[1];
         let journal = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
         const entry = { date: new Date().toLocaleDateString(), text: insight };
-        journal.unshift(entry); // Adiciona no começo
+        journal.unshift(entry); 
         localStorage.setItem('praticamente_diario', JSON.stringify(journal));
-        return text.replace(regex, ''); // Retorna texto limpo
+        return text.replace(regex, ''); 
     }
     return text;
 }
@@ -431,7 +429,6 @@ async function sendMessage(overrideText) {
 
     addMessageToUI(text, 'sent');
     
-    // Injeção de contexto Socrático se ativo
     let finalText = text;
     if (isSocraticMode) {
         finalText = `[SISTEMA: O usuário ativou o MODO DEBATE SOCRÁTICO. Não dê respostas. Faça perguntas difíceis, desafie a lógica dele e seja o "Advogado do Diabo".] ${text}`;
@@ -459,10 +456,8 @@ async function sendMessage(overrideText) {
         if(data.error) throw new Error(data.error.message);
         let aiText = data.choices[0].message.content;
         
-        // Processa Diário
         const cleanAiText = checkAndSaveJournal(aiText);
         
-        // Se salvou algo no diário, avisa visualmente
         if (aiText !== cleanAiText) {
             const body = document.getElementById('chat-body');
             const toast = document.createElement('div');
@@ -471,7 +466,7 @@ async function sendMessage(overrideText) {
             body.appendChild(toast);
         }
 
-        conversationHistory.push({ role: "assistant", content: aiText }); // Salva com tag para contexto
+        conversationHistory.push({ role: "assistant", content: aiText });
         saveToLocalStorage();
         addMessageToUI(cleanAiText, 'received');
         falarTexto(cleanAiText);
@@ -506,10 +501,32 @@ function scrollToBottom() {
     if(body) body.scrollTop = body.scrollHeight;
 }
 
-// --- FUNÇÕES DE VOZ BLINDADAS ---
+// --- FUNÇÕES DE VOZ BLINDADAS (COM SELETOR DE VOZ) ---
 let recognition;
 let silenceTimer; 
 let isAiSpeaking = false; 
+let synth = window.speechSynthesis;
+let voices = [];
+let bestVoice = null;
+
+// SELETOR DE VOZES "PREMIUM" (GRÁTIS)
+function carregarVozes() {
+    voices = synth.getVoices();
+    const voicePriorities = [
+        'Google português do Brasil',
+        'Microsoft Francisca Online (Natural)',
+        'Luciana',
+        'Joana',
+        'pt-BR'
+    ];
+    for (let name of voicePriorities) {
+        bestVoice = voices.find(v => v.name.includes(name) || v.lang === 'pt-BR');
+        if (bestVoice) break;
+    }
+}
+if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = carregarVozes;
+}
 
 function toggleVoiceInput() {
     if (!('webkitSpeechRecognition' in window)) { alert("Navegador sem suporte."); return; }
@@ -574,19 +591,28 @@ function toggleVoiceInput() {
 function falarTexto(texto) {
     if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
     
+    if (!bestVoice) carregarVozes(); // Garante voz carregada
+
     window.speechSynthesis.cancel();
     if(recognition) recognition.stop();
-    
     isAiSpeaking = true; 
 
     const textoLimpo = texto.replace(/\*/g, '').replace(/<br>/g, '. ');
     const utterance = new SpeechSynthesisUtterance(textoLimpo);
-    utterance.lang = 'pt-BR';
-    utterance.rate = 1.1; 
     
-    const voices = window.speechSynthesis.getVoices();
-    const brVoice = voices.find(v => v.lang.includes('pt-BR'));
-    if (brVoice) utterance.voice = brVoice;
+    // Aplica voz melhorada
+    if (bestVoice) {
+        utterance.voice = bestVoice;
+        if (bestVoice.name.includes('Google')) {
+            utterance.rate = 1.1; 
+            utterance.pitch = 1.0; 
+        } else {
+            utterance.rate = 1.05;
+            utterance.pitch = 1.0;
+        }
+    } else {
+        utterance.lang = 'pt-BR';
+    }
 
     utterance.onstart = () => {
         if(isCallMode) {
