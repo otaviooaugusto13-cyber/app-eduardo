@@ -44,37 +44,47 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overf
 .mobile-progress-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; color: #aaa; font-weight: bold; }
 
 /* --- CONTEÚDO PRINCIPAL --- */
-main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; padding-bottom: 100px; /* Mais espaço para o menu vidro */ }
+main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; padding-bottom: 120px; }
 .content-container { padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
 @media (min-width: 769px) { .content-container { padding: 40px; padding-bottom: 40px; } }
 
-/* --- CARDS --- */
+/* --- CARDS (PADRONIZADOS) --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-.card { height: 320px; border-radius: 18px; padding: 25px; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; background-size: cover; background-position: center; border: 1px solid #333; position: relative; overflow: hidden; }
-.card:hover { transform: translateY(-5px); border-color: #007bff; }
+
+.card { 
+    height: 320px; border-radius: 18px; padding: 25px; 
+    cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; 
+    transition: 0.4s; background-size: cover; background-position: center; 
+    /* Borda padronizada cinza sutil, brilha azul no hover */
+    border: 1px solid rgba(255,255,255,0.1); 
+    position: relative; overflow: hidden; 
+}
+.card:hover { transform: translateY(-5px); border-color: #007bff; box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15); }
+
+/* Bloqueado */
 .card.locked { filter: grayscale(100%); opacity: 0.5; cursor: not-allowed; border-color: #333 !important; }
 .card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: #fff; z-index: 3; background: #007bff; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
 
-/* --- IMAGENS DOS CARDS --- */
+/* Imagens */
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #222; }
 .card-PNL { background-image: url('PNL.png'); background-color: #222; }
 .card-estoicismo { background-image: url('estoicismo.png'); background-color: #222; }
 .card-familia { background-image: url('familia.png'); background-color: #222; } 
 .card-curso { background-image: url('curso.png'); background-color: #222; }
 .card-E-book { background-image: url('livros.png'); background-color: #222; }
+.card-ia { background-image: url('https://img.freepik.com/free-photo/view-futuristic-robot-face_23-2150893049.jpg'); background-color: #000; }
 
-/* MÓDULO 7 COM IMAGEM DE FUNDO (IGUAL AOS OUTROS) */
-.card-ia { 
-    /* Usei uma imagem de IA futurista azulada de alta qualidade */
-    background-image: url('https://img.freepik.com/free-photo/view-futuristic-robot-face_23-2150893049.jpg'); 
-    background-size: cover;
-    background-position: center;
-    border: 1px solid #007bff; 
+/* LABEL (ETIQUETA) PADRONIZADA PARA TODOS */
+.card span { 
+    font-size: 11px; font-weight: bold; color: #fff; 
+    margin-bottom: 8px; position: relative; z-index: 2; 
+    background: rgba(0, 123, 255, 0.8); /* Fundo azul translúcido */
+    padding: 4px 10px; border-radius: 6px; display: inline-block;
+    backdrop-filter: blur(4px); box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.card span { font-size: 12px; font-weight: bold; color: #007bff; margin-bottom: 5px; position: relative; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-.card h3 { font-size: 20px; color: #e0e0e0; text-shadow: 2px 2px 4px rgba(0,0,0,0.95); position: relative; z-index: 2; }
-.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.2) 80%); z-index: 1; }
+.card h3 { font-size: 20px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); position: relative; z-index: 2; font-weight: 700; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.1) 80%); z-index: 1; }
 
 /* --- AULAS --- */
 #module-content { display: none; }
@@ -84,12 +94,32 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .lesson-link { color: #fff; text-decoration: none; font-weight: bold; font-size: 16px; cursor: pointer; }
 .btn-pdf { background: #333; color: #fff; padding: 8px 15px; text-decoration: none; border-radius: 6px; font-size: 12px; border: 1px solid #007bff; transition: 0.3s; }
 
+/* BOTÃO DE TESTE DE ENEAGRAMA */
+.btn-test { 
+    background: linear-gradient(90deg, #ff8c00, #ff4d4d); color: #fff; 
+    padding: 12px 20px; text-decoration: none; border-radius: 8px; 
+    font-size: 14px; border: none; cursor: pointer; font-weight: bold; 
+    display: block; text-align: center; margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+}
+
 /* --- DIÁRIO ESTOICO --- */
 #journal-view { display: none; padding-bottom: 100px; }
 .journal-entry { background: #181818; border-left: 4px solid #007bff; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: fadeIn 0.5s; }
 .journal-date { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
 .journal-text { font-size: 14px; color: #ddd; font-style: italic; }
 .empty-journal { text-align: center; color: #555; margin-top: 50px; font-size: 14px; }
+
+/* --- INTERFACE DE TESTE ENEAGRAMA --- */
+#eneagrama-test-view { display: none; padding-bottom: 100px; }
+.test-card { background: #181818; padding: 20px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
+.test-question { font-size: 18px; margin-bottom: 20px; color: #fff; }
+.test-option { 
+    display: block; width: 100%; padding: 15px; margin-bottom: 10px; 
+    background: #222; border: 1px solid #444; color: #ccc; 
+    border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s;
+}
+.test-option:hover, .test-option.selected { background: #007bff; color: #fff; border-color: #007bff; }
 
 /* --- CHAT FLOW --- */
 #chat-view { display: none; flex-direction: column; background-color: #050505; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 200; background-image: radial-gradient(circle at top right, rgba(0, 123, 255, 0.08), transparent 40%), radial-gradient(circle at bottom left, rgba(0, 198, 255, 0.04), transparent 40%); }
@@ -132,14 +162,10 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .chat-phone-btn { background: rgba(0, 123, 255, 0.15); border: 1px solid rgba(0, 123, 255, 0.3); color: #00c6ff; }
 .chat-phone-btn:active { background: rgba(0, 123, 255, 0.3); }
 
-/* MIC FICA VERMELHO AO OUVIR */
 .chat-mic-btn { background: #2a2a2a; border: 1px solid #333; transition: 0.3s; }
 .chat-mic-btn.listening { 
-    background-color: #ff4d4d !important; 
-    border-color: #ff4d4d !important; 
-    color: white !important; 
-    animation: pulseRed 1.5s infinite; 
-    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+    background-color: #ff4d4d !important; border-color: #ff4d4d !important; color: white !important; 
+    animation: pulseRed 1.5s infinite; box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
 }
 @keyframes pulseRed { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
@@ -157,23 +183,19 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .btn-end-call { margin-top: 40px; background: rgba(20, 20, 20, 0.8); color: #ff4d4d; border: 1px solid #ff4d4d; width: 60px; height: 60px; border-radius: 50%; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .btn-end-call:active { background: #ff4d4d; color: white; }
 
-/* --- NAVBAR MOBILE PREMIUM (EFEITO VIDRO/FUMÊ) --- */
+/* --- NAVBAR MOBILE PREMIUM (EFEITO VIDRO) --- */
 .mobile-nav { 
     display: none; 
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
     width: 90%; max-width: 400px; height: 70px;
-    
-    /* EFEITO VIDRO (FUMÊ) */
-    background: rgba(20, 20, 20, 0.75); 
-    backdrop-filter: blur(20px); 
-    -webkit-backdrop-filter: blur(20px);
-    
+    background: rgba(20, 20, 20, 0.8); 
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 25px; /* Bordas bem arredondadas */
+    border-radius: 35px; /* Bem redondo */
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    
     display: flex; justify-content: space-around; align-items: center;
     z-index: 100;
+    pointer-events: auto; /* Garante clique */
 }
 @media (min-width: 769px) { .mobile-nav { display: none !important; } }
 
@@ -228,8 +250,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
             <div id="mod-ebooks" class="card card-E-book" onclick="tryOpen('E-books', 'ebooks', '')"><span>MÓDULO 6</span><h3>E-books</h3></div>
             
             <div id="mod-ia" class="card card-ia" onclick="openChatInterface()">
-                <span style="color: white; background-color: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px;">MÓDULO 7</span>
-                <i class="fas fa-brain" style="font-size: 40px; color: rgba(255,255,255,0.9); margin-bottom: 15px; opacity: 0.8;"></i>
+                <span>MÓDULO 7</span>
                 <h3>Flow Praticamente</h3>
             </div>
           </div>
@@ -239,7 +260,16 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
           <button class="btn-back" onclick="closeModule()">← Voltar</button>
           <h1 id="mod-title" style="margin-bottom: 20px; color: #fff;"></h1>
           <div id="video-box" class="video-frame"><iframe id="mod-video" src="" allowfullscreen width="100%" height="100%" frameborder="0"></iframe></div>
+          
+          <div id="test-container"></div>
+          
           <div id="lessons-container"></div>
+        </section>
+
+        <section id="eneagrama-test-view">
+            <button class="btn-back" onclick="closeModule()">← Cancelar</button>
+            <h1 style="margin-bottom: 20px;">Descubra seu Tipo</h1>
+            <div id="quiz-container"></div>
         </section>
 
         <section id="journal-view">
@@ -264,7 +294,6 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
             <div class="chat-footer">
                 <button class="chat-btn chat-mic-btn" id="mic-btn" onclick="toggleVoiceInput()"><i class="fas fa-microphone"></i></button>
                 <button class="chat-btn chat-phone-btn" onclick="startCallMode()"><i class="fas fa-phone-alt"></i></button>
-                
                 <div class="chat-input-wrapper"><input type="text" id="chat-input" class="chat-input" placeholder="Converse aqui..." autocomplete="off"></div>
                 <button class="chat-btn chat-send-btn" id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
@@ -303,24 +332,29 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 </div>
 
 <script>
-// --- DADOS DO CURSO ---
-const courseData = { 'Eneagrama': ['Aula 1: A Base'], 'PNL': ['Aula 1: Conceitos'] };
-const courseDataStr = JSON.stringify(courseData);
-
+// --- CONFIGURAÇÃO INICIAL ---
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
 
 const API_KEY = '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'; 
 let userName = localStorage.getItem('praticamente_nome_usuario') || ''; 
+let userEnneagramType = localStorage.getItem('praticamente_perfil_eneagrama') || ''; // RECUPERA O TIPO SE EXISTIR
+
 let isVoiceEnabled = true; 
 let isCallMode = false; 
 let isSocraticMode = false;
 
-const baseSystemInstruction = `
+// PROMPT INTELIGENTE (COM DADOS DO PERFIL)
+let baseSystemInstruction = `
 Você é o "Flow", o melhor amigo do usuário.
 REGRA SUPREMA: Respostas de 1 linha para cumprimentos.
 Se o usuário escrever pouco, responda pouco.
 `;
+
+// Se já tem tipo, avisa a IA
+if (userEnneagramType) {
+    baseSystemInstruction += `\n[PERFIL DO USUÁRIO]: O usuário fez o teste e é TIPO ${userEnneagramType} do Eneagrama. Use isso para dar conselhos personalizados.`;
+}
 
 let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [{ role: "system", content: baseSystemInstruction }];
 
@@ -357,6 +391,48 @@ function goHome() {
     window.speechSynthesis.cancel();
 }
 
+// --- LÓGICA DO TESTE ENEAGRAMA ---
+function startEnneagramTest() {
+    document.getElementById('module-content').style.display = 'none';
+    document.getElementById('eneagrama-test-view').style.display = 'block';
+    
+    const container = document.getElementById('quiz-container');
+    // Teste Simplificado (Para demonstração - Lógica real seria mais longa)
+    container.innerHTML = `
+        <div class="test-card">
+            <div class="test-question">1. O que mais te incomoda?</div>
+            <button class="test-option" onclick="nextQuestion(1, '8')">A. Sentir que perdi o controle ou fui dominado.</button>
+            <button class="test-option" onclick="nextQuestion(1, '9')">B. Conflitos e falta de paz.</button>
+            <button class="test-option" onclick="nextQuestion(1, '1')">C. Erros e imperfeições.</button>
+        </div>
+    `;
+}
+
+function nextQuestion(q, typeChoice) {
+    // Simulando fim do teste para simplificar o código
+    // Na prática, você somaria pontos. Aqui vamos "chutar" que ele escolheu o tipo da resposta.
+    saveEnneagramResult(typeChoice);
+}
+
+function saveEnneagramResult(type) {
+    localStorage.setItem('praticamente_perfil_eneagrama', type);
+    userEnneagramType = type;
+    alert(`Parabéns! Identificamos que você tem traços do TIPO ${type}. O Flow agora sabe disso.`);
+    
+    // Atualiza o prompt da IA com o novo dado
+    const newInstruction = baseSystemInstruction + `\n[ATUALIZAÇÃO]: O usuário acabou de fazer o teste e é TIPO ${type}.`;
+    conversationHistory = [{ role: "system", content: newInstruction }]; // Reseta para aplicar o perfil
+    saveToLocalStorage();
+    
+    closeModule();
+    openChatInterface();
+    // Manda mensagem inicial da IA sobre o tipo
+    setTimeout(() => {
+        receberMensagemIA(`Vi que você fez o teste! Então você é Tipo ${type}? Isso explica muita coisa. Quer saber como isso afeta sua liderança?`);
+    }, 1000);
+}
+
+// --- FUNÇÕES DE CHAT E NAVEGAÇÃO ---
 function resetChat() {
     if(confirm("Iniciar novo dia?")) {
         conversationHistory = []; 
@@ -371,7 +447,11 @@ function resetChat() {
 function getRecentContext() {
     const MAX_HISTORY = 6;
     let recentMessages = conversationHistory.slice(-MAX_HISTORY);
-    const systemPrompt = { role: "system", content: baseSystemInstruction + `\nO nome do usuário é: ${userName}.` };
+    // Garante que o perfil esteja no contexto
+    let currentSystem = baseSystemInstruction;
+    if(userEnneagramType) currentSystem += `\nUsuário é Tipo ${userEnneagramType}.`;
+    
+    const systemPrompt = { role: "system", content: currentSystem + `\nNome: ${userName}.` };
     return [systemPrompt, ...recentMessages];
 }
 
@@ -609,15 +689,72 @@ function falarTexto(texto) {
     window.speechSynthesis.speak(u);
 }
 
-function atualizarProgresso() { /* Código antigo */ }
-function aplicarBloqueios() { if (userPlan === 'completo') return; /* Lógica de bloqueio */ }
+function atualizarProgresso() {
+    const totalVistas = aulasConcluidas.length;
+    const porcentagem = Math.min(Math.round((totalVistas / totalAulas) * 100), 100);
+    const fillDesktop = document.getElementById('prog-fill-desktop');
+    if(fillDesktop) fillDesktop.style.width = porcentagem + "%";
+    const textDesktop = document.getElementById('prog-text-desktop');
+    if(textDesktop) textDesktop.innerText = `Evolução: ${porcentagem}%`;
+    const fillMobile = document.getElementById('prog-fill-mobile');
+    if(fillMobile) fillMobile.style.width = porcentagem + "%";
+    const textMobile = document.getElementById('prog-text-mobile');
+    if(textMobile) textMobile.innerText = `${porcentagem}%`;
+}
+
+function aplicarBloqueios() {
+    if (userPlan === 'completo') return;
+    if (userPlan === 'ebooks') { ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ia'].forEach(bloquear); }
+    if (userPlan === 'eneagrama') { ['mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear); }
+    if (userPlan === 'pnl') { ['mod-eneagrama','mod-estoicismo','mod-familia','mod-completo','mod-ebooks','mod-ia'].forEach(bloquear); }
+}
+
 function bloquear(id) { const el = document.getElementById(id); if(el) el.classList.add('locked'); }
+
 function tryOpen(name, req, vid) { if (userPlan === 'completo' || userPlan === req) openModule(name, vid); else alert("🔒 Bloqueado."); }
-const data = { 'Eneagrama': [], 'PNL': [] }; 
+
+const data = {
+    'Eneagrama': [ { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' } ],
+    'PNL': [ { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' } ],
+    'Estoicismo': [ { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' } ],
+    'Família': [ { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' } ],
+    'Curso Completo': [ { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' } ],
+    'E-books': [ { title: 'Praticamente: Os Códigos da Liderança', video: '', pdf: 'praticamente_codigos_lideranca.pdf' } ]
+};
+
 let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
-const totalAulas = 7;
-function openModule(name, vid) { /* Código antigo */ }
+const totalAulas = 7; 
+
+function openModule(name, videoIntro) {
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    document.getElementById('module-content').style.display = 'block';
+    document.getElementById('mod-title').innerText = name;
+    
+    // INJEÇÃO DO TESTE DE ENEAGRAMA
+    const testContainer = document.getElementById('test-container');
+    testContainer.innerHTML = ''; // Limpa anterior
+    if(name === 'Eneagrama') {
+        testContainer.innerHTML = `<button class="btn-test" onclick="startEnneagramTest()">🎯 DESCUBRA SEU TIPO</button>`;
+    }
+
+    if(videoIntro) { document.getElementById('video-box').style.display = 'block'; document.getElementById('mod-video').src = videoIntro; } 
+    else { document.getElementById('video-box').style.display = 'none'; }
+    const container = document.getElementById('lessons-container');
+    container.innerHTML = '';
+    if(data[name]) {
+        data[name].forEach(aula => {
+            container.innerHTML += `
+                <div class="lesson-item">
+                    <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista('${aula.title}')">▶ ${aula.title}</a>
+                    <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
+                </div>`;
+        });
+    }
+    window.scrollTo(0,0);
+}
+
 function closeModule() { goHome(); window.scrollTo(0,0); }
+
 function marcarComoVista(t) { if(!aulasConcluidas.includes(t)) { aulasConcluidas.push(t); localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas)); atualizarProgresso(); } }
 function logout() { if(confirm("Sair?")) { localStorage.removeItem('praticamente_plano'); window.location.href = 'login.html'; } }
 </script>
