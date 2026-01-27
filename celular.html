@@ -112,11 +112,9 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 .chat-info h3 { font-size: 16px; margin: 0; color: #fff; letter-spacing: 0.5px; }
 .chat-info span { font-size: 11px; color: #00c6ff; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
 
-/* Controles de Cabeçalho (Mute e Call) */
 .header-controls { display: flex; gap: 15px; }
 .control-btn { background: transparent; border: none; color: #fff; font-size: 18px; cursor: pointer; transition: 0.3s; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.1); }
 .control-btn:hover { background: rgba(255,255,255,0.2); color: #007bff; }
-.control-btn.active-red { color: #ff4d4d; background: rgba(255, 77, 77, 0.2); }
 
 .chat-body { 
     flex: 1; padding: 90px 20px 100px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; 
@@ -142,40 +140,53 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
 .chat-mic-btn.listening { background: #ff4d4d; border-color: #ff4d4d; animation: pulseRed 1s infinite; }
 @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
 
-/* --- MODO LIGAÇÃO (OVERLAY) --- */
+/* --- MODO LIGAÇÃO (NOVAS ONDAS) --- */
 #call-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, #0a0a0a, #000);
+    background: radial-gradient(circle at center, #050505, #000);
     z-index: 200; display: none; flex-direction: column; align-items: center; justify-content: center;
     backdrop-filter: blur(15px);
 }
-.call-avatar-container {
-    width: 150px; height: 150px; border-radius: 50%;
+
+.call-core {
+    width: 120px; height: 120px; border-radius: 50%;
     background: linear-gradient(135deg, #007bff, #00c6ff);
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 50px rgba(0, 123, 255, 0.4);
-    margin-bottom: 40px; position: relative;
-    cursor: pointer; transition: 0.3s;
+    position: relative; z-index: 2;
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.5);
 }
-.call-avatar-container:active { transform: scale(0.95); }
-.call-avatar-container i { font-size: 60px; color: white; }
+.call-core i { font-size: 50px; color: white; }
 
-/* Animação de "Ouvindo" ou "Falando" */
-.call-status { margin-top: 20px; font-size: 18px; color: #aaa; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
-
-.pulse-ring {
-    position: absolute; width: 100%; height: 100%; border-radius: 50%;
-    border: 2px solid #007bff; opacity: 0; animation: none;
+/* Animação das Ondas Azuis */
+.wave {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid rgba(0, 198, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
 }
-.call-active .pulse-ring { animation: ripple 2s infinite; }
-@keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
 
+.call-active .wave { animation: wave-anim 3s infinite linear; }
+.call-active .wave:nth-child(1) { animation-delay: 0s; }
+.call-active .wave:nth-child(2) { animation-delay: 1s; }
+.call-active .wave:nth-child(3) { animation-delay: 2s; }
+
+@keyframes wave-anim {
+    0% { width: 120px; height: 120px; opacity: 1; border-width: 3px; }
+    100% { width: 400px; height: 400px; opacity: 0; border-width: 0px; }
+}
+
+.call-status { margin-top: 60px; font-size: 16px; color: #888; letter-spacing: 1.5px; text-transform: uppercase; font-weight: bold; }
 .btn-end-call {
-    margin-top: 60px; background: #ff4d4d; color: white; border: none;
-    width: 60px; height: 60px; border-radius: 50%; font-size: 24px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 5px 20px rgba(255, 77, 77, 0.4);
+    margin-top: 40px; background: rgba(255, 77, 77, 0.2); color: #ff4d4d; border: 1px solid #ff4d4d;
+    width: 60px; height: 60px; border-radius: 50%; font-size: 20px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s;
 }
+.btn-end-call:hover { background: #ff4d4d; color: white; }
 
 /* --- MOBILE NAV --- */
 .mobile-nav { display: none; }
@@ -285,11 +296,16 @@ section { display: none; height: 100%; overflow-y: auto; padding-bottom: 80px; }
     </section>
 
     <div id="call-overlay">
-        <div class="call-avatar-container" id="call-btn-main" onclick="toggleVoiceInput(true)">
-            <i class="fas fa-bolt"></i>
-            <div class="pulse-ring"></div>
+        <div style="position: relative;">
+            <div class="call-core" id="call-btn-main">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
         </div>
-        <div class="call-status" id="call-status-text">Toque para desabafar</div>
+        
+        <div class="call-status" id="call-status-text">Conectando...</div>
         <button class="btn-end-call" onclick="endCallMode()"><i class="fas fa-phone-slash"></i></button>
     </div>
 
@@ -385,15 +401,20 @@ function startCallMode() {
     document.getElementById('call-overlay').style.display = 'flex';
     if(!isVoiceEnabled) toggleMute();
     
-    // Frase de início mais acolhedora
+    // Animação de entrada
+    document.body.classList.add('call-active'); // Ativa as ondas
+    document.getElementById('call-status-text').innerText = "Ouvindo você...";
+    
+    // Inicia reconhecimento automático
     setTimeout(() => {
-        falarTexto("Oi! Estou aqui. Pode falar o que você quiser, sou todo ouvidos.");
+        falarTexto("Estou aqui com você. Pode falar.");
     }, 500);
 }
 
 function endCallMode() {
     isCallMode = false;
     document.getElementById('call-overlay').style.display = 'none';
+    document.body.classList.remove('call-active');
     window.speechSynthesis.cancel();
     if(recognition) recognition.stop();
 }
@@ -425,6 +446,9 @@ async function sendMessage(overrideText) {
     let text = overrideText || input.value.trim();
     if(!text) return;
 
+    // Se estiver em modo ligação, para as ondas enquanto processa
+    if(isCallMode) document.body.classList.remove('call-active');
+
     if (!userName) {
         userName = text;
         localStorage.setItem('praticamente_nome_usuario', userName);
@@ -447,8 +471,7 @@ async function sendMessage(overrideText) {
 
     // Feedback no modo ligação
     if(isCallMode) {
-        document.getElementById('call-status-text').innerText = "Te ouvindo com atenção...";
-        document.getElementById('call-btn-main').classList.add('call-active');
+        document.getElementById('call-status-text').innerText = "Pensando...";
     }
 
     try {
@@ -462,7 +485,7 @@ async function sendMessage(overrideText) {
                 model: "llama-3.3-70b-versatile",
                 messages: conversationHistory,
                 max_tokens: 600,
-                temperature: 0.8 // Mais criativo e humano
+                temperature: 0.8
             })
         });
 
@@ -475,10 +498,7 @@ async function sendMessage(overrideText) {
         
         addMessageToUI(aiText, 'received');
         falarTexto(aiText);
-        if(isCallMode) {
-            document.getElementById('call-status-text').innerText = "Falando...";
-        }
-
+        
     } catch (error) {
         addMessageToUI(`Ops, tive um probleminha aqui: ${error.message}`, 'received');
         if(isCallMode) document.getElementById('call-status-text').innerText = "Erro de conexão";
@@ -511,11 +531,11 @@ function scrollToBottom() {
     if(body) body.scrollTop = body.scrollHeight;
 }
 
-// --- FUNÇÕES DE VOZ (SPEECH API) ---
+// --- FUNÇÕES DE VOZ AVANÇADAS (AUTO-SEND) ---
 let recognition;
-let isListening = false;
+let silenceTimer; // O timer mágico
 
-function toggleVoiceInput(isFromCallMode = false) {
+function toggleVoiceInput() {
     window.speechSynthesis.cancel(); 
 
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -525,21 +545,21 @@ function toggleVoiceInput(isFromCallMode = false) {
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
-    if (isListening) {
-        if(recognition) recognition.stop();
+    // Se já estiver ouvindo, para
+    if (recognition && typeof recognition.stop === 'function') {
+        recognition.stop();
         return;
     }
 
     recognition = new SpeechRecognition();
     recognition.lang = 'pt-BR';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    recognition.interimResults = true; // Importante para detectar que está falando
+    recognition.continuous = true; // Mantém ouvindo até o silêncio
 
     recognition.onstart = function() {
-        isListening = true;
-        if(isFromCallMode) {
-            document.getElementById('call-status-text').innerText = "Pode falar...";
-            document.getElementById('call-btn-main').classList.add('call-active');
+        if(isCallMode) {
+            document.body.classList.add('call-active'); // Ativa ondas
+            document.getElementById('call-status-text').innerText = "Ouvindo...";
         } else {
             document.getElementById('mic-btn').classList.add('listening');
             document.getElementById('chat-input').placeholder = "Estou te ouvindo...";
@@ -547,22 +567,43 @@ function toggleVoiceInput(isFromCallMode = false) {
     };
 
     recognition.onend = function() {
-        isListening = false;
-        if(isFromCallMode) {
-            document.getElementById('call-btn-main').classList.remove('call-active');
+        // Limpeza visual
+        if(isCallMode) {
+            document.body.classList.remove('call-active'); // Para ondas
         } else {
             document.getElementById('mic-btn').classList.remove('listening');
             document.getElementById('chat-input').placeholder = "Converse com seu amigo...";
         }
+        recognition = null;
     };
 
     recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        if (isFromCallMode) {
-            sendMessage(transcript);
-        } else {
-            document.getElementById('chat-input').value = transcript;
-            sendMessage();
+        // Pega o texto atual
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            interimTranscript += event.results[i][0].transcript;
+        }
+
+        // Se tiver texto, reseta o timer de silêncio
+        if (interimTranscript.trim().length > 0) {
+            
+            // Visual feedback (opcional)
+            if(!isCallMode) document.getElementById('chat-input').value = interimTranscript;
+
+            // Mágica do Silêncio: Limpa o timer anterior
+            clearTimeout(silenceTimer);
+            
+            // Cria um novo timer de 3 segundos
+            silenceTimer = setTimeout(() => {
+                // Se passou 3 segundos sem falar nada novo:
+                recognition.stop();
+                if(isCallMode) {
+                    sendMessage(interimTranscript); // Envia direto
+                } else {
+                     document.getElementById('chat-input').value = interimTranscript;
+                     sendMessage();
+                }
+            }, 3000); // 3000ms = 3 segundos
         }
     };
 
@@ -576,17 +617,27 @@ function falarTexto(texto) {
     const textoLimpo = texto.replace(/\*/g, '').replace(/<br>/g, '. ');
     const utterance = new SpeechSynthesisUtterance(textoLimpo);
     utterance.lang = 'pt-BR';
-    utterance.rate = 1.05; // Levemente mais rápido, mas natural
+    utterance.rate = 1.05; 
     utterance.pitch = 1;
 
     const voices = window.speechSynthesis.getVoices();
     const brVoice = voices.find(v => v.lang.includes('PT-BR') || v.lang.includes('pt-BR'));
     if (brVoice) utterance.voice = brVoice;
 
+    // Quando a IA começa a falar
+    utterance.onstart = () => {
+        if(isCallMode) {
+            document.getElementById('call-status-text').innerText = "Flow falando...";
+            document.body.classList.add('call-active'); // Ondas se mexem quando IA fala
+        }
+    };
+
+    // Quando a IA termina de falar
     utterance.onend = () => { 
         if(isCallMode) {
-            document.getElementById('call-status-text').innerText = "Toque para responder";
-            document.getElementById('call-btn-main').classList.remove('call-active');
+            // LOOP DE CONVERSA: Volta a ouvir automaticamente
+            document.getElementById('call-status-text').innerText = "Sua vez...";
+            toggleVoiceInput(); // Reabre o microfone sozinho
         }
     };
 
