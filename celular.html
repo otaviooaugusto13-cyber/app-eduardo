@@ -12,13 +12,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-/* --- VARIÁVEIS DO TESTE --- */
+/* --- VARIÁVEIS DE COR (AGORA AZUL E PRATA) --- */
 :root { 
     --bg-deep: #0e0e0e; 
-    --gold: #D4AF37; 
-    --gold-light: #FAD961; 
-    --gold-glow: rgba(212, 175, 55, 0.2); 
-    --red: #ff4d4d; --blue: #4da6ff; --green: #4dff88;
+    /* Substituindo o Dourado pelo Azul Praticamente */
+    --gold: #007bff;            /* Azul Principal */
+    --gold-light: #00c6ff;      /* Azul Ciano (Brilho) */
+    --gold-glow: rgba(0, 123, 255, 0.4); /* Neon Azul */
+    --silver: #e0e0e0;          /* Prata para textos */
+    --red: #ff4d4d; 
+    --green: #4dff88;
 }
 
 /* --- RESET E BASE --- */
@@ -48,7 +51,7 @@ body { background: var(--bg-deep); color: #fff; line-height: 1.6; height: 100dvh
 .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; display: none; }
 @media (min-width: 769px) { .sidebar { display: block; } .app { flex-direction: row; } }
 .logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; cursor: pointer; font-family: 'Cinzel', serif; }
-.logo .pratica { color: #e0e0e0; } .logo .mente { color: var(--gold); }    
+.logo .pratica { color: var(--silver); } .logo .mente { color: var(--gold); }    
 .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
 .sidebar nav a:hover { background: #1a1a1a; color: var(--gold); }
 .sidebar nav a.active { background: #1a1a1a; color: var(--gold); border-left: 3px solid var(--gold); }
@@ -79,7 +82,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
-.card:hover { transform: translateY(-5px) scale(1.02); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15); }
+.card:hover { transform: translateY(-5px) scale(1.02); border-color: rgba(0, 123, 255, 0.4); box-shadow: 0 20px 50px rgba(0, 123, 255, 0.15); }
 .card.locked { filter: grayscale(100%) brightness(0.7); cursor: not-allowed; border-color: rgba(255,255,255,0.05) !important; }
 .card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: rgba(255,255,255,0.8); z-index: 3; }
 
@@ -113,7 +116,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
 /* Perguntas e Opções */
 .progress-track { background: rgba(255,255,255,0.05); height: 4px; border-radius: 2px; margin-bottom: 25px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #fff); width: 0%; transition: width 0.6s ease; box-shadow: 0 0 15px var(--gold-glow); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 0%; transition: width 0.6s ease; box-shadow: 0 0 15px var(--gold-glow); }
 .question-text { font-size: 1.2rem; font-weight: 600; line-height: 1.5; margin-bottom: 25px; min-height: 60px; color: #f0f0f0; text-align: center; }
 .step-counter { font-size: 0.7rem; color: #888; margin-bottom: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
 
@@ -125,10 +128,10 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
     text-align: left; cursor: pointer; transition: 0.2s; 
     font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; 
 }
-.btn-option:hover, .btn-option:active { border-color: var(--gold); color: #fff; background: rgba(212, 175, 55, 0.1); transform: translateX(5px); }
+.btn-option:hover, .btn-option:active { border-color: var(--gold); color: #fff; background: rgba(0, 123, 255, 0.1); transform: translateX(5px); }
 
 /* Resultados */
-.result-badge { background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 8px 20px; border-radius: 50px; font-size: 0.65rem; font-weight: 900; letter-spacing: 3px; display: inline-block; margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.4); }
+.result-badge { background: rgba(0, 123, 255, 0.1); color: var(--gold); padding: 8px 20px; border-radius: 50px; font-size: 0.65rem; font-weight: 900; letter-spacing: 3px; display: inline-block; margin-bottom: 20px; border: 1px solid rgba(0, 123, 255, 0.4); }
 .archetype-title { font-family: 'Cinzel', serif; font-size: 2rem; color: white; margin-bottom: 20px; line-height: 1; text-align: center; }
 .archetype-subtitle { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
 .tag-box { background: #0a0a0a; padding: 10px; border-radius: 12px; border: 1px solid #333; display: flex; flex-direction: column; align-items: center; min-width: 90px; }
@@ -147,22 +150,22 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Botões Gerais */
-.btn-back { background: transparent; color: #007bff; border: none; padding: 0; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
-.btn-cta { width: 100%; padding: 18px; background: linear-gradient(135deg, #D4AF37 0%, #FAD961 100%); color: #000; font-weight: 900; border: none; border-radius: 14px; cursor: pointer; font-size: 0.95rem; text-transform: uppercase; margin-top: 20px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
+.btn-back { background: transparent; color: var(--gold); border: none; padding: 0; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+.btn-cta { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: #fff; font-weight: 900; border: none; border-radius: 14px; cursor: pointer; font-size: 0.95rem; text-transform: uppercase; margin-top: 20px; box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3); }
 
 /* --- AULAS --- */
 #module-content { display: none; }
 .video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
 .lesson-item { background: #161616; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
 .lesson-link { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; cursor: pointer; flex: 1; }
-.btn-pdf { background: rgba(0, 123, 255, 0.1); color: #007bff; padding: 8px 12px; text-decoration: none; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid rgba(0, 123, 255, 0.2); }
-.btn-test { background: linear-gradient(90deg, #D4AF37, #FAD961); color: #000; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; border: none; cursor: pointer; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); }
+.btn-pdf { background: rgba(0, 123, 255, 0.1); color: var(--gold); padding: 8px 12px; text-decoration: none; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid rgba(0, 123, 255, 0.2); }
+.btn-test { background: linear-gradient(90deg, var(--gold), var(--gold-light)); color: #fff; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; border: none; cursor: pointer; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 20px rgba(0, 123, 255, 0.2); }
 
 /* --- CHAT --- */
 #chat-view { display: none; flex-direction: column; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 200; background: #0b141a; }
 #chat-view.active { display: flex; }
 .chat-header { background: #1f2c34; padding: 10px 15px; display: flex; align-items: center; gap: 15px; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.chat-avatar-ring { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #D4AF37, #FAD961); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+.chat-avatar-ring { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #00c6ff, #007bff); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
 .chat-info h3 { font-size: 16px; margin: 0; color: #fff; font-weight: 600; }
 .chat-info span { font-size: 11px; color: #8696a0; }
 .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -176,7 +179,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .chat-send-btn { background: #00a884; color: white; }
 
 /* FAB */
-.flow-fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; border-radius: 50%; background-color: #000; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5); cursor: pointer; z-index: 150; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.3); }
+.flow-fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; border-radius: 50%; background-color: #000; box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5); cursor: pointer; z-index: 150; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0, 123, 255, 0.3); }
 .flow-fab img { width: 70%; height: auto; }
 
 /* NAVBAR MOBILE */
@@ -252,7 +255,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
         <section id="eneagrama-test-view">
             <button class="btn-back" onclick="closeModule()">← Cancelar</button>
-            <div class="brand-logo text-center" style="margin-bottom: 20px;"><span style="color:#fff;">Prática</span><span class="gold">Mente</span></div>
+            <div class="brand-logo text-center" style="margin-bottom: 20px;"><span class="logo pratica">Prática</span><span class="gold">Mente</span></div>
             
             <div id="screen-prep" class="glass-panel">
                 <div class="instruction-box">
@@ -363,7 +366,12 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 const introOverlay = document.getElementById('intro-overlay');
 const introVideo = document.getElementById('intro-video');
 function endIntro() { introOverlay.style.opacity = '0'; setTimeout(() => { introOverlay.style.display = 'none'; }, 800); }
-if(introVideo) { introVideo.onended = endIntro; introVideo.onerror = () => setTimeout(endIntro, 3000); }
+if(introVideo) { 
+    introVideo.onended = endIntro; 
+    introVideo.onerror = () => setTimeout(endIntro, 3000); 
+    // FORÇA O FECHAMENTO APÓS 3 SEGUNDOS
+    setTimeout(endIntro, 3000);
+}
 
 // --- CONFIGURAÇÃO ---
 const userPlan = localStorage.getItem('praticamente_plano');
@@ -465,10 +473,10 @@ function renderizarQuestao(texto, num, labels, valores, callback) {
     labels.forEach((label, idx) => { 
         const btn = document.createElement('button'); 
         btn.className = 'btn-option'; 
-        if(faseAtual === "INSTINTO") btn.style.borderColor = "#D4AF37"; 
+        if(faseAtual === "INSTINTO") btn.style.borderColor = "#007bff"; 
         btn.innerText = label; 
         btn.onclick = function() { 
-            this.style.background = "rgba(212, 175, 55, 0.3)"; 
+            this.style.background = "rgba(0, 123, 255, 0.3)"; 
             setTimeout(() => callback(valores[idx]), 150); 
         }; 
         container.appendChild(btn); 
@@ -526,8 +534,8 @@ function exibirResultados(tipo, asa, instinto) {
             datasets: [{ 
                 label: 'Sua Assinatura', 
                 data: [pontuacaoTipos[1], pontuacaoTipos[2], pontuacaoTipos[3], pontuacaoTipos[4], pontuacaoTipos[5], pontuacaoTipos[6], pontuacaoTipos[7], pontuacaoTipos[8], pontuacaoTipos[9]], 
-                backgroundColor: 'rgba(212, 175, 55, 0.2)', 
-                borderColor: '#D4AF37', borderWidth: 2, pointBackgroundColor: '#fff' 
+                backgroundColor: 'rgba(0, 123, 255, 0.2)', 
+                borderColor: '#007bff', borderWidth: 2, pointBackgroundColor: '#fff' 
             }] 
         }, 
         options: { 
@@ -635,6 +643,20 @@ function openModule(name, vid) {
     document.getElementById('mod-title').innerText = name;
     document.getElementById('test-container').innerHTML = (name === 'Eneagrama') ? `<button class="btn-test" onclick="startEnneagramTest()">🎯 DESCUBRA SEU TIPO (COMPLETO)</button>` : '';
     if(vid) { document.getElementById('video-box').style.display = 'block'; document.getElementById('mod-video').src = vid; } else { document.getElementById('video-box').style.display = 'none'; }
+    
+    // CARREGA AS NOVAS AULAS
+    const container = document.getElementById('lessons-container');
+    container.innerHTML = '';
+    if(data[name]) {
+        data[name].forEach(aula => {
+            container.innerHTML += `
+                <div class="lesson-item">
+                    <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista('${aula.title}')">▶ ${aula.title}</a>
+                    <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
+                </div>`;
+        });
+    }
+
     window.scrollTo(0,0);
 }
 function closeModule() { goHome(); window.scrollTo(0,0); }
@@ -643,6 +665,67 @@ function aplicarBloqueios() {
     if (userPlan === 'completo') return;
     if (userPlan === 'ebooks') ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo'].forEach(id => document.getElementById(id)?.classList.add('locked'));
 }
+function marcarComoVista(t) { 
+    let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+    if(!aulasConcluidas.includes(t)) { 
+        aulasConcluidas.push(t); 
+        localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas)); 
+        atualizarProgresso(); 
+    } 
+}
+
+// --- GRADE CURRICULAR EXPANDIDA (AZUL E PRATA) ---
+const data = {
+    'Eneagrama': [ 
+        { title: 'Aula 1: Os 3 Centros de Inteligência', video: '', pdf: '' },
+        { title: 'Aula 2: Os 9 Tipos de Personalidade', video: '', pdf: '' },
+        { title: 'Aula 3: Asas e Flechas (Movimentos)', video: '', pdf: '' },
+        { title: 'Aula 4: Os 3 Instintos (Subtipos)', video: '', pdf: '' },
+        { title: 'Aula 5: Níveis de Desenvolvimento', video: '', pdf: '' }
+    ],
+    'PNL': [ 
+        { title: 'Aula 1: Pressupostos Básicos', video: '', pdf: '' },
+        { title: 'Aula 2: Rapport e Empatia Instantânea', video: '', pdf: '' },
+        { title: 'Aula 3: Ancoragem de Estados', video: '', pdf: '' },
+        { title: 'Aula 4: Ressignificação de Crenças', video: '', pdf: '' },
+        { title: 'Aula 5: Metamodelo de Linguagem', video: '', pdf: '' }
+    ],
+    'Estoicismo': [ 
+        { title: 'Aula 1: A Dicotomia do Controle', video: '', pdf: '' },
+        { title: 'Aula 2: Memento Mori (Finitude)', video: '', pdf: '' },
+        { title: 'Aula 3: Amor Fati (Amar o Destino)', video: '', pdf: '' },
+        { title: 'Aula 4: Premeditatio Malorum', video: '', pdf: '' },
+        { title: 'Aula 5: A Cidadela Interior', video: '', pdf: '' }
+    ],
+    'Família': [ 
+        { title: 'Aula 1: As Leis do Amor (Ordem)', video: '', pdf: '' },
+        { title: 'Aula 2: Comunicação Não-Violenta', video: '', pdf: '' },
+        { title: 'Aula 3: Linguagens do Amor no Lar', video: '', pdf: '' },
+        { title: 'Aula 4: Paternidade e Autoridade', video: '', pdf: '' },
+        { title: 'Aula 5: Gestão de Conflitos', video: '', pdf: '' }
+    ],
+    'Curso Completo': [ 
+        { title: 'Aula 1: O Método PráticaMente (Intro)', video: '', pdf: '' },
+        { title: 'Aula 2: Biohacking: Sono e Energia', video: '', pdf: '' },
+        { title: 'Aula 3: Neurociência da Mudança', video: '', pdf: '' },
+        { title: 'Aula 4: Rotina de Alta Performance', video: '', pdf: '' },
+        { title: 'Aula 5: Gestão do Tempo e Foco', video: '', pdf: '' },
+        { title: 'Aula 6: Inteligência Emocional', video: '', pdf: '' },
+        { title: 'Aula 7: Comunicação Magnética', video: '', pdf: '' },
+        { title: 'Aula 8: Liderança Situacional', video: '', pdf: '' },
+        { title: 'Aula 9: Gestão de Pessoas e Conflitos', video: '', pdf: '' },
+        { title: 'Aula 10: Antifragilidade', video: '', pdf: '' },
+        { title: 'Aula 11: Tomada de Decisão Rápida', video: '', pdf: '' },
+        { title: 'Aula 12: Branding e Marca Pessoal', video: '', pdf: '' },
+        { title: 'Aula 13: Networking Estratégico', video: '', pdf: '' },
+        { title: 'Aula 14: Liderança Servidora', video: '', pdf: '' },
+        { title: 'Aula 15: O Plano de Vida (Legado)', video: '', pdf: '' }
+    ],
+    'E-books': [ 
+        { title: 'Praticamente: Os Códigos da Liderança', video: '', pdf: 'praticamente_codigos_lideranca.pdf' },
+        { title: 'Manual de PNL Prática', video: '', pdf: 'manual_pnl.pdf' }
+    ]
+};
 </script>
 </body>
 </html>
