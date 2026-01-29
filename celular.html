@@ -379,7 +379,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
             <div class="chat-header">
                 <button class="control-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></button>
                 <div class="chat-avatar-ring"><i class="fas fa-bolt" style="color:#000;"></i></div>
-                <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">DeepSeek R1 (Super Intelligent)</span></div>
+                <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">Llama 3.3 (High Performance)</span></div>
                 <div class="header-controls">
                     <button class="control-btn" id="voice-toggle-btn" onclick="toggleMute()"><i class="fas fa-volume-up"></i></button>
                     <button class="control-btn" onclick="resetChat()"><i class="fas fa-broom"></i></button>
@@ -595,8 +595,15 @@ function falarComFlow() {
     setTimeout(() => { sendMessage(`[[SISTEMA]]: O usuário acabou de descobrir que é TIPO ${userEnneagramType}. Dê as boas vindas e explique o que isso significa para a liderança dele.`); }, 500);
 }
 
-// --- CHAT LOGIC (DEEPSEEK R1) ---
-let baseSystemInstruction = `Você é o "Flow", mentor de elite. Seja direto, profundo e prático. Use Eneagrama, PNL e Estoicismo.`;
+// --- CHAT LOGIC (LLAMA 3.3 WITH CoT) ---
+// Adicionamos "Chain of Thought" no prompt para simular raciocínio profundo
+let baseSystemInstruction = `
+Você é o "Flow", mentor de elite do método PráticaMente.
+IMPORTANTE: Antes de responder, ANALISE a pergunta passo a passo internamente. Use lógica, psicologia (Eneagrama/PNL) e Estoicismo.
+Seja direto, profundo e prático. Não use gírias baratas.
+Se o usuário perguntar algo complexo, explique o "porquê" antes do "como".
+`;
+
 if (userEnneagramType) { baseSystemInstruction += `\n[PERFIL]: O usuário é TIPO ${userEnneagramType}.`; }
 let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [];
 
@@ -648,10 +655,10 @@ async function sendMessage(overrideText) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
             body: JSON.stringify({
-                model: "deepseek-r1-distill-llama-70b", // DEEPSEEK ATIVADO
+                model: "llama-3.3-70b-versatile", // Voltamos para Llama 3.3 (Estável)
                 messages: context, 
                 max_tokens: 1024, 
-                temperature: 0.6
+                temperature: 0.7
             })
         });
         
@@ -663,9 +670,6 @@ async function sendMessage(overrideText) {
         const data = await response.json();
         let aiText = data.choices[0].message.content;
         
-        // Remove tags de pensamento se houver (<think>...</think>)
-        aiText = aiText.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-
         conversationHistory.push({ role: "assistant", content: aiText });
         localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
         addMessageToUI(aiText, 'received');
