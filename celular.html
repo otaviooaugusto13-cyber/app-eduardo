@@ -7,13 +7,23 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#000000"> 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+/* --- VARIÁVEIS DO TESTE --- */
+:root { 
+    --bg-deep: #0e0e0e; 
+    --gold: #D4AF37; 
+    --gold-light: #FAD961; 
+    --gold-glow: rgba(212, 175, 55, 0.2); 
+    --red: #ff4d4d; --blue: #4da6ff; --green: #4dff88;
+}
+
 /* --- RESET E BASE --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overflow: hidden; }
+body { background: var(--bg-deep); color: #fff; line-height: 1.6; height: 100dvh; overflow: hidden; }
 
 /* --- INTRODUÇÃO DE VÍDEO --- */
 #intro-overlay {
@@ -36,22 +46,18 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overf
 
 /* --- SIDEBAR (Desktop) --- */
 .sidebar { width: 260px; background: #111; padding: 30px 20px; border-right: 1px solid #333; flex-shrink: 0; display: none; }
-@media (min-width: 769px) { 
-    .sidebar { display: block; }
-    .app { flex-direction: row; }
-}
-.logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
-.logo .pratica { color: #e0e0e0; } 
-.logo .mente { color: #007bff; }    
+@media (min-width: 769px) { .sidebar { display: block; } .app { flex-direction: row; } }
+.logo { margin-bottom: 40px; font-size: 22px; font-weight: bold; text-transform: uppercase; cursor: pointer; font-family: 'Cinzel', serif; }
+.logo .pratica { color: #e0e0e0; } .logo .mente { color: var(--gold); }    
 .sidebar nav a { display: block; padding: 12px 15px; color: #bbb; text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; }
-.sidebar nav a:hover { background: #1a1a1a; color: #007bff; }
-.sidebar nav a.active { background: #1a1a1a; color: #007bff; border-left: 3px solid #007bff; }
+.sidebar nav a:hover { background: #1a1a1a; color: var(--gold); }
+.sidebar nav a.active { background: #1a1a1a; color: var(--gold); border-left: 3px solid var(--gold); }
 
 /* --- PROGRESSO --- */
 .progress-desktop { margin-top: 50px; }
 .progress-desktop span { font-size: 12px; color: #aaa; display: block; margin-bottom: 10px; }
 .bar { width: 100%; height: 6px; background: #222; border-radius: 10px; overflow: hidden; } 
-.bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #007bff, #00c6ff); transition: width 0.5s ease; }
+.bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.5s ease; }
 
 .mobile-progress-container { display: block; margin-bottom: 30px; background: transparent; padding: 0; }
 @media (min-width: 769px) { .mobile-progress-container { display: none; } }
@@ -59,16 +65,13 @@ body { background: #0e0e0e; color: #fff; line-height: 1.6; height: 100dvh; overf
 
 /* --- CONTEÚDO PRINCIPAL --- */
 main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; background: #0e0e0e; padding-bottom: 120px; }
-/* AUMENTO DO PADDING (RESPIRO) */
 .content-container { padding: 25px; width: 100%; max-width: 1200px; margin: 0 auto; }
 @media (min-width: 769px) { .content-container { padding: 50px; padding-bottom: 50px; } }
 
-/* --- CARDS COM EFEITO VIDRO (GLASSMORPHISM) --- */
+/* --- CARDS --- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
-
 .card { 
-    height: 280px; 
-    border-radius: 24px; padding: 25px; 
+    height: 280px; border-radius: 24px; padding: 25px; 
     cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; 
     transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
     background-size: cover; background-position: center; 
@@ -76,19 +79,9 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
-
-.card:hover { 
-    transform: translateY(-5px) scale(1.02); 
-    border-color: rgba(0, 123, 255, 0.4); 
-    box-shadow: 0 20px 50px rgba(0, 123, 255, 0.15); 
-}
-
+.card:hover { transform: translateY(-5px) scale(1.02); border-color: rgba(212, 175, 55, 0.4); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15); }
 .card.locked { filter: grayscale(100%) brightness(0.7); cursor: not-allowed; border-color: rgba(255,255,255,0.05) !important; }
-.card.locked::before { 
-    content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; 
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-    font-size: 32px; color: rgba(255,255,255,0.8); z-index: 3; 
-}
+.card.locked::before { content: '\f023'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: rgba(255,255,255,0.8); z-index: 3; }
 
 /* Imagens */
 .card-Eneagrama { background-image: url('Eneagrama.png'); background-color: #1a1a1a; }
@@ -98,86 +91,80 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .card-curso { background-image: url('curso.png'); background-color: #1a1a1a; }
 .card-E-book { background-image: url('livros.png'); background-color: #1a1a1a; }
 
-/* BADGE/TAG (MODIFICADO - NO TOPO) */
 .card span { 
     position: absolute; top: 20px; left: 20px;
-    font-size: 9px; font-weight: 800; color: #fff; 
-    z-index: 2; 
-    background: rgba(255, 255, 255, 0.1); 
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 6px 14px; border-radius: 30px; 
-    backdrop-filter: blur(10px); 
+    font-size: 9px; font-weight: 800; color: #fff; z-index: 2; 
+    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 14px; border-radius: 30px; backdrop-filter: blur(10px); 
     text-transform: uppercase; letter-spacing: 1px;
 }
+.card h3 { font-size: 24px; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,1); position: relative; z-index: 2; font-weight: 700; line-height: 1.2; }
+.card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 100%); z-index: 1; }
 
-.card h3 { 
-    font-size: 24px; color: #fff; 
-    text-shadow: 0 4px 20px rgba(0,0,0,1); 
-    position: relative; z-index: 2; font-weight: 700; line-height: 1.2;
-}
+/* --- ESTILOS ESPECÍFICOS DO DIAGNÓSTICO (MERGED) --- */
+#eneagrama-test-view { display: none; padding-bottom: 100px; }
+.glass-panel { background: rgba(18, 18, 18, 0.95); box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.9); border-radius: 24px; padding: 20px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 30px; }
 
-/* OVERLAY ESCURO MAIS FORTE (PARA LEITURA) */
-.card::after { 
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.2) 100%); 
-    z-index: 1; 
+/* Instruções */
+.instruction-box { text-align: left; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 3px solid var(--gold); }
+.rule-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: 0.9rem; color: #bbb; line-height: 1.4; }
+.rule-item i { flex-shrink: 0; font-size: 1.2rem; color: var(--gold); }
+.rule-item strong { color: var(--gold); }
+
+/* Perguntas e Opções */
+.progress-track { background: rgba(255,255,255,0.05); height: 4px; border-radius: 2px; margin-bottom: 25px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #fff); width: 0%; transition: width 0.6s ease; box-shadow: 0 0 15px var(--gold-glow); }
+.question-text { font-size: 1.2rem; font-weight: 600; line-height: 1.5; margin-bottom: 25px; min-height: 60px; color: #f0f0f0; text-align: center; }
+.step-counter { font-size: 0.7rem; color: #888; margin-bottom: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
+
+.btn-option { 
+    display: block; width: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0)); 
+    border: 1px solid rgba(255,255,255,0.1); color: #ccc; 
+    padding: 18px 20px; margin-bottom: 12px; border-radius: 14px; 
+    text-align: left; cursor: pointer; transition: 0.2s; 
+    font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; 
 }
+.btn-option:hover, .btn-option:active { border-color: var(--gold); color: #fff; background: rgba(212, 175, 55, 0.1); transform: translateX(5px); }
+
+/* Resultados */
+.result-badge { background: rgba(212, 175, 55, 0.1); color: var(--gold); padding: 8px 20px; border-radius: 50px; font-size: 0.65rem; font-weight: 900; letter-spacing: 3px; display: inline-block; margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.4); }
+.archetype-title { font-family: 'Cinzel', serif; font-size: 2rem; color: white; margin-bottom: 20px; line-height: 1; text-align: center; }
+.archetype-subtitle { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+.tag-box { background: #0a0a0a; padding: 10px; border-radius: 12px; border: 1px solid #333; display: flex; flex-direction: column; align-items: center; min-width: 90px; }
+.tag-box.border-gold { border-color: var(--gold); }
+.tag-label { font-size: 0.6rem; color: #555; font-weight: 900; margin-bottom: 5px; }
+.tag-value { font-size: 1.2rem; font-weight: 900; color: white; }
+
+.deep-card { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0)); border-left: 3px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 0 12px 12px 0; }
+.deep-card h4 { font-size: 0.7rem; text-transform: uppercase; color: #888; margin-bottom: 8px; font-weight: 800; }
+.deep-card p { font-size: 0.9rem; line-height: 1.5; color: #ddd; }
+.border-gold { border-left-color: var(--gold); } .border-red { border-left-color: var(--red); }
+
+/* Spinner */
+.loader-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 0; }
+.spinner { width: 60px; height: 60px; border: 3px solid rgba(255,255,255,0.05); border-top-color: var(--gold); border-radius: 50%; animation: spin 1s infinite; margin-bottom: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Botões Gerais */
+.btn-back { background: transparent; color: #007bff; border: none; padding: 0; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+.btn-cta { width: 100%; padding: 18px; background: linear-gradient(135deg, #D4AF37 0%, #FAD961 100%); color: #000; font-weight: 900; border: none; border-radius: 14px; cursor: pointer; font-size: 0.95rem; text-transform: uppercase; margin-top: 20px; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); }
 
 /* --- AULAS --- */
 #module-content { display: none; }
-.btn-back { background: transparent; color: #007bff; border: none; padding: 0; cursor: pointer; margin-bottom: 20px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
-.video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.lesson-item { background: #161616; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; transition: 0.2s; }
-.lesson-item:active { background: #222; }
+.video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; margin-bottom: 30px; border: 1px solid #333; background: #000; }
+.lesson-item { background: #161616; padding: 20px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; }
 .lesson-link { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; cursor: pointer; flex: 1; }
-.btn-pdf { background: rgba(0, 123, 255, 0.1); color: #007bff; padding: 8px 12px; text-decoration: none; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid rgba(0, 123, 255, 0.2); transition: 0.3s; }
+.btn-pdf { background: rgba(0, 123, 255, 0.1); color: #007bff; padding: 8px 12px; text-decoration: none; border-radius: 6px; font-size: 11px; font-weight: bold; border: 1px solid rgba(0, 123, 255, 0.2); }
+.btn-test { background: linear-gradient(90deg, #D4AF37, #FAD961); color: #000; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; border: none; cursor: pointer; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.2); }
 
-.btn-test { 
-    background: linear-gradient(90deg, #ff8c00, #ff4d4d); color: #fff; 
-    padding: 15px; width: 100%; text-decoration: none; border-radius: 12px; 
-    font-size: 16px; border: none; cursor: pointer; font-weight: bold; 
-    margin-bottom: 20px; box-shadow: 0 8px 25px rgba(255, 77, 77, 0.25);
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-
-/* --- OUTRAS SEÇÕES --- */
-#journal-view, #eneagrama-test-view { display: none; padding-bottom: 100px; }
-.journal-entry { background: #161616; border-left: 3px solid #007bff; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
-.journal-date { font-size: 10px; color: #666; font-weight: bold; margin-bottom: 5px; display: block; }
-.journal-text { font-size: 14px; color: #ccc; font-style: italic; }
-
-.test-card { background: #161616; padding: 25px; border-radius: 20px; border: 1px solid #333; }
-.test-question { font-size: 18px; margin-bottom: 25px; color: #fff; font-weight: bold; }
-.test-option { 
-    display: block; width: 100%; padding: 18px; margin-bottom: 12px; 
-    background: #222; border: 1px solid #333; color: #ccc; 
-    border-radius: 12px; cursor: pointer; text-align: left; transition: 0.2s; font-size: 14px;
-}
-.test-option:active { background: #007bff; color: white; border-color: #007bff; }
-
-/* ================================================================= */
-/* === CHAT FLOW === */
+/* --- CHAT --- */
 #chat-view { display: none; flex-direction: column; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 200; background: #0b141a; }
 #chat-view.active { display: flex; }
 .chat-header { background: #1f2c34; padding: 10px 15px; display: flex; align-items: center; gap: 15px; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-.chat-avatar-ring {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #00d2ff, #3a7bd5, #8a2be2);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-}
-.chat-avatar-ring i { font-size: 18px; color: #fff; }
-
-.chat-info { flex: 1; overflow: hidden; }
+.chat-avatar-ring { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #D4AF37, #FAD961); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 .chat-info h3 { font-size: 16px; margin: 0; color: #fff; font-weight: 600; }
 .chat-info span { font-size: 11px; color: #8696a0; }
-
-.header-controls { display: flex; gap: 15px; }
-.control-btn { background: transparent; border: none; color: #aebac1; font-size: 18px; cursor: pointer; transition: 0.2s; }
-.control-btn:hover { color: #fff; }
-.control-btn.active-socratic { color: #ff4d4d; animation: pulseRed 2s infinite; }
-
 .chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
 .message { max-width: 80%; padding: 10px 15px; border-radius: 12px; font-size: 14px; line-height: 1.4; }
 .message.received { background: #1f2c34; color: #fff; align-self: flex-start; border-top-left-radius: 2px; }
@@ -188,56 +175,21 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .chat-btn { width: 45px; height: 45px; border-radius: 50%; border: none; background: transparent; color: #8696a0; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .chat-send-btn { background: #00a884; color: white; }
 
-/* === BOTÃO FLUTUANTE === */
-.flow-fab {
-    position: fixed; bottom: 100px; right: 25px; 
-    width: 65px; height: 65px; border-radius: 50%;
-    background-color: #000; box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5);
-    cursor: pointer; z-index: 150; display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.flow-fab img { width: 70%; height: auto; object-fit: contain; }
+/* FAB */
+.flow-fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; border-radius: 50%; background-color: #000; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5); cursor: pointer; z-index: 150; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.3); }
+.flow-fab img { width: 70%; height: auto; }
 
-/* --- MODO LIGAÇÃO --- */
-#call-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 300; display: none; flex-direction: column; align-items: center; justify-content: center; }
-.call-core { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #007bff, #00c6ff); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; box-shadow: 0 0 40px rgba(0, 123, 255, 0.6); cursor: pointer; }
-.call-core i { font-size: 40px; color: white; }
-.wave { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid rgba(0, 198, 255, 0.5); opacity: 0; pointer-events: none; z-index: 1; }
-.call-active .wave { animation: wave-anim 2.5s infinite ease-out; }
-.call-active .wave:nth-child(1) { animation-delay: 0s; }
-.call-active .wave:nth-child(2) { animation-delay: 0.8s; }
-.call-active .wave:nth-child(3) { animation-delay: 1.6s; }
-@keyframes wave-anim { 0% { width: 100px; height: 100px; opacity: 1; border-width: 4px; } 100% { width: 350px; height: 350px; opacity: 0; border-width: 0px; } }
-.call-status { margin-top: 50px; font-size: 14px; color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
-.btn-end-call { margin-top: 40px; background: rgba(20, 20, 20, 0.8); color: #ff4d4d; border: 1px solid #ff4d4d; width: 60px; height: 60px; border-radius: 50%; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-end-call:active { background: #ff4d4d; color: white; }
-
-/* --- NAVBAR MOBILE (GLASSMORPHISM PURO) --- */
-.mobile-nav { 
-    display: none; 
-    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); 
-    width: 90%; max-width: 380px; height: 65px;
-    background: rgba(20, 20, 20, 0.85); /* Fundo semi-transparente escuro */
-    backdrop-filter: blur(15px) saturate(180%); /* Efeito vidro */
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 35px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-    display: flex; justify-content: space-around; align-items: center;
-    z-index: 100;
-}
+/* NAVBAR MOBILE */
+.mobile-nav { display: none; position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 380px; height: 65px; background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); border: 1px solid rgba(255,255,255,0.08); border-radius: 35px; box-shadow: 0 10px 40px rgba(0,0,0,0.7); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
 @media (min-width: 769px) { .mobile-nav { display: none !important; } }
+.nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; background: none; border: none; font-size: 9px; font-weight: bold; flex: 1; height: 100%; cursor: pointer; }
+.nav-item i { font-size: 18px; margin-bottom: 4px; color: #888; }
+.nav-item:active i { color: #fff; }
 
-.nav-item {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: #666; background: none; border: none;
-    font-size: 9px; font-weight: bold; transition: 0.3s;
-    flex: 1; height: 100%; cursor: pointer; letter-spacing: 0.5px;
-}
-.nav-item i { font-size: 18px; margin-bottom: 4px; color: #888; transition: 0.3s; }
-.nav-item:hover i, .nav-item:active i { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-.nav-item.logout { color: #ff4d4d; }
-
+/* Utilitários */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.gold { color: var(--gold); }
 </style>
 </head>
 <body>
@@ -268,14 +220,14 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
   <main>
     <div class="content-container">
+        
         <section id="main-view" style="display: block;">
-          
           <div class="mobile-progress-container">
               <div class="mobile-progress-info"><span>SEU PROGRESSO</span><span id="prog-text-mobile">0%</span></div>
               <div class="bar"><div id="prog-fill-mobile" class="bar-fill"></div></div>
           </div>
 
-          <h1 style="margin-bottom: 30px;">Evolução da Mente</h1>
+          <h1 style="margin-bottom: 30px; font-family: 'Cinzel', serif;">Evolução da Mente</h1>
           <div class="cards">
             <div id="mod-eneagrama" class="card card-Eneagrama" onclick="tryOpen('Eneagrama', 'eneagrama', 'https://www.youtube.com/embed/SuaIntroAqui1')"><span>MÓDULO 1</span><h3>Autoliderança emocional</h3></div>
             <div id="mod-pnl" class="card card-PNL" onclick="tryOpen('PNL', 'pnl', 'https://www.youtube.com/embed/SuaIntroAqui2')"><span>MÓDULO 2</span><h3>Consciência aplicada</h3></div>
@@ -288,7 +240,6 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
           <div class="flow-fab" onclick="openChatInterface()">
             <img src="logo.png" alt="Praticamente AI">
           </div>
-
         </section>
 
         <section id="module-content">
@@ -301,507 +252,396 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 
         <section id="eneagrama-test-view">
             <button class="btn-back" onclick="closeModule()">← Cancelar</button>
-            <h1 style="margin-bottom: 20px;">Descubra seu Tipo</h1>
-            <div id="quiz-container"></div>
+            <div class="brand-logo text-center" style="margin-bottom: 20px;"><span style="color:#fff;">Prática</span><span class="gold">Mente</span></div>
+            
+            <div id="screen-prep" class="glass-panel">
+                <div class="instruction-box">
+                    <p style="color:#fff; font-weight:bold; margin-bottom:15px;">⚠️ REGRAS PARA PRECISÃO:</p>
+                    <div class="rule-item"><i class="fas fa-hourglass-half"></i><span><strong>Sem Pressa:</strong> Respire e sinta a resposta.</span></div>
+                    <div class="rule-item"><i class="fas fa-history"></i><span><strong>Volte no Tempo:</strong> Responda como você era entre os <strong>18 e 23 anos</strong>.</span></div>
+                    <div class="rule-item"><i class="fas fa-fingerprint"></i><span><strong>Seja Real:</strong> Quem você É nos bastidores, não no palco.</span></div>
+                </div>
+                <button onclick="iniciarQuizReal()" class="btn-cta">INICIAR DIAGNÓSTICO</button>
+            </div>
+
+            <div id="screen-quiz" class="glass-panel hidden">
+                <div class="progress-track"><div id="progress-bar" class="progress-fill"></div></div>
+                <p class="step-counter">ANÁLISE <span id="q-number">1 / 30</span></p>
+                <h2 id="q-text" class="question-text">Carregando...</h2>
+                <div id="options-container"></div>
+            </div>
+
+            <div id="screen-loading" class="glass-panel hidden">
+                <div class="loader-wrapper">
+                    <div class="spinner"></div>
+                    <h2 style="font-family: 'Cinzel', serif; color: #fff;">Processando Psique...</h2>
+                    <p style="color: var(--gold); font-size: 0.8rem; margin-top: 10px;">Mapeando Assinatura Neural...</p>
+                </div>
+            </div>
+
+            <div id="screen-result" class="glass-panel hidden">
+                <div class="text-center">
+                    <div class="result-badge">DIAGNÓSTICO CONCLUÍDO</div>
+                    <h1 id="res-archetype" class="archetype-title">ARQUÉTIPO</h1>
+                    
+                    <div class="archetype-subtitle">
+                        <div class="tag-box">
+                            <span class="tag-label">TIPO</span>
+                            <span id="res-type" class="tag-value">X</span>
+                        </div>
+                        <div class="tag-box border-gold">
+                            <span class="tag-label">ASA</span>
+                            <span id="res-wing-calc" class="tag-value">Y</span>
+                        </div>
+                        <div class="tag-box">
+                            <span class="tag-label">INSTINTO</span>
+                            <span id="res-subtype" class="tag-value">Z</span>
+                        </div>
+                    </div>
+
+                    <div style="position: relative; height:250px; width:100%; margin-bottom: 30px;">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+
+                    <div class="deep-card">
+                        <h4><i class="fas fa-fingerprint"></i> A Raiz (Gênese)</h4>
+                        <p id="res-genesis">...</p>
+                    </div>
+                    <div class="deep-card border-red">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Vício Emocional</h4>
+                        <p id="res-behavior">...</p>
+                    </div>
+                    <div class="deep-card border-gold">
+                        <h4><i class="fas fa-bolt"></i> O Remédio</h4>
+                        <p id="res-evolution">...</p>
+                    </div>
+
+                    <button onclick="falarComFlow()" class="btn-cta">
+                        <i class="fas fa-robot" style="margin-right:10px;"></i> FALAR COM O FLOW
+                    </button>
+                    <p style="font-size: 10px; color: #666; margin-top: 10px;">O Flow já recebeu seus dados.</p>
+                </div>
+            </div>
         </section>
 
         <section id="journal-view">
             <button class="btn-back" onclick="goHome()">← Voltar</button>
             <h1 style="margin-bottom: 20px;">Seu Diário Estoico</h1>
-            <p style="color: #888; margin-bottom: 30px; font-size: 14px;">Insights salvos automaticamente pelo Flow durante suas conversas.</p>
             <div id="journal-container"></div>
         </section>
 
         <section id="chat-view">
             <div class="chat-header">
                 <button class="control-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></button>
-                <div class="chat-avatar-ring"><i class="fas fa-bolt"></i></div>
+                <div class="chat-avatar-ring"><i class="fas fa-bolt" style="color:#000;"></i></div>
                 <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">Llama 3.3 (High Performance)</span></div>
                 <div class="header-controls">
                     <button class="control-btn" id="voice-toggle-btn" onclick="toggleMute()"><i class="fas fa-volume-up"></i></button>
-                    <button class="control-btn" onclick="resetChat()" title="Nova Conversa"><i class="fas fa-broom"></i></button>
-                    <button class="control-btn" id="socratic-btn" onclick="toggleSocraticMode()" title="Modo Debate Socrático"><i class="fas fa-fire"></i></button>
+                    <button class="control-btn" onclick="resetChat()"><i class="fas fa-broom"></i></button>
                 </div>
             </div>
-            
             <div class="chat-body" id="chat-body"></div>
-            
             <div class="chat-footer">
-                <button class="chat-btn chat-mic-btn" id="mic-btn" onclick="toggleVoiceInput()"><i class="fas fa-microphone"></i></button>
+                <button class="chat-btn" id="mic-btn" onclick="toggleVoiceInput()"><i class="fas fa-microphone"></i></button>
                 <div class="chat-input-wrapper"><input type="text" id="chat-input" class="chat-input" placeholder="Mensagem" autocomplete="off"></div>
-                <button class="chat-btn chat-phone-btn" onclick="startCallMode()"><i class="fas fa-phone-alt"></i></button>
-                <button class="chat-btn chat-send-btn" id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                <button class="chat-btn chat-send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </section>
     </div>
 
     <nav class="mobile-nav">
-        <button class="nav-item" onclick="window.location.href='certificados.html'">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Diplomas</span>
-        </button>
-        <button class="nav-item" onclick="openJournal()">
-            <i class="fas fa-book"></i>
-            <span>Diário</span>
-        </button>
-        <button class="nav-item" onclick="window.open('https://wa.me/55SEUNUMERO', '_blank')">
-            <i class="fab fa-whatsapp"></i>
-            <span>Suporte</span>
-        </button>
-        <button class="nav-item logout" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Sair</span>
-        </button>
+        <button class="nav-item" onclick="window.location.href='certificados.html'"><i class="fas fa-graduation-cap"></i><span>Diplomas</span></button>
+        <button class="nav-item" onclick="openJournal()"><i class="fas fa-book"></i><span>Diário</span></button>
+        <button class="nav-item" onclick="window.open('https://wa.me/55SEUNUMERO', '_blank')"><i class="fab fa-whatsapp"></i><span>Suporte</span></button>
+        <button class="nav-item" onclick="logout()" style="color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i><span>Sair</span></button>
     </nav>
-
-    <div id="call-overlay" onclick="interruptSpeech()">
-        <div style="position: relative;">
-            <div class="call-core" id="call-btn-main"><i class="fas fa-bolt"></i></div>
-            <div class="wave"></div><div class="wave"></div><div class="wave"></div>
-        </div>
-        <div class="call-status" id="call-status-text">Conectando...</div>
-        <div style="margin-top: 20px; font-size: 11px; color: #666;">(Toque na tela para interromper a fala)</div>
-        <button class="btn-end-call" onclick="endCallMode(event)"><i class="fas fa-phone-slash"></i></button>
-    </div>
   </main>
 </div>
 
 <script>
-// --- SCRIPT DA INTRODUÇÃO ---
+// --- INTRO ---
 const introOverlay = document.getElementById('intro-overlay');
 const introVideo = document.getElementById('intro-video');
+function endIntro() { introOverlay.style.opacity = '0'; setTimeout(() => { introOverlay.style.display = 'none'; }, 800); }
+if(introVideo) { introVideo.onended = endIntro; introVideo.onerror = () => setTimeout(endIntro, 3000); }
 
-function endIntro() {
-    introOverlay.style.opacity = '0';
-    setTimeout(() => {
-        introOverlay.style.display = 'none';
-    }, 800);
-}
-
-// Eventos do Vídeo
-introVideo.onended = function() { endIntro(); };
-introVideo.onerror = function() { setTimeout(endIntro, 3000); };
-
-// --- CONFIGURAÇÃO INICIAL (APP) ---
+// --- CONFIGURAÇÃO ---
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
-
 const API_KEY = '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'; 
-let userName = localStorage.getItem('praticamente_nome_usuario') || ''; 
+let userName = localStorage.getItem('praticamente_nome_usuario') || 'Líder'; 
 let userEnneagramType = localStorage.getItem('praticamente_perfil_eneagrama') || ''; 
 
-let isVoiceEnabled = true; 
-let isCallMode = false; 
-let isSocraticMode = false;
-
-// PROMPT INTELIGENTE
-let baseSystemInstruction = `
-Você é o "Flow", um mentor de alta performance educado, acolhedor e profissional.
-Não use gírias excessivas. Seja direto mas gentil.
-Se o usuário escrever pouco, responda pouco.
-`;
-
-if (userEnneagramType) {
-    baseSystemInstruction += `\n[PERFIL DO USUÁRIO]: O usuário é TIPO ${userEnneagramType} do Eneagrama. Use isso para dar conselhos personalizados.`;
-}
-
-let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [];
-
-window.onload = function() {
-    atualizarProgresso();
-    aplicarBloqueios();
-    
-    // Tenta autoplay
-    if(introVideo) {
-        introVideo.play().catch(e => console.log("Autoplay bloqueado pelo browser."));
-    }
-    
-    const chatInput = document.getElementById('chat-input');
-    if(chatInput) {
-        chatInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-    }
+// --- DADOS DO TESTE ENEAGRAMA ---
+const bancoPerguntas = [ 
+    { tipo: 1, txt: "Sinto uma pressão interna constante para corrigir erros e colocar ordem." }, 
+    { tipo: 1, txt: "Tenho um 'crítico interno' severo que me julga por qualquer falha." }, 
+    { tipo: 1, txt: "Fico frustrado quando vejo pessoas sendo irresponsáveis." }, 
+    { tipo: 2, txt: "Priorizo as necessidades dos outros e ignoro as minhas." }, 
+    { tipo: 2, txt: "Sinto que preciso ser útil para ter valor na vida das pessoas." }, 
+    { tipo: 2, txt: "Tenho dificuldade em dizer 'não' e me sobrecarrego." }, 
+    { tipo: 3, txt: "Sinto que meu valor depende das minhas conquistas e resultados." }, 
+    { tipo: 3, txt: "Adapto minha imagem para causar a melhor impressão possível." }, 
+    { tipo: 3, txt: "Tenho pavor de fracassar ou parecer incompetente." }, 
+    { tipo: 4, txt: "Sinto que falta algo em mim que os outros têm." }, 
+    { tipo: 4, txt: "Busco profundidade e detesto a superficialidade." }, 
+    { tipo: 4, txt: "Passo muito tempo imaginando cenários ideais ou nostálgicos." }, 
+    { tipo: 5, txt: "Preciso de muito tempo sozinho para recarregar minhas energias." }, 
+    { tipo: 5, txt: "Prefiro observar e entender antes de participar." }, 
+    { tipo: 5, txt: "Protejo minha privacidade e evito demandas emocionais." }, 
+    { tipo: 6, txt: "Minha mente está sempre escaneando perigos e riscos." }, 
+    { tipo: 6, txt: "A lealdade é vital, mas demoro a confiar nas pessoas." }, 
+    { tipo: 6, txt: "A dúvida e a ansiedade muitas vezes me paralisam." }, 
+    { tipo: 7, txt: "Tenho muitas ideias, mas dificuldade em terminar o que começo." }, 
+    { tipo: 7, txt: "Evito o tédio e a dor mantendo-me ocupado e otimista." }, 
+    { tipo: 7, txt: "Sinto que preciso experimentar tudo para não perder nada." }, 
+    { tipo: 8, txt: "Gosto de estar no controle para garantir que não serei controlado." }, 
+    { tipo: 8, txt: "Protejo os 'meus' com ferocidade, mas não tolero traição." }, 
+    { tipo: 8, txt: "Tenho dificuldade em mostrar vulnerabilidade." }, 
+    { tipo: 9, txt: "Evito conflitos a todo custo para manter a paz." }, 
+    { tipo: 9, txt: "Tenho tendência a procrastinar para não me estressar." }, 
+    { tipo: 9, txt: "Muitas vezes concordo com os outros só para não criar atrito." } 
+];
+const perguntasInstinto = [ 
+    { txt: "Quando entro num ambiente novo, minha atenção vai para:", opcoes: [ { txt: "Conforto físico, temperatura e segurança.", tag: "SP" }, { txt: "Quem são as pessoas atraentes ou interessantes.", tag: "SX" }, { txt: "Quem tem poder e onde eu me encaixo no grupo.", tag: "SO" } ] }, 
+    { txt: "O que mais me gera ansiedade hoje?", opcoes: [ { txt: "Instabilidade financeira ou problemas de saúde.", tag: "SP" }, { txt: "Falta de conexão profunda ou rejeição pessoal.", tag: "SX" }, { txt: "Ser excluído do grupo ou perder minha reputação.", tag: "SO" } ] }, 
+    { txt: "Como prefiro recarregar as energias?", opcoes: [ { txt: "No meu canto, cuidando das minhas coisas.", tag: "SP" }, { txt: "Em conversas intensas 'olho no olho'.", tag: "SX" }, { txt: "Em eventos sociais, reuniões ou com a galera.", tag: "SO" } ] } 
+];
+const perfisData = { 
+    1: { nome: "O PERFECCIONISTA", vicio: "Ira", genese: "Cresceu sentindo que só seria amado se fosse perfeito.", comportamento: "Busca ordem no caos. Rígido consigo mesmo.", evolucao: "Paz vem de aceitar a imperfeição." }, 
+    2: { nome: "O AJUDADOR", vicio: "Orgulho", genese: "Acreditou que ter necessidades próprias era egoísmo.", comportamento: "Torna-se indispensável para criar dependência.", evolucao: "Aprender a receber sem dar nada em troca." }, 
+    3: { nome: "O REALIZADOR", vicio: "Vaidade", genese: "Aprendeu que Amor = Performance.", comportamento: "Camaleão focado em metas.", evolucao: "Autenticidade acima da imagem." }, 
+    4: { nome: "O INDIVIDUALISTA", vicio: "Inveja", genese: "Sentiu-se invisível ou 'quebrado'.", comportamento: "Vicia na melancolia para se sentir vivo.", evolucao: "Disciplina emocional e gratidão." }, 
+    5: { nome: "O OBSERVADOR", vicio: "Avareza", genese: "Sentiu o mundo invasivo. Ergueu muros.", comportamento: "Acumula saber, evita sentir.", evolucao: "Conectar mente e corpo para agir." }, 
+    6: { nome: "O LEALISTA", vicio: "Medo", genese: "Ambiente imprevisível na infância.", comportamento: "Cenários catastróficos e busca por segurança.", evolucao: "Fé em si mesmo e coragem." }, 
+    7: { nome: "O ENTUSIASTA", vicio: "Gula", genese: "Fugiu da dor para a imaginação.", comportamento: "Muitos inícios, poucos fins. Pavor do tédio.", evolucao: "Sobriedade e foco no presente." }, 
+    8: { nome: "O DESAFIADOR", vicio: "Luxúria", genese: "Matou a inocência para sobreviver.", comportamento: "Atropela para não ser controlado.", evolucao: "Vulnerabilidade é a verdadeira força." }, 
+    9: { nome: "O PACIFICISTA", vicio: "Preguiça", genese: "Sentiu que sua opinião causava problemas.", comportamento: "Procrastina o essencial para manter a paz.", evolucao: "Ação certa (Direito de existir)." } 
 };
 
-function renderHistory() {
-    const body = document.getElementById('chat-body');
-    body.innerHTML = ''; 
-    
-    if (conversationHistory.length === 0) {
-        body.innerHTML = `
-            <div class="message received">Boa noite, Otávio! Como posso ajudar você a evoluir hoje? <span class="msg-time">Agora</span></div>
-            <div class="quick-actions-container">
-                <div class="quick-chip" onclick="sendQuickMsg('Quero escrever uma mensagem para a equipe')">
-                    <span class="chip-icon">📝</span> Mensagem para equipe
-                </div>
-                <div class="quick-chip" onclick="sendQuickMsg('Preciso de ajuda com brainstorming')">
-                    <span class="chip-icon">💡</span> Brainstorming
-                </div>
-                <div class="quick-chip" onclick="sendQuickMsg('Resumo do meu progresso')">
-                    <span class="chip-icon">📊</span> Meu progresso
-                </div>
-            </div>
-        `;
-        return;
-    }
+let pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}; 
+let pontuacaoInstinto = { "SP": 0, "SX": 0, "SO": 0 }; 
+let indiceTipo = 0; let indiceInstinto = 0; let faseAtual = "TIPO"; let perguntasTipoEmbaralhadas = [];
 
-    conversationHistory.forEach(msg => {
-        if(msg.role === 'user') addMessageToUI(msg.content, 'sent');
-        if(msg.role === 'assistant') {
-            let cleanContent = msg.content.replace(/\[\[DIARIO:.*?\]\]/g, '');
-            addMessageToUI(cleanContent, 'received');
-        }
+// --- LOGICA DO TESTE ---
+function startEnneagramTest() {
+    document.getElementById('module-content').style.display = 'none';
+    document.getElementById('eneagrama-test-view').style.display = 'block';
+    document.getElementById('screen-prep').classList.remove('hidden');
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.add('hidden');
+    // Reset
+    pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+    pontuacaoInstinto = { "SP": 0, "SX": 0, "SO": 0 };
+    indiceTipo = 0; indiceInstinto = 0; faseAtual = "TIPO";
+    perguntasTipoEmbaralhadas = [...bancoPerguntas].sort(() => Math.random() - 0.5);
+}
+
+function iniciarQuizReal() {
+    document.getElementById('screen-prep').classList.add('hidden');
+    document.getElementById('screen-quiz').classList.remove('hidden');
+    mostrarPergunta();
+}
+
+function mostrarPergunta() {
+    if (faseAtual === "TIPO") {
+        if (indiceTipo >= perguntasTipoEmbaralhadas.length) { faseAtual = "INSTINTO"; mostrarPergunta(); return; }
+        const q = perguntasTipoEmbaralhadas[indiceTipo];
+        renderizarQuestao(q.txt, `${indiceTipo + 1} / 30`, ["Discordo Totalmente", "Discordo", "Neutro", "Concordo", "Concordo Totalmente"], [0, 1, 2, 3, 5], (val) => { pontuacaoTipos[q.tipo] += val; indiceTipo++; mostrarPergunta(); });
+    } else if (faseAtual === "INSTINTO") {
+        if (indiceInstinto >= perguntasInstinto.length) { processarFinalizacao(); return; }
+        const q = perguntasInstinto[indiceInstinto];
+        renderizarQuestao(q.txt, "FASE FINAL", [q.opcoes[0].txt, q.opcoes[1].txt, q.opcoes[2].txt], [q.opcoes[0].tag, q.opcoes[1].tag, q.opcoes[2].tag], (tag) => { pontuacaoInstinto[tag] += 1; indiceInstinto++; mostrarPergunta(); });
+    }
+}
+
+function renderizarQuestao(texto, num, labels, valores, callback) {
+    document.getElementById('q-text').innerText = texto;
+    document.getElementById('q-number').innerText = num;
+    let pct = faseAtual === "TIPO" ? (indiceTipo / 27) * 90 : 90 + ((indiceInstinto / 3) * 10);
+    document.getElementById('progress-bar').style.width = `${pct}%`;
+    const container = document.getElementById('options-container');
+    container.innerHTML = ''; 
+    labels.forEach((label, idx) => { 
+        const btn = document.createElement('button'); 
+        btn.className = 'btn-option'; 
+        if(faseAtual === "INSTINTO") btn.style.borderColor = "#D4AF37"; 
+        btn.innerText = label; 
+        btn.onclick = function() { 
+            this.style.background = "rgba(212, 175, 55, 0.3)"; 
+            setTimeout(() => callback(valores[idx]), 150); 
+        }; 
+        container.appendChild(btn); 
     });
 }
 
-function sendQuickMsg(text) {
-    sendMessage(text);
-}
-
-function goHome() {
-    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-    document.getElementById('main-view').style.display = 'block';
-    const modVideo = document.getElementById('mod-video');
-    if(modVideo) modVideo.src = '';
-    window.speechSynthesis.cancel();
-    document.querySelector('.flow-fab').style.display = 'flex'; 
-}
-
-// --- FUNÇÕES DE CHAT ---
-function resetChat() {
-    if(confirm("Iniciar nova conversa limpa?")) {
-        conversationHistory = []; 
-        localStorage.removeItem('praticamente_chat_history'); 
-        renderHistory();
-        falarTexto("Pronto. Conversa limpa.");
-    }
-}
-
-function openChatInterface() {
-    if(userPlan !== 'completo') { alert("🔒 Exclusivo."); return; }
+function processarFinalizacao() {
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-loading').classList.remove('hidden');
     
-    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-    document.querySelector('.flow-fab').style.display = 'none'; 
+    // Calcula vencedor
+    let vencedor = 1; let maxPontos = -1;
+    for (let i = 1; i <= 9; i++) { if (pontuacaoTipos[i] > maxPontos) { maxPontos = pontuacaoTipos[i]; vencedor = i; } }
     
-    document.getElementById('chat-view').style.display = 'flex'; 
-    renderHistory();
-    scrollToBottom();
-}
-
-function getRecentContext() {
-    const MAX_HISTORY = 6;
-    let recentMessages = conversationHistory.slice(-MAX_HISTORY);
-    let currentSystem = baseSystemInstruction;
-    if(userEnneagramType) currentSystem += `\nUsuário é Tipo ${userEnneagramType}.`;
-    const systemPrompt = { role: "system", content: currentSystem + `\nNome: ${userName}.` };
-    return [systemPrompt, ...recentMessages];
-}
-
-function checkAndSaveJournal(text) {
-    const regex = /\[\[DIARIO: (.*?)\]\]/;
-    const match = text.match(regex);
-    if (match) {
-        const insight = match[1];
-        let journal = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
-        const entry = { date: new Date().toLocaleDateString(), text: insight };
-        journal.unshift(entry); 
-        localStorage.setItem('praticamente_diario', JSON.stringify(journal));
-        return text.replace(regex, ''); 
-    }
-    return text;
-}
-
-function openJournal() {
-    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-    document.getElementById('journal-view').style.display = 'block';
-    const container = document.getElementById('journal-container');
-    const journal = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
-    container.innerHTML = '';
-    if (journal.length === 0) {
-        container.innerHTML = '<div class="empty-journal"><i class="fas fa-book-open" style="font-size: 40px; margin-bottom: 15px;"></i><br>Vazio.</div>';
-    } else {
-        journal.forEach(entry => {
-            container.innerHTML += `<div class="journal-entry"><span class="journal-date">${entry.date}</span><div class="journal-text">"${entry.text}"</div></div>`;
-        });
-    }
-}
-
-function toggleSocraticMode() {
-    isSocraticMode = !isSocraticMode;
-    const btn = document.getElementById('socratic-btn');
-    const status = document.getElementById('chat-status');
+    // Calcula Asa
+    let vizinhoEsq = (vencedor === 1) ? 9 : vencedor - 1; 
+    let vizinhoDir = (vencedor === 9) ? 1 : vencedor + 1;
+    let asa = (pontuacaoTipos[vizinhoEsq] > pontuacaoTipos[vizinhoDir]) ? vizinhoEsq : vizinhoDir;
     
-    if (isSocraticMode) {
-        btn.classList.add('active-socratic');
-        status.innerText = 'Modo Debate 🔥';
-        status.style.color = '#ff4d4d';
-        falarTexto("Modo debate ativado.");
-    } else {
-        btn.classList.remove('active-socratic');
-        status.innerText = 'Llama 3.3 (High Performance)';
-        status.style.color = '#8696a0';
-    }
+    // Calcula Instinto
+    let instintoVencedor = "SP"; let maxInst = -1;
+    for (let tag in pontuacaoInstinto) { if (pontuacaoInstinto[tag] > maxInst) { maxInst = pontuacaoInstinto[tag]; instintoVencedor = tag; } }
+    
+    // Salva para a IA e LocalStorage
+    localStorage.setItem('praticamente_perfil_eneagrama', vencedor);
+    localStorage.setItem('praticamente_perfil_asa', asa);
+    localStorage.setItem('praticamente_perfil_instinto', instintoVencedor);
+    userEnneagramType = vencedor;
+
+    // Atualiza Prompt da IA
+    baseSystemInstruction += `\n[DIAGNÓSTICO COMPLETO]: O usuário fez o teste. Ele é TIPO ${vencedor}, ASA ${asa}, Instinto ${instintoVencedor}. Vício: ${perfisData[vencedor].vicio}. Use isso para ser cirúrgico.`;
+    
+    setTimeout(() => { exibirResultados(vencedor, asa, instintoVencedor); }, 2000);
 }
 
-function toggleMute() {
-    isVoiceEnabled = !isVoiceEnabled;
-    const btn = document.getElementById('voice-toggle-btn');
-    const icon = btn.querySelector('i');
-    if (isVoiceEnabled) { icon.className = 'fas fa-volume-up'; btn.style.opacity = '1'; } 
-    else { icon.className = 'fas fa-volume-mute'; btn.style.opacity = '0.5'; window.speechSynthesis.cancel(); }
+function exibirResultados(tipo, asa, instinto) {
+    document.getElementById('screen-loading').classList.add('hidden');
+    document.getElementById('screen-result').classList.remove('hidden');
+    
+    const dados = perfisData[tipo];
+    document.getElementById('res-archetype').innerText = dados.nome;
+    document.getElementById('res-type').innerText = `TIPO ${tipo}`;
+    document.getElementById('res-wing-calc').innerText = `ASA ${asa}`;
+    document.getElementById('res-subtype').innerText = instinto;
+    document.getElementById('res-genesis').innerText = dados.genese;
+    document.getElementById('res-behavior').innerText = dados.vicio.toUpperCase() + ": " + dados.comportamento;
+    document.getElementById('res-evolution').innerText = dados.evolucao;
+
+    // Gerar Radar
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    new Chart(ctx, { 
+        type: 'radar', 
+        data: { 
+            labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9'], 
+            datasets: [{ 
+                label: 'Sua Assinatura', 
+                data: [pontuacaoTipos[1], pontuacaoTipos[2], pontuacaoTipos[3], pontuacaoTipos[4], pontuacaoTipos[5], pontuacaoTipos[6], pontuacaoTipos[7], pontuacaoTipos[8], pontuacaoTipos[9]], 
+                backgroundColor: 'rgba(212, 175, 55, 0.2)', 
+                borderColor: '#D4AF37', borderWidth: 2, pointBackgroundColor: '#fff' 
+            }] 
+        }, 
+        options: { 
+            scales: { r: { angleLines: { color: 'rgba(255,255,255,0.1)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#ccc', font: {size: 10} }, ticks: { display: false, backdropColor: 'transparent' } } }, 
+            plugins: { legend: { display: false } }, 
+            maintainAspectRatio: false 
+        } 
+    });
 }
 
-function interruptSpeech() {
-    if(window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-        if(isCallMode) document.getElementById('call-status-text').innerText = "Ouvindo você...";
-        if(isCallMode) toggleVoiceInput();
-    }
+function falarComFlow() {
+    closeModule();
+    openChatInterface();
+    // Injeta mensagem oculta para iniciar conversa sobre o tipo
+    setTimeout(() => { sendMessage(`[[SISTEMA]]: O usuário acabou de descobrir que é TIPO ${userEnneagramType}. Dê as boas vindas e explique o que isso significa para a liderança dele.`); }, 500);
 }
 
-function startCallMode() {
-    isCallMode = true;
-    document.getElementById('call-overlay').style.display = 'flex';
-    if(!isVoiceEnabled) toggleMute();
-    document.body.classList.add('call-active');
-    document.getElementById('call-status-text').innerText = "Ouvindo você...";
-    setTimeout(() => { falarTexto("Estou ouvindo."); }, 500);
-}
+// --- CHAT LOGIC ---
+let baseSystemInstruction = `Você é o "Flow", mentor de elite. Seja direto, profundo e prático. Use Eneagrama, PNL e Estoicismo.`;
+if (userEnneagramType) { baseSystemInstruction += `\n[PERFIL]: O usuário é TIPO ${userEnneagramType}.`; }
+let conversationHistory = JSON.parse(localStorage.getItem('praticamente_chat_history')) || [];
 
-function endCallMode(e) {
-    if(e) e.stopPropagation(); 
-    isCallMode = false;
-    document.getElementById('call-overlay').style.display = 'none';
-    document.body.classList.remove('call-active');
-    window.speechSynthesis.cancel();
-    if(recognition) recognition.stop();
-}
-
-function saveToLocalStorage() {
-    localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
+function renderHistory() {
+    const body = document.getElementById('chat-body'); body.innerHTML = '';
+    conversationHistory.forEach(msg => { 
+        if(msg.role === 'user' && !msg.content.includes('[[SISTEMA]]')) addMessageToUI(msg.content, 'sent');
+        if(msg.role === 'assistant') addMessageToUI(msg.content, 'received');
+    });
 }
 
 async function sendMessage(overrideText) {
     const input = document.getElementById('chat-input');
     let text = overrideText || input.value.trim();
     if(!text) return;
-
-    if(isCallMode) document.body.classList.remove('call-active');
-
-    const chips = document.querySelector('.quick-actions-container');
-    if(chips) chips.remove();
-
-    addMessageToUI(text, 'sent');
     
-    let finalText = text;
-    if (isSocraticMode) {
-        finalText = `[MODO SOCRÁTICO ATIVO] ${text}`;
-    }
-
-    conversationHistory.push({ role: "user", content: finalText });
-    saveToLocalStorage();
+    // Se não for msg de sistema, mostra na UI
+    if(!text.includes('[[SISTEMA]]')) addMessageToUI(text, 'sent');
     
+    conversationHistory.push({ role: "user", content: text });
+    localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
     input.value = '';
-    if(isCallMode) document.getElementById('call-status-text').innerText = "...";
 
+    const context = [{ role: "system", content: baseSystemInstruction }, ...conversationHistory.slice(-6)];
+    
     try {
-        const messagesToSend = getRecentContext();
-        
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                messages: messagesToSend, 
-                max_tokens: 250, 
-                temperature: 0.7
-            })
+            body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: context, max_tokens: 300, temperature: 0.7 })
         });
-
         const data = await response.json();
-        if(data.error) throw new Error(data.error.message);
         let aiText = data.choices[0].message.content;
-        
-        const cleanAiText = checkAndSaveJournal(aiText);
-        if (aiText !== cleanAiText) {
-            const body = document.getElementById('chat-body');
-            const toast = document.createElement('div');
-            toast.className = 'journal-toast';
-            toast.innerText = '✨ Insight Salvo';
-            body.appendChild(toast);
-        }
-
         conversationHistory.push({ role: "assistant", content: aiText });
-        saveToLocalStorage();
-        addMessageToUI(cleanAiText, 'received');
-        falarTexto(cleanAiText);
-        
-    } catch (error) {
-        addMessageToUI(`Erro: ${error.message}`, 'received');
-    } finally {
-        scrollToBottom();
-    }
+        localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
+        addMessageToUI(aiText, 'received');
+    } catch (e) { addMessageToUI("Erro de conexão.", 'received'); }
 }
 
 function addMessageToUI(text, type) {
     const body = document.getElementById('chat-body');
-    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    let formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     const div = document.createElement('div');
     div.className = `message ${type}`;
-    div.innerHTML = `${formattedText} <span class="msg-time">${time}</span>`;
+    div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
     body.appendChild(div);
-    scrollToBottom();
+    body.scrollTop = body.scrollHeight;
 }
 
-function scrollToBottom() {
-    const body = document.getElementById('chat-body');
-    if(body) body.scrollTop = body.scrollHeight;
-}
-
-let recognition; let silenceTimer; let isAiSpeaking = false; let synth = window.speechSynthesis; let voices = []; let bestVoice = null;
-function carregarVozes() { voices = synth.getVoices(); bestVoice = voices.find(v => v.name.includes('Google') && v.lang === 'pt-BR') || voices.find(v => v.lang === 'pt-BR'); }
-if (speechSynthesis.onvoiceschanged !== undefined) { speechSynthesis.onvoiceschanged = carregarVozes; }
-
-function toggleVoiceInput() {
-    if (!('webkitSpeechRecognition' in window)) return;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (recognition && typeof recognition.start === 'function') { try { recognition.start(); } catch(e) {} return; }
-    recognition = new SpeechRecognition(); recognition.lang = 'pt-BR'; recognition.interimResults = true; recognition.continuous = false;
-    
-    recognition.onstart = function() {
-        if(isAiSpeaking) { recognition.stop(); return; }
-        if(isCallMode) {
-            document.body.classList.add('call-active');
-            document.getElementById('call-status-text').innerText = "Ouvindo...";
-        } else {
-            document.getElementById('mic-btn').classList.add('listening');
-            document.getElementById('chat-input').placeholder = "Ouvindo...";
-        }
-    };
-    recognition.onend = function() {
-        if(isCallMode && !isAiSpeaking) { recognition.start(); } 
-        else { 
-            if(isCallMode) document.body.classList.remove('call-active'); 
-            document.getElementById('mic-btn').classList.remove('listening');
-            recognition = null; 
-        }
-    };
-    recognition.onresult = function(event) {
-        if (isAiSpeaking) { recognition.stop(); return; }
-        let t = ''; for (let i = event.resultIndex; i < event.results.length; ++i) t += event.results[i][0].transcript;
-        if (t.trim().length > 0) {
-            if(!isCallMode) document.getElementById('chat-input').value = t;
-            clearTimeout(silenceTimer);
-            silenceTimer = setTimeout(() => { recognition.stop(); if(isCallMode) sendMessage(t); else { document.getElementById('chat-input').value = t; sendMessage(); } }, 1500);
-        }
-    };
-    if(!isAiSpeaking) recognition.start();
-}
-
-function falarTexto(texto) {
-    if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
-    if (!bestVoice) carregarVozes();
-    window.speechSynthesis.cancel(); if(recognition) recognition.stop(); isAiSpeaking = true;
-    const u = new SpeechSynthesisUtterance(texto.replace(/\*/g, ''));
-    if (bestVoice) { u.voice = bestVoice; u.rate = 1.1; } else { u.lang = 'pt-BR'; }
-    u.onstart = () => { if(isCallMode) { document.getElementById('call-status-text').innerText = "Falando..."; document.body.classList.add('call-active'); } };
-    u.onend = () => { isAiSpeaking = false; if(isCallMode) { document.getElementById('call-status-text').innerText = "Sua vez..."; toggleVoiceInput(); } };
-    window.speechSynthesis.speak(u);
-}
-
-function atualizarProgresso() {
-    const aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
-    const totalAulas = 7; 
-    const porcentagem = Math.min(Math.round((aulasConcluidas.length / totalAulas) * 100), 100);
-    const fillDesktop = document.getElementById('prog-fill-desktop');
-    if(fillDesktop) fillDesktop.style.width = porcentagem + "%";
-    const textDesktop = document.getElementById('prog-text-desktop');
-    if(textDesktop) textDesktop.innerText = `Evolução: ${porcentagem}%`;
-    const fillMobile = document.getElementById('prog-fill-mobile');
-    if(fillMobile) fillMobile.style.width = porcentagem + "%";
-    const textMobile = document.getElementById('prog-text-mobile');
-    if(textMobile) textMobile.innerText = `${porcentagem}%`;
-}
-
-function aplicarBloqueios() {
-    if (userPlan === 'completo') return;
-    if (userPlan === 'ebooks') { ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo'].forEach(bloquear); }
-    if (userPlan === 'eneagrama') { ['mod-pnl','mod-estoicismo','mod-familia','mod-completo','mod-ebooks'].forEach(bloquear); }
-    if (userPlan === 'pnl') { ['mod-eneagrama','mod-estoicismo','mod-familia','mod-completo','mod-ebooks'].forEach(bloquear); }
-}
-
-function bloquear(id) { const el = document.getElementById(id); if(el) el.classList.add('locked'); }
-function tryOpen(name, req, vid) { if (userPlan === 'completo' || userPlan === req) openModule(name, vid); else alert("🔒 Bloqueado."); }
-function closeModule() { goHome(); window.scrollTo(0,0); }
-function logout() { if(confirm("Sair?")) { localStorage.removeItem('praticamente_plano'); window.location.href = 'login.html'; } }
-
-const data = {
-    'Eneagrama': [ { title: 'Aula 1: A Base', video: 'https://youtube.com/watch?v=1', pdf: 'eneagrama_aula1.pdf' }, { title: 'Aula 2: Perfil', video: 'https://youtube.com/watch?v=2', pdf: 'eneagrama_aula2.pdf' } ],
-    'PNL': [ { title: 'Aula 1: Conceitos', video: 'https://youtube.com/watch?v=3', pdf: 'pnl_aula1.pdf' } ],
-    'Estoicismo': [ { title: 'Aula 1: Introdução', video: 'https://youtube.com/watch?v=4', pdf: 'estoicismo_aula1.pdf' } ],
-    'Família': [ { title: 'Aula 1: Pilares Familiares', video: 'https://youtube.com/watch?v=fam1', pdf: 'familia_aula1.pdf' } ],
-    'Curso Completo': [ { title: 'Aula Master', video: 'https://youtube.com/watch?v=5', pdf: 'completo.pdf' } ],
-    'E-books': [ { title: 'Praticamente: Os Códigos da Liderança', video: '', pdf: 'praticamente_codigos_lideranca.pdf' } ]
+// --- NAVEGAÇÃO E SISTEMA ---
+window.onload = function() { 
+    atualizarProgresso(); aplicarBloqueios(); 
+    if(introVideo) introVideo.play().catch(()=>{});
 };
-function openModule(name, videoIntro) {
+function goHome() { 
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none'); 
+    document.getElementById('main-view').style.display = 'block'; 
+    document.querySelector('.flow-fab').style.display = 'flex'; 
+}
+function openChatInterface() { 
+    if(userPlan !== 'completo') return alert("🔒 Apenas plano Completo.");
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none'); 
+    document.querySelector('.flow-fab').style.display = 'none'; 
+    document.getElementById('chat-view').style.display = 'flex'; 
+    renderHistory();
+}
+function openJournal() {
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    document.getElementById('journal-view').style.display = 'block';
+    const c = document.getElementById('journal-container');
+    const j = JSON.parse(localStorage.getItem('praticamente_diario')) || [];
+    c.innerHTML = j.length ? j.map(e => `<div class="deep-card border-gold"><p>"${e.text}"</p><small>${e.date}</small></div>`).join('') : '<p class="text-center">Vazio.</p>';
+}
+function atualizarProgresso() {
+    const done = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
+    const pct = Math.round((done.length / 7) * 100);
+    if(document.getElementById('prog-fill-desktop')) document.getElementById('prog-fill-desktop').style.width = pct + "%";
+    if(document.getElementById('prog-text-desktop')) document.getElementById('prog-text-desktop').innerText = `Evolução: ${pct}%`;
+}
+function tryOpen(name, req, vid) {
+    if (userPlan !== 'completo' && userPlan !== req) return alert("🔒 Bloqueado.");
+    openModule(name, vid);
+}
+function openModule(name, vid) {
     document.querySelectorAll('section').forEach(s => s.style.display = 'none');
     document.getElementById('module-content').style.display = 'block';
     document.getElementById('mod-title').innerText = name;
-    
-    const testContainer = document.getElementById('test-container');
-    testContainer.innerHTML = ''; 
-    if(name === 'Eneagrama') {
-        testContainer.innerHTML = `<button class="btn-test" onclick="startEnneagramTest()">🎯 DESCUBRA SEU TIPO</button>`;
-    }
-
-    if(videoIntro) { document.getElementById('video-box').style.display = 'block'; document.getElementById('mod-video').src = videoIntro; } 
-    else { document.getElementById('video-box').style.display = 'none'; }
-    const container = document.getElementById('lessons-container');
-    container.innerHTML = '';
-    if(data[name]) {
-        data[name].forEach(aula => {
-            container.innerHTML += `
-                <div class="lesson-item">
-                    <a href="${aula.video}" target="_blank" class="lesson-link" onclick="marcarComoVista('${aula.title}')">▶ ${aula.title}</a>
-                    <a href="${aula.pdf}" class="btn-pdf" download>Baixar PDF</a>
-                </div>`;
-        });
-    }
+    document.getElementById('test-container').innerHTML = (name === 'Eneagrama') ? `<button class="btn-test" onclick="startEnneagramTest()">🎯 DESCUBRA SEU TIPO (COMPLETO)</button>` : '';
+    if(vid) { document.getElementById('video-box').style.display = 'block'; document.getElementById('mod-video').src = vid; } else { document.getElementById('video-box').style.display = 'none'; }
     window.scrollTo(0,0);
 }
-
-function startEnneagramTest() {
-    document.getElementById('module-content').style.display = 'none';
-    document.getElementById('eneagrama-test-view').style.display = 'block';
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = `
-        <div class="test-card">
-            <div class="test-question">1. O que mais te incomoda?</div>
-            <button class="test-option" onclick="saveEnneagramResult('8')">A. Sentir que perdi o controle.</button>
-            <button class="test-option" onclick="saveEnneagramResult('9')">B. Conflitos e falta de paz.</button>
-            <button class="test-option" onclick="saveEnneagramResult('1')">C. Erros e imperfeições.</button>
-        </div>
-    `;
-}
-function saveEnneagramResult(type) {
-    localStorage.setItem('praticamente_perfil_eneagrama', type);
-    userEnneagramType = type;
-    alert(`Parabéns! Identificamos que você tem traços do TIPO ${type}. O Flow agora sabe disso.`);
-    const newInstruction = baseSystemInstruction + `\n[ATUALIZAÇÃO]: O usuário acabou de fazer o teste e é TIPO ${type}.`;
-    conversationHistory = [{ role: "system", content: newInstruction }];
-    saveToLocalStorage();
-    closeModule();
-    openChatInterface();
-}
-function marcarComoVista(t) { 
-    let aulasConcluidas = JSON.parse(localStorage.getItem('praticamente_concluidas')) || [];
-    if(!aulasConcluidas.includes(t)) { 
-        aulasConcluidas.push(t); 
-        localStorage.setItem('praticamente_concluidas', JSON.stringify(aulasConcluidas)); 
-        atualizarProgresso(); 
-    } 
+function closeModule() { goHome(); window.scrollTo(0,0); }
+function logout() { if(confirm("Sair?")) { localStorage.removeItem('praticamente_plano'); window.location.href = 'login.html'; } }
+function aplicarBloqueios() {
+    if (userPlan === 'completo') return;
+    if (userPlan === 'ebooks') ['mod-eneagrama','mod-pnl','mod-estoicismo','mod-familia','mod-completo'].forEach(id => document.getElementById(id)?.classList.add('locked'));
 }
 </script>
 </body>
