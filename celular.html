@@ -418,7 +418,7 @@ if(introVideo) {
 // --- CONFIGURAÇÃO ---
 const userPlan = localStorage.getItem('praticamente_plano');
 if (!userPlan) window.location.href = 'login.html';
-const API_KEY = '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'; 
+const API_KEY = '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'; 
 let userName = localStorage.getItem('praticamente_nome_usuario') || 'Líder'; 
 let userEnneagramType = localStorage.getItem('praticamente_perfil_eneagrama') || ''; 
 
@@ -654,16 +654,27 @@ async function sendMessage(overrideText) {
                 temperature: 0.6
             })
         });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error?.message || 'Erro na API');
+        }
+
         const data = await response.json();
         let aiText = data.choices[0].message.content;
         
-        // Remove tags de pensamento se houver (<think>...</think>) para o usuário final não ver o raciocínio bruto
+        // Remove tags de pensamento se houver (<think>...</think>)
         aiText = aiText.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
 
         conversationHistory.push({ role: "assistant", content: aiText });
         localStorage.setItem('praticamente_chat_history', JSON.stringify(conversationHistory));
         addMessageToUI(aiText, 'received');
-    } catch (e) { addMessageToUI("Erro de conexão.", 'received'); }
+    } catch (error) { 
+        console.error(error);
+        addMessageToUI(`⚠️ Erro: ${error.message}`, 'received'); 
+    } finally {
+        scrollToBottom();
+    }
 }
 
 function addMessageToUI(text, type) {
