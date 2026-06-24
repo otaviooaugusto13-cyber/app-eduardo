@@ -114,7 +114,10 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
 .lesson-item:hover { border-color: var(--gold); background: #1f1f1f; }
 @media (min-width: 500px) { .lesson-item { flex-direction: row; align-items: center; justify-content: space-between; } }
 
-.lesson-link { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; cursor: pointer; flex: 1; display: flex; align-items: center; gap: 8px; }
+.lesson-link { color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; cursor: pointer; flex: 1; display: flex; align-items: center; gap: 10px; }
+.lesson-actions { display: flex; gap: 15px; }
+.lesson-actions a { color: #888; text-decoration: none; font-size: 13px; transition: 0.2s; display: flex; align-items: center; gap: 5px; }
+.lesson-actions a:hover { color: var(--gold); }
 
 /* Botões do Teste */
 .btn-test { background: linear-gradient(90deg, var(--gold), var(--gold-light)); color: #fff; padding: 15px; width: 100%; border-radius: 12px; font-size: 16px; border: none; cursor: pointer; font-weight: bold; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 5px 20px rgba(0, 123, 255, 0.2); }
@@ -272,9 +275,9 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
           <div class="cards">
             <div id="mod-eneagrama" class="card card-Eneagrama" onclick="tryOpen('Autoliderança emocional', 'eneagrama', 'https://www.youtube.com/embed/L9XxQG0p4Kg')"><span>MÓDULO 1</span><h3>Autoliderança emocional</h3></div>
             <div id="mod-pnl" class="card card-PNL" onclick="tryOpen('Consciência aplicada', 'pnl', '')"><span>MÓDULO 2</span><h3>Consciência aplicada</h3></div>
-            <div id="mod-estoicismo" class="card card-estoicismo" onclick="tryOpen('Vida real', 'completo', '')"><span>MÓDULO 3</span><h3>Vida real</h3></div>
-            <div id="mod-familia" class="card card-familia" onclick="tryOpen('Família e relações', 'completo', '')"><span>MÓDULO 4</span><h3>Família e relações</h3></div>
-            <div id="mod-completo" class="card card-curso" onclick="tryOpen('Método PráticaMente', 'completo', '')"><span>MÓDULO 5</span><h3>Método PráticaMente</h3></div>
+            <div id="mod-estoicismo" class="card card-estoicismo" onclick="tryOpen('Vida real', 'estoicismo', '')"><span>MÓDULO 3</span><h3>Vida real</h3></div>
+            <div id="mod-familia" class="card card-familia" onclick="tryOpen('Família e relações', 'familia', '')"><span>MÓDULO 4</span><h3>Família e relações</h3></div>
+            <div id="mod-completo" class="card card-curso" onclick="tryOpen('Método PráticaMente', 'metodo', '')"><span>MÓDULO 5</span><h3>Método PráticaMente</h3></div>
             <div id="mod-ebooks" class="card card-E-book" onclick="tryOpen('E-books', 'ebooks', '')"><span>MÓDULO 6</span><h3>E-books</h3></div>
           </div>
 
@@ -434,7 +437,7 @@ const bancoPerguntas = [
     { tipo: 2, txt: "Sinto que preciso ser útil para ter valor na vida das pessoas." }, 
     { tipo: 2, txt: "Tenho dificuldade em dizer 'não' e me sobrecarrego." }, 
     { tipo: 3, txt: "Sinto que meu valor depende das minhas conquistas e resultados." }, 
-    { tipo: 3, txt: "Adapto minha imagem para causar a melhor impression possível." }, 
+    { tipo: 3, txt: "Adapto minha imagem para causar a melhor impressão possível." }, 
     { tipo: 3, txt: "Tenho pavor de fracassar ou parecer incompetente." }, 
     { tipo: 4, txt: "Sinto que falta algo em mim que os outros têm." }, 
     { tipo: 4, txt: "Busco profundidade e detesto a superficialidade." }, 
@@ -472,307 +475,343 @@ const perfisData = {
     9: { nome: "O PACIFICISTA", vicio: "Preguiça", genese: "Sentiu que sua opinião causava problemas.", comportamento: "Procrastina o essencial para manter a paz.", evolucao: "Ação certa (Direito de existir)." } 
 };
 
-let pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}; 
-let pontuacaoInstinto = { "SP": 0, "SX": 0, "SO": 0 }; 
-let indiceTipo = 0; let indiceInstinto = 0; let faseAtual = "TIPO"; let perguntasTipoEmbaralhadas = [];
-let radarChartInstance = null;
+// --- BANCO DE DADOS DE AULAS INTEGRADO ---
+const aulasPorModulo = {
+    eneagrama: [
+        { title: "Aula 1: Eneagrama Tipo 1 — Perfeccionista", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 2: Eneagrama Tipo 2 — Ajudador", video: "https://www.youtube.com/embed/zpiCcr0J4H4", pdf: "#", audio: "#" },
+        { title: "Aula 3: Eneagrama Tipo 3 — Realizador", video: "https://www.youtube.com/embed/_OtVLwvJaQo", pdf: "#", audio: "#" },
+        { title: "Aula 4: Eneagrama Tipo 4 — Individualista", video: "https://www.youtube.com/embed/jxE0nZ_gsPU", pdf: "#", audio: "#" },
+        { title: "Aula 5: Eneagrama Tipo 5 — Observador", video: "https://www.youtube.com/embed/VlzQ-7K6kCs", pdf: "#", audio: "#" },
+        { title: "Aula 6: Eneagrama Tipo 6 — Guardião", video: "https://www.youtube.com/embed/-uqeDgxWeXY", pdf: "#", audio: "#" },
+        { title: "Aula 7: Eneagrama Tipo 7 — Entusiasta", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 8: Eneagrama Tipo 8 — Desafiador", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 9: Eneagrama Tipo 9 — Pacificador", video: "https://www.youtube.com/embed/FzHogMSdzwY", pdf: "#", audio: "#" }
 
-// --- NAVEGAÇÃO DA APLICAÇÃO ---
+    ],
+    pnl: [
+        { title: "Aula 1: Fundamentos da Programação Neurolinguística", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 2: Mapas e Territórios da Mente", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 3: Sistemas Representacionais (VAK)", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 4: Âncoras Emocionais e Gatilhos de Alta Performance", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 5: Ressignificação e Quebra de Crenças Limitantes", video: "", pdf: "#", audio: "#" }
+    ],
+    estoicismo: [
+        { title: "Aula 1: Introdução ao Estoicismo e Vida Real", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 2: A Dicotomia do Controle", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 3: Amor Fati: Abraçando o Destino", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 4: Memento Mori e Praemeditatio Malorum", video: "", pdf: "#", audio: "#" }
+    ],
+    familia: [
+        { title: "Aula 1: Alinhamento de Valores nas Relações", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 2: Comunicação Não-Violenta e Empatia Ativa", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 3: Gestão de Conflitos e Inteligência Sistêmica", video: "", pdf: "#", audio: "#" }
+    ],
+    metodo: [
+        { title: "Aula 1: O Método PráticaMente e Alta Performance", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 2: Biohacking Integrado: Sono, Foco e Energia", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 3: Neurociência da Mudança de Hábitos", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 4: Desenvolvendo uma Rotina Inabalável", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 5: Tomada de Decisão Sob Pressão", video: "", pdf: "#", audio: "#" },
+        { title: "Aula 6: Liderança Situacional e Andragogia", video: "", pdf: "#", audio: "#" }
+    ],
+    ebooks: [
+        { title: "E-book: O Guia Definitivo do Eneagrama", video: "", pdf: "#", audio: "" },
+        { title: "E-book: Ferramentas de PNL para Líderes", video: "", pdf: "#", audio: "" },
+        { title: "E-book: Mindset Estoico Inabalável", video: "", pdf: "#", audio: "" }
+    ]
+};
+
+let pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+let perguntaAtual = 0;
+let etapaInstinto = false;
+let respostasInstinto = { SP: 0, SX: 0, SO: 0 };
+let chartInstance = null;
+
+// --- GERENCIAMENTO DE INTERFACE E NAVEGAÇÃO ---
+function tryOpen(title, moduleKey, defaultVideo) {
+    document.getElementById('main-view').style.display = 'none';
+    document.getElementById('eneagrama-test-view').style.display = 'none';
+    document.getElementById('journal-view').style.display = 'none';
+    
+    const moduleContent = document.getElementById('module-content');
+    moduleContent.style.display = 'block';
+    
+    document.getElementById('mod-title').innerText = title;
+    
+    const videoFrame = document.getElementById('mod-video');
+    if (defaultVideo) {
+        document.getElementById('video-box').style.display = 'block';
+        videoFrame.src = defaultVideo;
+    } else {
+        document.getElementById('video-box').style.display = 'none';
+        videoFrame.src = '';
+    }
+    
+    // Injeção Dinâmica das Aulas do Módulo correspondente
+    const lessonsContainer = document.getElementById('lessons-container');
+    lessonsContainer.innerHTML = '';
+    
+    const testContainer = document.getElementById('test-container');
+    testContainer.innerHTML = '';
+    
+    if (moduleKey === 'eneagrama') {
+        testContainer.innerHTML = `
+            <button class="btn-test" onclick="abrirDiagnostico()">
+                <i class="fas fa-clipboard-list"></i> Fazer Diagnóstico de Eneagrama
+            </button>
+        `;
+    }
+    
+    const aulas = aulasPorModulo[moduleKey] || [];
+    aulas.forEach((aula, index) => {
+        const item = document.createElement('div');
+        item.className = 'lesson-item';
+        item.innerHTML = `
+            <div class="lesson-link" onclick="playLesson('${aula.video}')">
+                <i class="fas fa-play-circle gold"></i>
+                <span>${aula.title}</span>
+            </div>
+            <div class="lesson-actions">
+                ${aula.pdf ? `<a href="${aula.pdf}" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>` : ''}
+                ${aula.audio ? `<a href="${aula.audio}" target="_blank"><i class="fas fa-volume-up"></i> Áudio</a>` : ''}
+            </div>
+        `;
+        lessonsContainer.appendChild(item);
+    });
+}
+
+function playLesson(url) {
+    if (!url) {
+        alert('Esta aula prática está em processamento e será liberada em breve!');
+        return;
+    }
+    document.getElementById('video-box').style.display = 'block';
+    document.getElementById('mod-video').src = url;
+    document.getElementById('video-box').scrollIntoView({ behavior: 'smooth' });
+}
+
 function goHome() {
+    document.getElementById('main-view').style.display = 'block';
     document.getElementById('module-content').style.display = 'none';
     document.getElementById('eneagrama-test-view').style.display = 'none';
     document.getElementById('journal-view').style.display = 'none';
     document.getElementById('chat-view').classList.remove('active');
-    document.getElementById('main-view').style.display = 'block';
-    document.getElementById('mod-video').src = '';
+    setActiveLink(0);
 }
 
 function closeModule() { goHome(); }
 
-function tryOpen(title, type, defaultVideo) {
-    document.getElementById('main-view').style.display = 'none';
-    const modContent = document.getElementById('module-content');
-    modContent.style.display = 'block';
-    document.getElementById('mod-title').innerText = title;
-    document.getElementById('mod-video').src = defaultVideo;
-    
-    const testContainer = document.getElementById('test-container');
-    const lessonsContainer = document.getElementById('lessons-container');
-    
-    testContainer.innerHTML = '';
-    lessonsContainer.innerHTML = '';
-    
-    if (type === 'eneagrama') {
-        testContainer.innerHTML = `<button class="btn-test" onclick="startEnneagramTest()"><i class="fas fa-clipboard-list"></i> INICIAR DIAGNÓSTICO DE ENEAGRAMA</button>`;
-        
-        // INTEGRAÇÃO COMPLETA DAS NOVAS AULAS DO YOUTUBE
-        const aulasEneagrama = [
-            { title: "1. Como ser um bom líder", url: "https://www.youtube.com/embed/L9XxQG0p4Kg" },
-            { title: "2. A infância do líder", url: "https://www.youtube.com/embed/lXlVE1izN68" },
-            { title: "3. Eneagrama do Tipo 8", url: "https://www.youtube.com/embed/1FCdb3xxJPc" },
-            { title: "4. Eneagrama do Tipo 1", url: "https://www.youtube.com/embed/MCoepwZPVDE" },
-            { title: "5. Eneagrama do Tipo 7", url: "https://www.youtube.com/embed/mdRzZyXBgS4" }
-        ];
-        
-        aulasEneagrama.forEach(aula => {
-            lessonsContainer.innerHTML += `
-                <div class="lesson-item">
-                    <div class="lesson-link" onclick="changeLessonVideo('${aula.url}')">
-                        <i class="fas fa-play-circle gold"></i> ${aula.title}
-                    </div>
-                </div>
-            `;
-        });
-    } else {
-        lessonsContainer.innerHTML = `<p style="color:#666; text-align:center; padding: 20px;">Módulo em desenvolvimento. Conteúdo em breve!</p>`;
-    }
-}
-
-function changeLessonVideo(url) {
-    document.getElementById('mod-video').src = url;
-    document.querySelector('main').scrollTop = 0; // Sobe scroll pro topo
-}
-
-// --- LOGICA DO TESTE ENEAGRAMA ---
-function startEnneagramTest() {
+// --- DIAGNÓSTICO ENEAGRAMA LOGIC ---
+function abrirDiagnostico() {
     document.getElementById('module-content').style.display = 'none';
     document.getElementById('eneagrama-test-view').style.display = 'block';
     document.getElementById('screen-prep').classList.remove('hidden');
     document.getElementById('screen-quiz').classList.add('hidden');
     document.getElementById('screen-loading').classList.add('hidden');
     document.getElementById('screen-result').classList.add('hidden');
+    perguntaAtual = 0;
+    etapaInstinto = false;
+    pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
+    respostasInstinto = { SP: 0, SX: 0, SO: 0 };
 }
 
 function iniciarQuizReal() {
-    pontuacaoTipos = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0};
-    pontuacaoInstinto = { "SP": 0, "SX": 0, "SO": 0 };
-    indiceTipo = 0; indiceInstinto = 0; faseAtual = "TIPO";
-    perguntasTipoEmbaralhadas = [...bancoPerguntas].sort(() => Math.random() - 0.5);
-    
     document.getElementById('screen-prep').classList.add('hidden');
     document.getElementById('screen-quiz').classList.remove('hidden');
-    renderizarPergunta();
+    mostrarPergunta();
 }
 
-function renderizarPergunta() {
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = '';
+function mostrarPergunta() {
+    const optContainer = document.getElementById('options-container');
+    optContainer.innerHTML = '';
     
-    if (faseAtual === "TIPO") {
-        const totalQ = perguntasTipoEmbaralhadas.length;
-        document.getElementById('q-number').innerText = `${indiceTipo + 1} / ${totalQ}`;
-        document.getElementById('progress-bar').style.width = `${((indiceTipo) / totalQ) * 100}%`;
+    if (!etapaInstinto) {
+        const total = bancoPerguntas.length + perguntasInstinto.length;
+        document.getElementById('progress-bar').style.width = ((perguntaAtual / total) * 100) + '%';
+        document.getElementById('q-number').innerText = `${perguntaAtual + 1} / ${total}`;
         
-        const q = perguntasTipoEmbaralhadas[indiceTipo];
+        const q = bancoPerguntas[perguntaAtual];
         document.getElementById('q-text').innerText = q.txt;
         
-        const alternativas = [
-            { txt: "Nunca me identifico", valor: 0 },
-            { txt: "Raramente me identifico", valor: 1 },
-            { txt: "Às vezes me identifico", valor: 2 },
-            { txt: "Quase sempre me identifico", valor: 3 },
-            { txt: "Totalmente idêntico a mim", valor: 4 }
+        const intensidades = [
+            { txt: "Discordo Totalmente", valor: 1 },
+            { txt: "Discordo Parcialmente", valor: 2 },
+            { txt: "Neutro / Às Vezes", valor: 3 },
+            { txt: "Concordo Parcialmente", valor: 4 },
+            { txt: "Concordo Totalmente", valor: 5 }
         ];
         
-        alternativas.forEach(alt => {
-            optionsContainer.innerHTML += `<button class="btn-option" onclick="responderTipo(${q.tipo}, ${alt.valor})">${alt.txt}</button>`;
+        intensidades.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.innerText = opt.txt;
+            btn.onclick = () => { pontuacaoTipos[q.tipo] += opt.valor; proximaPergunta(); };
+            optContainer.appendChild(btn);
         });
     } else {
-        const totalQ = perguntasInstinto.length;
-        document.getElementById('q-number').innerText = `INSTINTO ${indiceInstinto + 1} / ${totalQ}`;
-        document.getElementById('progress-bar').style.width = `${((indiceInstinto) / totalQ) * 100}%`;
+        const total = bancoPerguntas.length + perguntasInstinto.length;
+        const atualIndex = bancoPerguntas.length + perguntaAtual;
+        document.getElementById('progress-bar').style.width = ((atualIndex / total) * 100) + '%';
+        document.getElementById('q-number').innerText = `${atualIndex + 1} / ${total}`;
         
-        const q = perguntasInstinto[indiceInstinto];
+        const q = perguntasInstinto[perguntaAtual];
         document.getElementById('q-text').innerText = q.txt;
         
-        q.opcoes.forEach(op => {
-            optionsContainer.innerHTML += `<button class="btn-option" onclick="responderInstinto('${op.tag}')">${op.txt}</button>`;
+        q.opcoes.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-option';
+            btn.innerText = opt.txt;
+            btn.onclick = () => { respostasInstinto[opt.tag] += 5; proximaPergunta(); };
+            optContainer.appendChild(btn);
         });
     }
 }
 
-function responderTipo(tipo, valor) {
-    pontuacaoTipos[tipo] += valor;
-    indiceTipo++;
-    if (indiceTipo < perguntasTipoEmbaralhadas.length) {
-        renderizarPergunta();
-    } else {
-        faseAtual = "INSTINTO";
-        renderizarPergunta();
+function proximaPergunta() {
+    perguntaAtual++;
+    if (!etapaInstinto && perguntaAtual >= bancoPerguntas.length) {
+        etapaInstinto = true;
+        perguntaAtual = 0;
+    } else if (etapaInstinto && perguntaAtual >= perguntasInstinto.length) {
+        exibirCarregandoResultado();
+        return;
     }
+    mostrarPergunta();
 }
 
-function responderInstinto(tag) {
-    pontuacaoInstinto[tag] += 3;
-    indiceInstinto++;
-    if (indiceInstinto < perguntasInstinto.length) {
-        renderizarPergunta();
-    } else {
-        finalizarDiagnostico();
-    }
-}
-
-function finalizarDiagnostico() {
+function exibirCarregandoResultado() {
     document.getElementById('screen-quiz').classList.add('hidden');
     document.getElementById('screen-loading').classList.remove('hidden');
-    
     setTimeout(() => {
         document.getElementById('screen-loading').classList.add('hidden');
         document.getElementById('screen-result').classList.remove('hidden');
-        
-        // Encontra o Tipo Principal
-        let tipoPrincipal = 1; let maxPontos = -1;
-        for (let t in pontuacaoTipos) {
-            if (pontuacaoTipos[t] > maxPontos) { maxPontos = pontuacaoTipos[t]; tipoPrincipal = parseInt(t); }
-        }
-        
-        // Calcula a Asa (Vizinho de maior pontuação)
-        let asa1 = tipoPrincipal === 1 ? 9 : tipoPrincipal - 1;
-        let asa2 = tipoPrincipal === 9 ? 1 : tipoPrincipal + 1;
-        let asaFinal = pontuacaoTipos[asa1] >= pontuacaoTipos[asa2] ? asa1 : asa2;
-        
-        // Encontra o Instinto Dominante
-        let instintoDominante = "SP"; let maxInst = -1;
-        for (let ins in pontuacaoInstinto) {
-            if (pontuacaoInstinto[ins] > maxInst) { maxInst = pontuacaoInstinto[ins]; instintoDominante = ins; }
-        }
-        
-        const dadosPerfil = perfisData[tipoPrincipal];
-        document.getElementById('res-archetype').innerText = dadosPerfil.nome;
-        document.getElementById('res-type').innerText = tipoPrincipal;
-        document.getElementById('res-wing-calc').innerText = `${tipoPrincipal}w${asaFinal}`;
-        document.getElementById('res-subtype').innerText = instintoDominante;
-        
-        document.getElementById('res-genesis').innerText = dadosPerfil.genese;
-        document.getElementById('res-behavior').innerText = `Vício da ${dadosPerfil.vicio}. ${dadosPerfil.comportamento}`;
-        document.getElementById('res-evolution').innerText = dadosPerfil.evolucao;
-        
-        userEnneagramType = `${tipoPrincipal}w${asaFinal} ${instintoDominante}`;
-        localStorage.setItem('praticamente_perfil_eneagrama', userEnneagramType);
-        
-        // Atualiza Progresso Geral da App
-        localStorage.setItem('praticamente_progresso', '35');
-        updateProgressoVisual();
-        
-        // Renderiza Gráfico de Radar
-        renderizarGraficoRadar();
+        processarResultadosEneagrama();
     }, 2000);
 }
 
-function renderizarGraficoRadar() {
-    const ctx = document.getElementById('radarChart').getContext('2d');
-    if (radarChartInstance) radarChartInstance.destroy();
+function processarResultadosEneagrama() {
+    let tipoPrincipal = 1;
+    let maiorScore = -1;
+    for (let t in pontuacaoTipos) {
+        if (pontuacaoTipos[t] > maiorScore) { mayorScore = pontuacaoTipos[t]; tipoPrincipal = parseInt(t); }
+    }
     
-    radarChartInstance = new Chart(ctx, {
+    let asa1 = tipoPrincipal === 1 ? 9 : tipoPrincipal - 1;
+    let asa2 = tipoPrincipal === 9 ? 1 : tipoPrincipal + 1;
+    let asaFinal = pontuacaoTipos[asa1] >= pontuacaoTipos[asa2] ? asa1 : asa2;
+    
+    let instintoDominante = 'SP';
+    let maiorInstintoScore = -1;
+    for (let ins in respostasInstinto) {
+        if (respostasInstinto[ins] > maiorInstintoScore) { maiorInstintoScore = respostasInstinto[ins]; instintoDominante = ins; }
+    }
+    
+    const instNome = { SP: 'Autopreservação (Sp)', SX: 'Sexual (Sx)', SO: 'Social (So)' };
+    const perfil = perfisData[tipoPrincipal];
+    
+    document.getElementById('res-archetype').innerText = perfil.nome;
+    document.getElementById('res-type').innerText = tipoPrincipal;
+    document.getElementById('res-wing-calc').innerText = `${tipoPrincipal}w${asaFinal}`;
+    document.getElementById('res-subtype').innerText = instNome[instintoDominante];
+    
+    document.getElementById('res-genesis').innerText = perfil.genese;
+    document.getElementById('res-behavior').innerText = perfil.vicio;
+    document.getElementById('res-evolution').innerText = perfil.evolucao;
+    
+    userEnneagramType = `${tipoPrincipal}w${asaFinal} ${instintoDominante}`;
+    localStorage.setItem('praticamente_perfil_eneagrama', userEnneagramType);
+    
+    desenharRadarChart();
+    atualizarProgressoGeral(15);
+}
+
+function desenharRadarChart() {
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    
+    chartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
             labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9'],
             datasets: [{
-                label: 'Sua Configuração Mental',
-                data: [
-                    pontuacaoTipos[1], pontuacaoTipos[2], pontuacaoTipos[3],
-                    pontuacaoTipos[4], pontuacaoTipos[5], pontuacaoTipos[6],
-                    pontuacaoTipos[7], pontuacaoTipos[8], pontuacaoTipos[9]
-                ],
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                borderColor: '#00c6ff',
-                pointBackgroundColor: '#007bff',
+                data: [pontuacaoTipos[1], pontuacaoTipos[2], pontuacaoTipos[3], pontuacaoTipos[4], pontuacaoTipos[5], pontuacaoTipos[6], pontuacaoTipos[7], pontuacaoTipos[8], pontuacaoTipos[9]],
+                backgroundColor: 'rgba(0, 123, 255, 0.15)',
+                borderColor: '#007bff',
+                pointBackgroundColor: '#00c6ff',
                 borderWidth: 2
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                r: {
-                    angleLines: { color: '#333' },
-                    grid: { color: '#222' },
-                    pointLabels: { color: '#aaa', font: { size: 12 } },
-                    ticks: { display: false }
-                }
-            },
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { grid: { color: 'rgba(255,255,255,0.08)' }, angleLines: { color: 'rgba(255,255,255,0.08)' }, pointLabels: { color: '#888' }, ticks: { display: false } } },
             plugins: { legend: { display: false } }
         }
     });
 }
 
-function updateProgressoVisual() {
-    const prog = localStorage.getItem('praticamente_progresso') || '0';
-    const textD = document.getElementById('prog-text-desktop');
-    const fillD = document.getElementById('prog-fill-desktop');
-    const textM = document.getElementById('prog-text-mobile');
-    const fillM = document.getElementById('prog-fill-mobile');
-    
-    if(textD) textD.innerText = `Evolução: ${prog}%`;
-    if(fillD) fillD.style.width = `${prog}%`;
-    if(textM) textM.innerText = `${prog}%`;
-    if(fillM) fillM.style.width = `${prog}%`;
+function falarComFlow() {
+    openChatInterface();
+    document.getElementById('chat-input').value = `Acabei de completar meu mapeamento mental. Sou do perfil Tipo ${userEnneagramType}. Como posso usar essa assinatura neurológica para acelerar meus resultados de liderança operacional?`;
+    sendMessage();
 }
-updateProgressoVisual();
 
-// --- DIÁRIO ESTOICO ---
+// --- LOGIC DO DIÁRIO ESTOICO ---
 function openJournal() {
     document.getElementById('main-view').style.display = 'none';
     document.getElementById('module-content').style.display = 'none';
     document.getElementById('eneagrama-test-view').style.display = 'none';
-    document.getElementById('chat-view').classList.remove('active');
     document.getElementById('journal-view').style.display = 'block';
+    document.getElementById('chat-view').classList.remove('active');
     renderJournalEntries();
+    setActiveLink(1);
 }
 
 function saveJournalEntry() {
-    const input = document.getElementById('journal-input');
-    if (!input.value.trim()) return;
+    const textarea = document.getElementById('journal-input');
+    const text = textarea.value.trim();
+    if (!text) return;
     
-    let entries = JSON.parse(localStorage.getItem('praticamente_diario') || '[]');
-    const newEntry = {
-        date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}),
-        text: input.value.trim()
-    };
-    entries.unshift(newEntry);
+    const entries = JSON.parse(localStorage.getItem('praticamente_diario') || '[]');
+    entries.unshift({
+        date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        text: text
+    });
     localStorage.setItem('praticamente_diario', JSON.stringify(entries));
-    input.value = '';
+    textarea.value = '';
     renderJournalEntries();
+    atualizarProgressoGeral(2);
 }
 
 function renderJournalEntries() {
     const container = document.getElementById('journal-container');
     container.innerHTML = '';
-    let entries = JSON.parse(localStorage.getItem('praticamente_diario') || '[]');
-    if(entries.length === 0) {
-        container.innerHTML = `<p style="color:#555; text-align:center; padding:20px;">Nenhuma reflexão gravada ainda.</p>`;
+    const entries = JSON.parse(localStorage.getItem('praticamente_diario') || '[]');
+    if (entries.length === 0) {
+        container.innerHTML = `<p style="color:#555; text-align:center; padding: 20px;">Silêncio e razão. Use o campo acima para estruturar sua primeira entrada diária.</p>`;
         return;
     }
     entries.forEach(e => {
-        container.innerHTML += `
-            <div class="journal-item">
-                <div class="journal-date">${e.date}</div>
-                <p style="font-size:14px; color:#ddd; white-space:pre-wrap;">${e.text}</p>
-            </div>
-        `;
+        const item = document.createElement('div');
+        item.className = 'journal-item';
+        item.innerHTML = `<div class="journal-date">${e.date}</div><p style="color:#ccc; font-size:14px; white-space:pre-line;">${e.text}</p>`;
+        container.appendChild(item);
     });
 }
 
-// --- INTEGRAÇÃO COM O CHAT (FLOW) ---
-let chatHistorico = [];
+// --- CHAT DE ALTA PERFORMANCE (FLOW API) ---
 function openChatInterface() {
     document.getElementById('chat-view').classList.add('active');
-    if (chatHistorico.length === 0) {
-        addMessage("received", `Saudações, ${userName}. Sou o Flow. Estou aqui para processar suas travas emocionais e organizar sua autoliderança. O que está te desafiando hoje?`);
+    const body = document.getElementById('chat-body');
+    if (body.children.length === 0) {
+        appendChatMessage('received', `Saudações, ${userName}. Eu sou o Flow. Como mentor estratégico, estou pronto para calibrar suas ações em foco, liderança e resiliência hoje.`);
     }
 }
 
-function falarComFlow() {
-    goHome();
-    openChatInterface();
-    addMessage("sent", "Quero debater o resultado do meu diagnóstico de Eneagrama.");
-    processarIA(`Acabei de realizar meu teste do Eneagrama e meu perfil deu: ${userEnneagramType}. Forneça uma análise de liderança estratégica baseada nisso.`);
-}
-
-function addMessage(sender, text) {
+function appendChatMessage(sender, text) {
     const body = document.getElementById('chat-body');
     const msg = document.createElement('div');
-    msg.classList.add('message', sender);
+    msg.className = `message ${sender}`;
     msg.innerText = text;
     body.appendChild(msg);
     body.scrollTop = body.scrollHeight;
@@ -783,68 +822,72 @@ async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
     
-    addMessage("sent", text);
+    appendChatMessage('sent', text);
     input.value = '';
-    await processarIA(text);
-}
-
-async function processarIA(userText) {
-    chatHistorico.push({ role: "user", content: userText });
-    document.getElementById('chat-status').innerText = "Pensando...";
+    document.getElementById('chat-status').innerText = "Flow está analisando...";
     
     try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
-            },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${API_KEY}` },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    { role: "system", content: `Você é o 'Flow', mentor mestre em psicologia, estoicismo e andragogia aplicada. Usuário se chama ${userName} e possui perfil Eneagrama: ${userEnneagramType}. Seja cirúrgico, direto e focado em liderança de alta performance.` },
-                    ...chatHistorico
-                ]
+                    { role: "system", content: `Você é o Flow, mentor estratégico focado em alta performance. Você atua integrando Eneagrama, Estoicismo, Programação Neurolinguística (PNL) e Andragogia. Responda de forma assertiva, profissional e pragmática. O usuário atual chama-se ${userName} e possui perfil ${userEnneagramType || 'não diagnosticado no Eneagrama'}.` },
+                    { role: "user", content: text }
+                ],
+                temperature: 0.6
             })
         });
-        
-        const data = await res.json();
-        const reply = data.choices[0].message.content;
-        chatHistorico.push({ role: "assistant", content: reply });
-        addMessage("received", reply);
+        const data = await response.json();
+        const reply = data.choices[0].message.content || "Minhas conexões neurais oscilaram. Reformule o foco da questão.";
+        appendChatMessage('received', reply);
     } catch (e) {
-        addMessage("received", "Erro na conexão com o servidor neural do Flow. Tente novamente.");
+        appendChatMessage('received', "Falha ao sincronizar com a inteligência central. Tente em instantes.");
     } finally {
         document.getElementById('chat-status').innerText = "Llama 3.3 (High Performance)";
     }
 }
 
 function resetChat() {
-    document.getElementById('chat-body').innerHTML = '';
-    chatHistorico = [];
-    addMessage("received", "Histórico de conversa limpo.");
+    if (confirm("Deseja expurgar o histórico atual do chat?")) {
+        document.getElementById('chat-body').innerHTML = '';
+        openChatInterface();
+    }
 }
 
+let isMuted = false;
 function toggleMute() {
-    const icon = document.querySelector('#voice-toggle-btn i');
-    icon.classList.toggle('fa-volume-up');
-    icon.classList.toggle('fa-volume-mute');
+    isMuted = !isMuted;
+    document.getElementById('voice-toggle-btn').innerHTML = isMuted ? `<i class="fas fa-volume-mute"></i>` : `<i class="fas fa-volume-up"></i>`;
+}
+function toggleVoiceInput() {
+    alert("Input por voz requer mic nativo via app. Digite seu comando para processamento imediato.");
 }
 
-function toggleVoiceInput() {
-    alert("Entrada de áudio ativa (Simulação no ambiente local).");
+// --- ENGINE DE PROGRESSO ---
+let progressoNum = parseInt(localStorage.getItem('praticamente_progresso_num') || '0');
+function atualizarProgressoGeral(inc) {
+    progressoNum = Math.min(progressoNum + inc, 100);
+    localStorage.setItem('praticamente_progresso_num', progressoNum);
+    
+    document.getElementById('prog-text-desktop').innerText = `Evolução: ${progressoNum}%`;
+    document.getElementById('prog-fill-desktop').style.width = progressoNum + '%';
+    document.getElementById('prog-text-mobile').innerText = progressoNum + '%';
+    document.getElementById('prog-fill-mobile').style.width = progressoNum + '%';
+}
+
+function setActiveLink(index) {
+    const links = document.querySelectorAll('.sidebar nav a');
+    links.forEach((l, i) => i === index ? l.classList.add('active') : l.classList.remove('active'));
 }
 
 function logout() {
-    localStorage.removeItem('praticamente_plano');
-    window.location.href = 'login.html';
+    if(confirm("Deseja encerrar a sessão segura?")) { localStorage.clear(); window.location.href = 'login.html'; }
 }
 
-// Escuta tecla Enter no chat
-document.getElementById('chat-input').addEventListener('keypress', function(e) {
-    if(e.key === 'Enter') sendMessage();
-});
+// Inicialização de Estado da Interface
+atualizarProgressoGeral(0);
 </script>
-
 </body>
 </html>
