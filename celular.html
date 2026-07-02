@@ -253,7 +253,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
       <a href="#" onclick="goHome()" class="active">Módulos</a>
       <a href="#" onclick="openJournal()">Diário</a>
       <a href="certificados.html">Certificados</a>
-      <a href="https://wa.me/55SEUNUMERO" target="_blank">Suporte</a>
+      <a href="https://wa.me/5519993254538" target="_blank">Suporte</a>
       <a href="#" onclick="logout()" style="color: #ff4d4d; margin-top: 20px;">Sair</a>
     </nav>
     <div class="progress-desktop">
@@ -382,7 +382,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
             <div class="chat-header">
                 <button class="control-btn" onclick="goHome()"><i class="fas fa-arrow-left"></i></button>
                 <div class="chat-avatar-ring"><i class="fas fa-bolt" style="color:#fff;"></i></div>
-                <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">Llama 3.3 (High Performance)</span></div>
+                <div class="chat-info"><h3>Flow Praticamente</h3><span id="chat-status">Flow · PráticaMente AI</span></div>
                 <div class="header-controls">
                     <button class="control-btn" id="voice-toggle-btn" onclick="toggleMute()"><i class="fas fa-volume-up"></i></button>
                     <button class="control-btn" onclick="resetChat()"><i class="fas fa-broom"></i></button>
@@ -401,7 +401,7 @@ main { flex: 1; position: relative; overflow-y: auto; overflow-x: hidden; backgr
         <button class="nav-item" onclick="goHome()"><i class="fas fa-th-large"></i><span>Módulos</span></button>
         <button class="nav-item" onclick="window.location.href='certificados.html'"><i class="fas fa-graduation-cap"></i><span>Diplomas</span></button>
         <button class="nav-item" onclick="openJournal()"><i class="fas fa-book"></i><span>Diário</span></button>
-        <button class="nav-item" onclick="window.open('https://wa.me/55SEUNUMERO', '_blank')"><i class="fab fa-whatsapp"></i><span>Suporte</span></button>
+        <button class="nav-item" onclick="window.open('https://wa.me/5519993254538', '_blank')"><i class="fab fa-whatsapp"></i><span>Suporte</span></button>
     </nav>
   </main>
 </div>
@@ -423,10 +423,35 @@ if(introVideo) {
 }
 
 // --- CONFIGURAÇÃO ---
-const userPlan = localStorage.getItem('praticamente_plano') || 'premium'; 
-// A chave da IA agora fica protegida no servidor (server.js), não aqui no navegador.
+const userPlan = localStorage.getItem('praticamente_plano');
+if (!userPlan) {
+    window.location.href = 'login.html';
+}
+// A chave da IA fica protegida no servidor (server.js), não aqui no navegador.
 let userName = localStorage.getItem('praticamente_nome_usuario') || 'Líder'; 
 let userEnneagramType = localStorage.getItem('praticamente_perfil_eneagrama') || ''; 
+let chatHistory = []; // memória de curto prazo da conversa atual
+
+// Quais módulos cada plano libera. 'completo' e 'premium' liberam tudo.
+const MODULOS_POR_PLANO = {
+    completo: ['eneagrama', 'pnl', 'estoicismo', 'familia', 'metodo', 'ebooks'],
+    premium: ['eneagrama', 'pnl', 'estoicismo', 'familia', 'metodo', 'ebooks'],
+    eneagrama: ['eneagrama'],
+    pnl: ['pnl'],
+    ebooks: ['ebooks']
+};
+
+function isModuleAllowed(moduleKey) {
+    return (MODULOS_POR_PLANO[userPlan] || []).includes(moduleKey);
+}
+
+function applyModuleLocks() {
+    const cardIds = { eneagrama: 'mod-eneagrama', pnl: 'mod-pnl', estoicismo: 'mod-estoicismo', familia: 'mod-familia', metodo: 'mod-completo', ebooks: 'mod-ebooks' };
+    Object.entries(cardIds).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('locked', !isModuleAllowed(key));
+    });
+}
 
 // --- DADOS DO TESTE ENEAGRAMA ---
 const bancoPerguntas = [ 
@@ -544,6 +569,10 @@ let chartInstance = null;
 
 // --- GERENCIAMENTO DE INTERFACE E NAVEGAÇÃO ---
 function tryOpen(title, moduleKey, defaultVideo) {
+    if (!isModuleAllowed(moduleKey)) {
+        alert('Esse módulo não faz parte do seu plano atual. Fale com o suporte para fazer o upgrade e liberar o acesso completo.');
+        return;
+    }
     document.getElementById('main-view').style.display = 'none';
     document.getElementById('eneagrama-test-view').style.display = 'none';
     document.getElementById('journal-view').style.display = 'none';
@@ -867,7 +896,7 @@ async function sendMessage() {
         const response = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text, userName, userEnneagramType })
+            body: JSON.stringify({ message: text, userName, userEnneagramType, history: chatHistory })
         });
         if (!response.ok) {
             throw new Error(`Erro na API: ${response.status}`);
@@ -877,17 +906,21 @@ async function sendMessage() {
             throw new Error('Resposta vazia da API');
         }
         appendChatMessage('received', data.reply);
+        chatHistory.push({ role: 'user', content: text });
+        chatHistory.push({ role: 'assistant', content: data.reply });
+        if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
     } catch (e) {
         console.error('Erro no chat:', e);
         appendChatMessage('received', "Desculpa, tive um problema para responder agora 😕 Tenta de novo em alguns instantes. Se continuar acontecendo, avisa o suporte pra gente verificar.");
     } finally {
-        document.getElementById('chat-status').innerText = "Llama 3.3 (High Performance)";
+        document.getElementById('chat-status').innerText = "Flow · PráticaMente AI";
     }
 }
 
 function resetChat() {
     if (confirm("Deseja expurgar o histórico atual do chat?")) {
         document.getElementById('chat-body').innerHTML = '';
+        chatHistory = [];
         openChatInterface();
     }
 }
@@ -923,6 +956,7 @@ function logout() {
 }
 
 // Inicialização de Estado da Interface
+applyModuleLocks();
 atualizarProgressoGeral(0);
 </script>
 </body>
